@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Sistema de gestión integral - Rotaract</title>
+<link href="dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="dist/css/metisMenu.min.css" rel="stylesheet">
+<link href="dist/css/sb-admin-2.css" rel="stylesheet">
+<link href="dist/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<script src="dist/js/jquery.min.js"></script>
+<script src="dist/js/bootstrap.min.js"></script>
+<meta name="viewport" content="initial-scale=1">
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-4 col-md-offset-4">
+				<img style="padding:20px" class="img-responsive" src="Images/Logo.png" alt="">
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-2">
+				<nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+					<div class="navbar-header">
+						<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+							<span class="sr-only">Navegación</span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+						</button>
+						<!-- <a class="navbar-brand" href="#">AIRAUP 2.0</a> -->
+					</div>
+					<div class="navbar-default panel panel-default" role="navigation">
+						<div class="sidebar-nav navbar-collapse collapse">
+							<ul class="nav nav nav-pills nav-stacked" id="side-menu">
+								<!-- START BLOCK : menues -->
+								<li><a href="perfil.php?a=p">Mi perfíl</a></li>
+								<li><a href="perfil.php?a=i">Inscripciones</a></li>
+								<!-- START BLOCK : menuEventos -->
+								<li><a href="eventos.php">Eventos</a></li>
+								<!-- END BLOCK : menuEventos -->
+								<!-- START BLOCK : menuAprobacion -->
+								<li><a href="perfil.php?a=a">Aprobaciones</a></li>
+								<!-- END BLOCK : menuAprobacion -->
+								<!-- START BLOCK : menuCuadroSocial -->
+								<li><a href="cuadrosocial.php">Cuadro Social</a></li>
+								<!-- END BLOCK : menuCuadroSocial -->
+								<!-- START BLOCK : menuStats -->
+								<li><a href="stats.php">Estadísticas</a></li>
+								<!-- END BLOCK : menuStats -->
+								<li><a href="logout.php">Salir</a></li>
+								<!-- END BLOCK : menues -->
+							</ul>
+						</div>
+					</div>
+				</nav>
+			</div>
+			<div class="col-lg-10">
+				<div class="panel panel-default">
+					<!-- START BLOCK : personales -->
+					<div class="panel-heading">Tus Datos</div>
+					<div class="panel-body">
+						<ul class="nav nav-tabs">
+							<li class="active"><a href="#personales" data-toggle="tab">Personales</a></li>
+							<li><a href="#medicos" data-toggle="tab">Médicos</a></li>
+							<li><a href="#club-tab" data-toggle="tab">Club</a></li>
+							<li><a href="#distrito" data-toggle="tab">Distrito</a></li>
+							<li><a href="#airaup" data-toggle="tab">AIRAUP</a></li>
+						</ul>
+						<div class="tab-content"><br>
+						 <div class="tab-pane fade in active" id="personales">
+							<div class="col-lg-6">
+								<div class="form-group">Nombre completo: <span class="pull-right text-muted small"><em>{nombre}</em></span></div>
+								<div class="form-group">Documento: <span class="pull-right text-muted small"><em>{documento}</em></span></div>
+								<div class="form-group">Fecha de nacimiento: <span class="pull-right text-muted small"><em>{fechaNac}</em></span></div>
+								<div class="form-group">Dirección: <span class="pull-right text-muted small"><em>{direccion}, {ciudad}</em></span></div>
+								<div class="form-group">Teléfono: <span class="pull-right text-muted small"><em>{telefono}</em></span></div>
+								<div class="form-group">Sexo: <span class="pull-right text-muted small"><em>{sexo}</em></span></div>
+							</div>
+							<div class="col-lg-6">
+								<div class="form-group">Email: <span class="pull-right text-muted small"><em>{mail}</em></span></div>
+								<div class="form-group">URL de Facebook: <span class="pull-right text-muted small"><em>{facebook}</em></span></div>
+								<div class="form-group">Vivis con: <span class="pull-right text-muted small"><em>{viveCon}</em></span></div>
+								<div class="form-group">Podes hospedar a alguien?: <span class="pull-right text-muted small"><em>{hospeda}</em></span></div>
+								<div class="form-group">Área de estudio / Profesión: <span class="pull-right text-muted small"><em>{ocupacion}</em></span></div>
+								<div class="form-group">Trabajo: <span class="pull-right text-muted small"><em>{trabajo}</em></span></div>
+								<div class="form-group">Persona de contacto: <span class="pull-right text-muted small"><em>{nombreContacto} - {telefonoContacto} - {relacion}</em></span></div>
+							</div>
+						</div>
+						<!-- END BLOCK : personales -->
+						<!-- START BLOCK : medicos -->
+						<div class="tab-pane fade" id="medicos">
+							<div class="col-lg-6">
+								<div class="form-group">Obra social / Sociedad médica: <span class="pull-right text-muted small"><em>{obraSocial}</em></span></div>
+								<div class="form-group">Grupo sanguíneo: <span class="pull-right text-muted small"><em>{grupoS}{factor}</em></span></div>
+								<div class="form-group">¿Durante los últimos 3 años fue internado alguna vez?: <span class="pull-right text-muted small"><em>{internado} {internadoE}</em></span></div>
+								<div class="form-group">¿Le realizaron alguna intervención quirúrgica?: <span class="pull-right text-muted small"><em>{intervencion} {intervencionE}</em></span></div>
+								<div class="form-group">¿Es vegetariano?: <span class="pull-right text-muted small"><em>{vegetariano}</em></span></div>
+								<div class="form-group">¿Fuma?: <span class="pull-right text-muted small"><em>{fumador}</em></span></div>
+								<div class="form-group">¿Usa lentes?: <span class="pull-right text-muted small"><em>{lentes}</em></span></div>
+								<div class="form-group">¿Sufre de alguna limitación física?: <span class="pull-right text-muted small"><em>{limitacion} {limitacionE}</em></span></div>
+								<div class="form-group">¿Es donante de médula?: <span class="pull-right text-muted small"><em>{donanteMedula}</em></span></div>
+							</div>
+							<div class="col-lg-6">
+								<div class="form-group">Número de socio: <span class="pull-right text-muted small"><em>{numSocio}</em></span></div>
+								<div class="form-group">¿Sufre alguna enfermedad de tratamiento crónico?: <span class="pull-right text-muted small"><em>{enfCronica} {enfCronicaE}</em></span></div>
+								<div class="form-group">¿Sufre de alguna enfermedad Infecto-Contagiosa?: <span class="pull-right text-muted small"><em>{infeccion} {infreccionE}</em></span></div>
+								<div class="form-group">¿Sufre algún tipo de alergia?: <span class="pull-right text-muted small"><em>{infeccion} {infreccionE}</em></span></div>
+								<div class="form-group">Consideraciones en la dieta: <span class="pull-right text-muted small"><em>{dieta}</em></span></div>
+								<div class="form-group">Lateralidad: <span class="pull-right text-muted small"><em>{lateralidad}</em></span></div>
+								<div class="form-group">¿Usa audífonos?: <span class="pull-right text-muted small"><em>{audifonos}</em></span></div>
+								<div class="form-group">¿Es donante de órganos?: <span class="pull-right text-muted small"><em>{donanteOrganos}</em></span></div>
+								<div class="form-group">Medicamentos de uso habitual: <span class="pull-right text-muted small"><em>{nombre} - {monodroga} - {cantidadAdministrada}</em></span></div>
+							</div>
+						</div>
+						<!-- END BLOCK : medicos -->
+						<!-- START BLOCK : club -->
+						<div class="tab-pane fade" id="club-tab">
+							<div class="col-lg-6">
+								<div class="form-group">Distrito: <span class="pull-right text-muted small"><em>{distrito}</em></span></div>
+								<div class="form-group">Rueda: <span class="pull-right text-muted small"><em>{rueda}</em></span></div>
+								<div class="form-group">Club: <span class="pull-right text-muted small"><em>{club}</em></span></div>
+								<div class="form-group">Fecha de Ingreso: <span class="pull-right text-muted small"><em>{fechaIng}</em></span></div>
+							</div>
+							<div class="col-lg-6">
+								<div class="form-group">Cargos por los que pasaste:</div>
+								<ul>
+									<!-- START BLOCK : cargoClub0 -->
+									<li>-</li>
+									<!-- END BLOCK : cargoClub0 -->
+									<!-- START BLOCK : cargoClub -->
+									<li><span class="text-muted small">{cargoPasado} <em>({periodo})</em></span></li>
+									<!-- END BLOCK : cargoClub -->
+								</ul>
+							</div>
+						</div>
+						<!-- END BLOCK : club -->
+						<!-- START BLOCK : distrito -->
+						<div class="tab-pane fade" id="distrito">
+							<div class="col-lg-6">
+								<div class="form-group">Cargos por los que pasaste:</div>
+								<ul>
+									<!-- START BLOCK : cargoDistrito0 -->
+									<li>-</li>
+									<!-- END BLOCK : cargoDistrito0 -->
+									<!-- START BLOCK : cargoDistrito -->
+									<li><span class="text-muted small">{cargoPasado} <em>({periodo})</em></span></li>
+									<!-- END BLOCK : cargoDistrito -->
+								</ul>
+								<div class="form-group">Fuiste instructor <span class="text-muted small"><em>{veces} veces</em></span></div>
+							</div>
+							<div class="col-lg-6">
+								<div class="form-group">Asistencia a eventos distritales:</div>
+								<ul>
+									<!-- START BLOCK : eventoDistrito -->
+									<li><span class="text-muted small">{evento}: <em class="pull-right">{cantidad}</em></span></li>
+									<!-- END BLOCK : eventoDistrito -->
+								</ul>
+							</div>
+						</div>
+						<!-- END BLOCK : distrito -->
+						<!-- START BLOCK : airaup -->
+						<div class="tab-pane fade" id="airaup">
+							<div class="col-lg-6">
+								<div class="form-group">Cargos por los que pasaste:</div>
+								<ul>
+									<!-- START BLOCK : cargoAIRAUP0 -->
+									<li>-</li>
+									<!-- END BLOCK : cargoAIRAUP0 -->
+									<!-- START BLOCK : cargoAIRAUP -->
+									<li><span class="text-muted small">{cargoPasado} <em>({periodo})</em></span></li>
+									<!-- END BLOCK : cargoAIRAUP -->
+								</ul>
+								<div class="form-group">Asistencias a Asambleas de A.I.R.A.U.P.: <span class="text-muted small pull-right"><em>{cantAsamblea}</em></span></div>
+								<div class="form-group">Cantidad de E.R.A.U.P.: <span class="text-muted small pull-right"><em>{cantERAUPtotal}</em></span></div>
+								<div class="form-group">Instructor en E.R.A.U.P.: <span class="text-muted small pull-right"><em>{cantInstERAUP}</em></span></div>
+							</div>
+							<div class="col-lg-6">
+								<div class="form-group">Asistencia a mesas en E.R.A.U.P.:</div>
+								<ul>
+									<!-- START BLOCK : mesaERAUP -->
+									<li><span class="text-muted small">{mesa}</span></li>
+									<!-- END BLOCK : mesaERAUP -->
+								</ul>
+								<!-- START BLOCK : fueInstructor -->
+								<div class="form-group">Mesas dictadas como instructor E.R.A.U.P.:</div>
+								<ul>
+									<!-- START BLOCK : mesaInstERAUP -->
+									<li><span class="text-muted small">{mesaInst}</span></li>
+									<!-- END BLOCK : mesaInstERAUP -->
+								</ul>
+								<!-- END BLOCK : fueInstructor -->
+							</div>
+						</div>
+						<!-- END BLOCK : airaup -->
+
+<!-- A PARTIR DE AQUÍ CAMBIA A LA PÁGINA DE INSCRIPCIONES -->
+<!-- START BLOCK : inscripcionesDisponibles -->
+<div class="panel-heading">Inscripción a eventos</div>
+<div class="panel-body">
+	<!-- START BLOCK : tituloAIRAUP -->
+	<div class="panel panel-primary">
+		<div class="panel-heading">Eventos de A.I.R.A.U.P.</div>
+			<div class="panel-body">
+				<ul>
+					<!-- START BLOCK : eventoDisponibleA -->
+					<li>Fecha: {fecha} - {evento} - Estado: {estado} ({cierre}) {verI}</li>
+					<!-- END BLOCK : eventoDisponibleA -->
+				</ul>
+			</div>
+		</div>
+<!-- END BLOCK : tituloAIRAUP -->
+<!-- START BLOCK : tituloDistrital -->
+<div class="panel panel-info">
+	<div class="panel-heading">Eventos distritales</div>
+	<div class="panel-body">
+		<div class="panel-group" id="accordion">
+			<!-- START BLOCK : nombreDistrito -->
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<!-- <h4 class="panel-title"> -->
+							<a data-toggle="collapse" data-parent="#accordion" href="#collapse{distrito}">Distrito {distrito}</a>
+						<!-- </h4> -->
+					</div>
+					<div id="collapse{distrito}" class="panel-collapse collapse">
+						<div class="panel-body">
+							<ul>
+								<!-- START BLOCK : eventoDisponibleD -->
+								<li>Fecha: {fecha} - {evento} - Estado: {estado} ({cierre}) {verI}</li>
+								<!-- END BLOCK : eventoDisponibleD -->
+							</ul>
+						</div>
+					</div>
+				</div>
+				<!-- END BLOCK : nombreDistrito -->
+			</div>
+	</div>
+</div>
+
+<!-- END BLOCK : tituloDistrital -->
+<!-- START BLOCK : tituloDistrital2 -->
+<div class="panel panel-warning">
+	<div class="panel-heading">Eventos distritales organizados por más de un distrito</div>
+	<div class="panel-body">
+		<div class="panel-group" id="accordion2">
+			<!-- START BLOCK : nombreDistritos -->
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<!-- <h4 class="panel-title"> -->
+					<a data-toggle="collapse" data-parent="#accordion2" href="#collapse{idEventoDistritos}">{distritos}</a>
+					<!-- </h4> -->
+				</div>
+				<div id="collapse{idEventoDistritos}" class="panel-collapse collapse">
+					<div class="panel-body">
+						<ul>
+							<!-- START BLOCK : eventoDisponibleD2 -->
+							<li>Fecha: {fecha} - {evento} - Estado: {estado} ({cierre}) {verI}</li>
+							<!-- END BLOCK : eventoDisponibleD2 -->
+						</ul>
+					</div>
+				</div>
+			</div>
+			<!-- END BLOCK : nombreDistritos -->
+		</div>
+	</div>
+</div>
+<!-- END BLOCK : tituloDistrital2 -->
+</div><!-- Cierra el Body -->
+
+<!-- START BLOCK : mensajeEventos -->
+<div class="panel-footer">{mensaje}</div>
+<!-- END BLOCK : mensajeEventos -->
+<!-- END BLOCK : inscripcionesDisponibles -->
+
+<!-- A PARTIR DE AQUÍ CAMBIA A LA PÁGINA DE APROBACIONES -->
+<!-- START BLOCK : aprobarInscripciones -->
+<div class="panel-heading">Aprobación de inscripciones</div>
+<div class="panel-body">
+	<!-- START BLOCK : eventoAprobar -->
+    <form action="aprobacion.php" onclick="this.submit()" method="post" name="fEdit" id="fEdit" style="margin:0">
+	<a href='#' class="texto">{evento}</a>
+    <input type="hidden" name="idEvento" id="idEvento" value="{idEvento}" />
+    </form>
+    <br>
+	<!-- END BLOCK : eventoAprobar -->
+	<!-- START BLOCK : mensajeAprobaciones -->
+	<div class="alert alert-warning">{mensaje}</div>
+	<!-- END BLOCK : mensajeAprobaciones -->
+	<!-- END BLOCK : aprobarInscripciones -->
+</div>
+</div>
+
+<!-- START BLOCK : botonesPerfil -->
+<div class="panel-footer">
+	<a href="registro.php?a=e" class="btn btn-success">Editar datos</a>
+	<a href="cambiarpwd.php" class="btn btn-success">Cambiar contraseña</a>
+</div>
+<!-- END BLOCK : botonesPerfil -->
+</div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,209 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Sistema de gestión integral - Rotaract</title>
+<script type="text/javascript" src="jquery-1.3.2.min.js">
+</script>
+
+<script type="text/javascript">
+	function cambiarFondo(titulo,color,io){
+		if (io == "rosado"){
+			titulo.style.color='#FFFFFF';
+			titulo.style.backgroundColor=color;	
+		} else if (io == "blanco"){
+			titulo.style.color='#E4457D';
+			titulo.style.backgroundColor=color;
+		}
+	}
+	
+	function validarDatos(cantInscriptos){
+		cantidad = 0;
+		
+		for(var q=1;q<=cantInscriptos;q++){
+			nombre = "aprobacion" + q;
+			nombre2 = "idAprobacion" + q;
+			aprobado = $('input[name=' + nombre + ']:checked').val();
+			idInsc = document.getElementById(nombre2).value;
+		
+			if (aprobado != null){
+				var newvar = document.createElement('input');
+				newvar.setAttribute('type','hidden');
+				newvar.setAttribute('name',nombre);
+				newvar.setAttribute('value',aprobado);
+				document.aprobar.appendChild(newvar);
+				
+				var newvar2 = document.createElement('input');
+				newvar2.setAttribute('type','hidden');
+				newvar2.setAttribute('name',nombre2);
+				newvar2.setAttribute('value',idInsc);
+				document.aprobar.appendChild(newvar2);
+				cantidad++;
+			}
+		}
+		
+		if (cantidad == 0){
+			document.getElementById('mensajeAprobacion').hidden = false;
+		} else {
+			if (confirm('Estás seguro de querer ejecutar esta acción?')){
+				document.getElementById('mensajeAprobacion').hidden = true;
+				document.aprobar.submit();
+			}
+		}
+	}
+</script>
+<style type="text/css">
+.centro {
+	text-align: center;
+	font-family: Verdana;
+	font-weight: bold;
+	font-size: 24px;
+}
+.centro2 {
+	font-size: 18px;
+	font-weight: bold;
+	font-family: Verdana;
+}
+.EstiloMarcado {	font-size: 16px;
+	color: #FFF;
+	text-align: center;
+	font-family: Verdana;
+}
+.negrita {	font-family: Verdana;
+	font-size: 12px;
+	color: #e4457d;
+}
+.subtitulos {	font-size: 16px;
+	font-weight: bold;
+	color: #e4457d;
+	text-align: left;
+	font-family: Verdana;
+}
+.texto {	font-family: Verdana;
+	font-size: 12px;
+	color: #666;
+}
+.mensaje2 {
+	color: #F03;
+	font-family: Verdana;
+	font-size: 14px;
+}
+</style>
+</head>
+
+<body>
+<table width="1205" border="0" align="center">
+  <tr>
+    <td colspan="2"><div align="center"><img src="Images/cabezal.png" alt="" width="1144" height="170" /></div></td>
+  </tr>
+  <tr>
+    <td width="168" valign="top"><table width="168" border="1" bordercolor="#E4457D">
+      <tr>
+      <td width="149" class="Estilo4" height="30" bgcolor="#FFF" onmouseover="cambiarFondo(this,'#E4457D','rosado')" onmouseout="cambiarFondo(this,'#FFF','blanco')" style="cursor: pointer; font-family: Verdana; color: #e4457d; font-size: 16px;" onclick="window.location='perfil.php?a=p'"><div align="center">Mi perfil</div></td>
+      </tr>
+      <!-- START BLOCK : menuEventos -->
+      <tr>
+      <td width="149" class="Estilo4" height="30" bgcolor="#FFF" onmouseover="cambiarFondo(this,'#E4457D','rosado')" onmouseout="cambiarFondo(this,'#FFF','blanco')" style="cursor: pointer; font-family: Verdana; color: #e4457d; font-size: 16px;" onclick="window.location='eventos.php'"><div align="center">Eventos</div></td>
+      </tr>
+      <!-- END BLOCK : menuEventos -->
+      <tr>
+      <td width="149" class="Estilo4" height="30" bgcolor="#FFF" onmouseover="cambiarFondo(this,'#E4457D','rosado')" onmouseout="cambiarFondo(this,'#FFF','blanco')" style="cursor: pointer; font-family: Verdana; color: #e4457d; font-size: 16px;" onclick="window.location='perfil.php?a=i'"><div align="center">Inscripciones</div></td>
+      </tr>
+      <!-- START BLOCK : menuAprobacion -->
+      <tr>
+       <td width="149" height="30" class="EstiloMarcado" bgcolor="#E4457D">Aprobaciones</td>
+      </tr>
+      <!-- END BLOCK : menuAprobacion -->
+      <!-- START BLOCK : menuCuadroSocial -->
+      <tr>
+<td width="149" class="Estilo4" height="30" bgcolor="#FFF" onmouseover="cambiarFondo(this,'#E4457D','rosado')" onmouseout="cambiarFondo(this,'#FFF','blanco')" style="cursor: pointer; font-family: Verdana; color: #e4457d; font-size: 16px;" onclick="window.location='cuadrosocial.php'"><div align="center">Cuadro Social</div></td>
+        </tr>
+      <!-- END BLOCK : menuCuadroSocial -->
+      <!-- START BLOCK : menuStats -->
+      <tr>
+		<td width="149" class="Estilo4" height="30" bgcolor="#FFF" onmouseover="cambiarFondo(this,'#E4457D','rosado')" onmouseout="cambiarFondo(this,'#FFF','blanco')" style="cursor: pointer; font-family: Verdana; color: #e4457d; font-size: 16px;" onclick="window.location='stats.php'"><div align="center">Estadísticas</div></td>
+        </tr>
+      <!-- END BLOCK : menuStats -->
+      <tr>
+      <td width="149" class="Estilo4" height="30" bgcolor="#FFF" onmouseover="cambiarFondo(this,'#E4457D','rosado')" onmouseout="cambiarFondo(this,'#FFF','blanco')" style="cursor: pointer; font-family: Verdana; color: #e4457d; font-size: 16px;" onclick="window.location='logout.php'"><div align="center">Salir</div></td>
+      </tr>
+    </table></td>
+    <td width="1027" height="50" valign="top" class="texto">
+    <table width="1026" border="0" align="left">
+	<!-- START BLOCK : datosEvento -->
+  <tr>
+    <td width="994"><span class="subtitulos">Aprobación de inscripciones</span></td>
+  </tr>
+  <tr>
+    <td><div align="left">{evento}</div></td>
+  </tr>
+  <tr>
+    <td>
+      <table width="1018" border="0">
+        <tr>
+          <td width="247" class="subtitulos"><span class="negrita">Socio</span></td>
+          <td width="85" class="negrita">Distrito</td>
+          <td width="109" class="negrita">Club</td>
+          <td width="132" class="negrita">Rueda</td>
+          <td width="165" class="negrita">Calidad de asistencia</td>
+          <td width="127" class="negrita">Transporte</td>
+          <td width="123" class="negrita">Aprobado</td>
+        </tr>
+        <!-- START BLOCK : inscripto -->
+        <tr>
+          <td>{socio}</td>
+          <td>{distrito}</td>
+          <td>{club}</td>
+          <td>{rueda}</td>
+          <td>{calidad}</td>
+          <td>{transporte}</td>
+          <td><p>
+          	<input type="hidden" id="idAprobacion{contar}" name="idAprobacion{contar}" value="{idInscripcion}" />
+            <label>
+              <input type="radio" name="aprobacion{contar}" value="1" id="aprobado" />
+              Si</label>
+            <label>
+              <input type="radio" name="aprobacion{contar}" value="2" id="denegado" />
+              No</label>
+            <br />
+          </p></td>
+        </tr>
+        <!-- END BLOCK : inscripto -->
+    </table></td>
+  </tr>
+  <tr>
+    <td><span id="mensajeAprobacion" class="mensaje2" hidden="hidden">Tenés que seleccionar al menos una opción antes de aceptar.</span></td>
+  </tr>
+  <tr>
+    <td><form action="aprobacion.php" method="post" name="aprobar" id="aprobar" style="margin:0">
+    <table width="197" border="1" bordercolor="#E4457D">
+              <tr>
+                <td width="81" id="aceptar" class="Estilo4" height="35" bgcolor="#FFF" onmouseover="cambiarFondo(this,'#E4457D','rosado')" onmouseout="cambiarFondo(this,'#FFF','blanco')" style="cursor: pointer; font-family: Verdana; color: #e4457d; font-size: 16px;" onclick="validarDatos('{cantidad}')"><div align="center">Aceptar</div>
+                      	<input type="hidden" name="idEvento" value="{idEvento}" />
+        <input type="hidden" name="cantidadInscriptos" value="{cantidad}" />
+        <input type="hidden" name="accion" value="aprobacion" />
+                </td>
+                <td width="81" class="Estilo4" height="35" bgcolor="#FFF" onmouseover="cambiarFondo(this,'#E4457D','rosado')" onmouseout="cambiarFondo(this,'#FFF','blanco')" style="cursor: pointer; font-family: Verdana; color: #e4457d; font-size: 16px;" onclick="window.location='perfil.php?a=a'"><div align="center">Volver</div></td>
+              </tr>
+            </table>
+    </form></td>
+  </tr>
+  <!-- END BLOCK : datosEvento -->
+  <tr>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>
+    	<div align="center">
+		    <!-- START BLOCK : mensaje -->
+			{mensaje}
+		</div>
+    	<!-- END BLOCK : mensaje -->
+    </td>
+  </tr>
+</table>
+    </td>
+  </tr>
+</table>
+</body>
+</html>

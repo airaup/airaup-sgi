@@ -1,0 +1,191 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Sistema de gestión integral - Rotaract</title>
+<script type="text/javascript" src="jquery-1.3.2.min.js">
+</script>
+<script type="text/javascript" src="date.js"></script>
+<script type="text/javascript" src="validacionPreregistro.js"></script>
+<script type="text/javascript" src="masked_input_1.4.1.js"></script>
+
+<script type="text/javascript">
+	function cambiarFondo(titulo,color,io){
+		if (io == "rosado"){
+			titulo.style.color='#FFFFFF';
+			titulo.style.backgroundColor=color;	
+		} else if (io == "blanco"){
+			titulo.style.color='#E4457D';
+			titulo.style.backgroundColor=color;
+		}
+	}
+	
+	$(function() {
+	    $('#preregistro').keypress(function(e){
+		    if(e.keyCode==13)
+    		$('#aceptar').click();
+	    });
+			
+		var formattedInput = MaskedInput({
+			elm: document.getElementById('fechaNac'),
+			format: '___-__-____'
+		});
+		formattedInput.setFormat('__/__/____');
+		formattedInput.setSeparator('/');
+	});
+</script>
+
+<style type="text/css">
+.centro {
+	text-align: center;
+	font-size: 18px;
+	font-family: Verdana;
+}
+.subtitulos {
+	font-size: 16px;
+	font-weight: bold;
+	color: #e4457d;
+	text-align: left;
+	font-family: Verdana;
+}
+.negrita {	font-family: Verdana;
+	font-size: 12px;
+	color: #e4457d;
+}
+.subtitulos1 {	font-size: 16px;
+	font-weight: bold;
+	color: #e4457d;
+	text-align: left;
+	font-family: Verdana;
+}
+.texto {	font-family: Verdana;
+	font-size: 12px;
+	color: #666;
+}
+.titulo {
+	font-family: Verdana;
+	color: #e4457d;
+	font-size: 16px;
+	font-weight: bold;
+}
+</style>
+</head>
+
+<body>
+<table width="1147" border="0" align="center">
+  <tr>
+    <td width="1141" colspan="3"><div align="center"><img src="Images/cabezal.png" alt="" width="1144" height="170" /></div></td>
+  </tr>
+  <!-- START BLOCK : preregistro -->
+  <tr>
+    <td colspan="3">
+    <form action="preregistro.php" method="post" name="preregistro" id="preregistro" style="margin:0">
+<table id="paso1" width="755" border="0" align="center">
+	<tr>
+    <td colspan="2"><div align="center" class="titulo">Registro de usuario</div></td>
+  </tr>
+  <tr>
+    <td colspan="2"><div align="center" class="subtitulos">Datos personales</div></td>
+  </tr>
+  <tr>
+    <td width="370" class="negrita">Nombres:</td>
+    <td width="375" class="texto">
+    <input name="nombres" type="text" id="nombres" value="{nombres}" /></td>
+  </tr>
+  <tr>
+    <td class="negrita">Apellidos:</td>
+    <td class="texto"><input type="text" name="apellidos" id="apellidos"  value="{apellidos}"/></td>
+  </tr>
+  <tr>
+    <td class="negrita">Documento: <span class="texto">Solo números</span></td>
+    <td class="texto"><input type="text" name="documento" id="documento"  value="{documento}"/></td>
+  </tr>
+  <tr>
+    <td class="negrita">Dirección física:</td>
+    <td class="texto"><input type="text" name="direccion" id="direccion"  value="{direccion}"/></td>
+  </tr>
+  <tr>
+    <td class="negrita">Ciudad:</td>
+    <td class="texto"><input type="text" name="ciudad" id="ciudad"  value="{ciudad}"/></td>
+  </tr>
+  <tr>
+    <td class="negrita">Con quién vivis?:</td>
+    <td class="texto"><input type="text" name="viveCon" id="viveCon"  value="{viveCon}"/></td>
+  </tr>
+  <tr>
+    <td class="negrita">Podes hospedar gente?</td>
+    <td><p class="texto">
+      <label>
+        <input type="radio" name="hospeda" value="1" id="hospeda1" {checkedhospeda1}/>
+        Si</label>
+      <br />
+      <label>
+        <input type="radio" name="hospeda" value="0" id="hospeda2" {checkedhospeda2}/>
+        No</label>
+      <br />
+    </p></td>
+  </tr>
+  <tr>
+    <td class="negrita">Fecha de nacimiento: <span class="texto">DD/MM/AAAA</span></td>
+    <td class="texto"><input type="text" name="fechaNac" id="fechaNac" value="{fechaNac}" /></td>
+  </tr>
+  <tr>
+    <td class="negrita">Sexo:</td>
+    <td class="texto"><input type="radio" name="sexo" id="sexo" value="1" {checkedsexo1}/>
+    <label for="interact">Femenino</label>
+      <input type="radio" name="sexo" id="sexo" value="2" {checkedsexo2}/>
+      <label for="rotaract">Masculino</label>
+    </td>
+  </tr>
+  <tr>
+    <td class="negrita">Teléfono: <span class="texto">Ej: +598 99 123 456 // +54 9 11 1234 5678</span></td>
+    <td class="texto"><input type="text" name="telefono" id="telefono"  value="{telefono}"/></td>
+  </tr>
+  <tr>
+    <td class="negrita">Área de estudio / Profesión:</td>
+    <td class="texto"><input type="text" name="ocupacion" id="ocupacion" value="{ocupacion}"/></td>
+  </tr>
+  <tr>
+    <td class="negrita">Lugar de trabajo:</td>
+    <td class="texto"><input type="text" name="trabajo" id="trabajo" value="{trabajo}"/></td>
+  </tr>
+  <tr>
+    <td class="negrita">URL de Facebook:</td>
+    <td class="texto"><input type="text" name="facebook" id="facebook" value="{facebook}"/></td>
+  </tr>
+  <tr>
+    <td class="negrita">Email:</td>
+    <td class="texto"><input type="text" name="mail" id="mail" value="{mail}" /></td>
+  </tr>
+  <tr>
+    <td class="negrita">Contraseña:</td>
+    <td class="texto"><input type="password" name="pwd" id="pwd" /></td>
+  </tr>
+  <tr>
+    <td class="negrita">Repite la contraseña:</td>
+    <td class="texto"><input type="password" name="pwd2" id="pwd2" /></td>
+  </tr>
+  <tr id="botonesEditar">
+    <td colspan="2" class="negrita">
+    <table width="114" border="1" align="center" bordercolor="#E4457D">
+              <tr>
+                <td width="202" class="Estilo4" height="30" bgcolor="#FFF" onmouseover="cambiarFondo(this,'#E4457D','rosado')" onmouseout="cambiarFondo(this,'#FFF','blanco')" style="cursor: pointer; font-family: Verdana; color: #e4457d; font-size: 14px;" onclick="validarDatos()"><div align="center">Aceptar</div>
+                <input type="hidden" name="accion" value="aceptar" />
+                </td>
+              </tr>
+          </table>
+    </td>
+    </tr>
+    <!-- END BLOCK : preregistro -->
+    <!-- START BLOCK : mensaje -->
+	<tr>
+    	<td colspan="2" class="texto">{mensaje}</td>
+	</tr>
+	<!-- END BLOCK : mensaje -->
+  </table>
+    </form>
+    </td>
+  </tr>
+</table>
+</body>
+</html>

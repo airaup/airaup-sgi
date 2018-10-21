@@ -1,0 +1,26 @@
+version: "3"
+services:
+  web:
+    image: airaup-php:latest
+    build: ./sgi
+    container_name: sgi_php
+    volumes:
+      - ./sgi/src:/var/www/html
+    ports:
+      - 8000:80
+  mysql:
+    image: mysql:5.6
+    container_name: sgi_mysql
+    volumes:
+      - ./dumps:/docker-entrypoint-initdb.d
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: changeme
+      MYSQL_DATABASE: c0310458_sgi
+      MYSQL_USER: c0310458_sgi
+      MYSQL_PASSWORD: Rotaract2016
+  adminer:
+    image: adminer
+    ports:
+     - 8080:8080

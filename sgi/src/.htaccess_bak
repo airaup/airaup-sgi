@@ -1,0 +1,11 @@
+RewriteEngine On
+RewriteCond %{HTTPS} on
+RewriteRule (.*) http://%{HTTPS_HOST}%{REQUEST_URI}
+
+
+
+RewriteEngine on
+RewriteCond %{HTTP_HOST} ^sgi\.airaup\.org$ [OR]
+RewriteCond %{HTTP_HOST} ^www\.sgi\.airaup\.org$
+RewriteRule ^/?$ "http\:\/\/sgi\.airaup\.org\/login\.php" [R=301,L]
+

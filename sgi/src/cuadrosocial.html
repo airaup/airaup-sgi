@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Sistema de gestión integral - Rotaract</title>
+<link href="dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="dist/css/sb-admin-2.css" rel="stylesheet">
+<meta name="viewport" content="initial-scale=1">
+</head>
+
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-4 col-md-offset-4">
+				<img style="padding:20px" class="img-responsive" src="Images/Logo.png" alt="">
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-2">
+				<nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+					<div class="navbar-header">
+						<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+							<span class="sr-only">Navegación</span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+						</button>
+						<!-- <a class="navbar-brand" href="#">AIRAUP 2.0</a> -->
+					</div>
+					<div class="navbar-default panel panel-default" role="navigation">
+						<div class="sidebar-nav navbar-collapse collapse">
+							<ul class="nav nav-pills nav-stacked" id="side-menu">
+								<li><a href="perfil.php?a=p">Mi perfíl</a></li>
+								<li><a href="perfil.php?a=i">Inscripciones</a></li>
+								<!-- START BLOCK : menuEventos -->
+								<li><a href="eventos.php">Eventos</a></li>
+								<!-- END BLOCK : menuEventos -->
+								<!-- START BLOCK : menuAprobacion -->
+								<li><a href="perfil.php?a=a">Aprobaciones</a></li>
+								<!-- END BLOCK : menuAprobacion -->
+								<!-- START BLOCK : menuCuadroSocial -->
+								<li class="active"><a href="cuadrosocial.php">Cuadro Social</a></li>
+								<!-- END BLOCK : menuCuadroSocial -->
+								<!-- START BLOCK : menuStats -->
+								<li><a href="stats.php">Estadísticas</a></li>
+								<!-- END BLOCK : menuStats -->
+								<li><a href="logout.php">Salir</a></li>
+							</ul>
+						</div>
+					</div>
+				</nav>
+			</div>
+			<div class="col-lg-10">
+				<div class="panel panel-default">
+					<div class="panel-heading clearfix">
+						<!-- START BLOCK : cantidad -->
+						<form action="cuadrosocial.php" method="post" name="dListado">
+							Cuadro social ({cantidad} registros)
+							<input type="submit" name="descargar" value="Descargar listado" class="btn btn-success pull-right">
+							<input type="hidden" name="d" id="d" value="d" />
+						</form>
+						<!-- END BLOCK : cantidad -->
+					</div>
+					<div class="panel-body">
+						<!-- START BLOCK : mensaje -->
+						<div class="alert alert-warning">{mensaje}</div>
+						<!-- END BLOCK : mensaje -->
+						<table width="100%" class="table table-striped" style="font-size: 12px">
+							<thead>
+								<th><a href="cuadrosocial.php?orden=0">Nombre</a></th>
+								<th><a href="cuadrosocial.php?orden=1">Club</a></th>
+								<th><a href="cuadrosocial.php?orden=2">Rueda</a></th>
+								<th><a href="cuadrosocial.php?orden=3">Admin</a></th>
+								<th><a href="cuadrosocial.php?orden=4">Activo</a></th>
+								<th>Acciones</th>
+							</thead>
+							<tbody>
+								<!-- START BLOCK : lineaSocio -->
+								<tr>
+									<td>{nombre}</td>
+									<td>{club}</td>
+									<td>{rueda}</td>
+									<td>{admin}</td>
+									<td>{activo}</td>
+									<td>
+										<!-- START BLOCK : lineaSocioAdmin -->
+										<form action="perfil.php" method="post" name="vPerfil" style="display: inline">
+										<input type="submit" value="Perfil" class="btn btn-xs btn-success">
+										<input type="hidden" name="a" id="a" value="p" />
+										<input type="hidden" name="idS" id="idS" value="{idSocio}" />
+										</form>
+										<input type="button" onClick="validarAdmin('{idSocio}')" value="{accion} admin" class="btn btn-xs btn-success">
+										<!-- END BLOCK : lineaSocioAdmin -->
+										<a href="registro.php?a=editarCargos&idS={idSocio}" class="btn btn-xs btn-success">Editar</a>
+										<input type="checkbox" name="activo{contarI}" id="activo{contarI}" value="{idSocio}"/>
+									</td>
+								</tr>
+								<!-- END BLOCK : lineaSocio -->
+							</tbody>
+						</table>
+						<form action="cuadrosocial.php" method="post" name="activoS" id="activoS" style="margin:0">
+						<input type="button" onClick="validarActivo()" value="Activar/desactivar" class="btn btn-success pull-right">
+						<!-- START BLOCK : totalSocios -->
+						<input type="hidden" name="cantSocios" id="cantSocios" value="{cantSocios}" />
+						<input type="hidden" name="a" id="a" value="activarS" />
+						<!-- END BLOCK : totalSocios -->
+						</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
+<script src="jquery-1.3.2.min.js"></script>
+<script type="text/javascript">
+function validarActivo(){
+		chequeo = false;
+		contar = 0;
+		var cantidad = $("#cantSocios").attr("value");
+		
+		for (i=1; i<=cantidad; i++){
+			if ($("#activo" + i).attr("checked")){
+				chequeo = true;
+				contar = contar + 1;
+				var idSocio = $("#activo" + i).attr("value");
+				var nuevaVar = document.createElement('input');
+				nombre = "activoI" + contar;
+				nuevaVar.setAttribute('type','hidden');
+				nuevaVar.setAttribute('name', nombre);
+				nuevaVar.setAttribute('value', idSocio);
+				document.activoS.appendChild(nuevaVar);
+			}
+		}
+			
+		if (chequeo == false){
+			alert('Tenes que seleccionar al menos un socio a activar/desactivar');
+		} else {
+			if (confirm('Estás seguro de querer ejecutar esta acción?')){
+				var nuevaVarC = document.createElement('input');
+				nuevaVarC.setAttribute('type','hidden');
+				nuevaVarC.setAttribute('name','cantSocios');
+				nuevaVarC.setAttribute('value', contar);
+				document.activoS.appendChild(nuevaVarC);
+				document.activoS.submit();
+			}
+		}
+	}
+
+function validarAdmin(idSocio){
+	if (confirm('Estás seguro de querer ejecutar esta acción?')){
+		window.location='cuadrosocial.php?a=adm&idS=' + idSocio;
+	}
+}
+</script>

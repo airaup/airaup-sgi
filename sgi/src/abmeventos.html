@@ -1,0 +1,472 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Sistema de gestión integral - Rotaract</title>
+<script type="text/javascript" src="jquery-1.3.2.min.js"></script>
+<script type="text/javascript" src="jquery.datePicker.js"></script>
+<script type="text/javascript" src="date.js"></script>
+<link href="datePicker.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="time.js"></script>
+<link href="time.css" rel="stylesheet" type="text/css">
+
+<script type="text/javascript">
+	$(function() {
+		var myDate = new Date(); 
+		myDate.setFullYear(myDate.getFullYear() + 1);
+
+		var inicio = new Date();
+		inicio.setDate(inicio.getDate() - 1);
+	
+   		$('.date-pick').datePicker({
+        	startDate: inicio,
+			endDate: myDate
+	    });
+		$("#horaI").timePicker();
+		$("#horaF").timePicker();
+		$("#horaII").timePicker();
+		$("#horaFI").timePicker();
+	});
+	
+	function cambiarFondo(titulo,color,io){
+		if (io == "rosado"){
+			titulo.style.color='#FFFFFF';
+			titulo.style.backgroundColor=color;	
+		} else if (io == "blanco"){
+			titulo.style.color='#E4457D';
+			titulo.style.backgroundColor=color;
+		}
+	}
+	
+	function cargarAdmins(){
+		var values = $('#distrito').val();
+		var distritos = "";
+		
+		for (var x=0; x < values.length; x++) {
+			if (x == (values.length - 1)){
+				distritos += values[x];
+			} else {
+				distritos += values[x] + ",";
+			}
+		}
+		
+		$.getJSON('cargarAdmins.php?distritos=' + distritos, function(data){
+			var select = document.getElementById("admins"); 
+			select.innerHTML = "";
+			
+			for (var x = 1; x <= data[0]['total']; x++) {
+				select.innerHTML += "<option value=\"" + data[x]['idsocio'] + "\">" + data[x]['nombre'] + "</option>";
+			}
+		});
+	}
+	
+	function validarDatos(){
+		var fechaInicio = $("#fechaI").attr("value").replace(/^\s*|\s*$/g,"").split("/");
+		var horaInicio = $("#horaIH").attr("value").replace(/^\s*|\s*$/g,"").split(":");
+		var fechaFin = $("#fechaF").attr("value").replace(/^\s*|\s*$/g,"").split("/");
+		var horaFin = $("#horaFH").attr("value").replace(/^\s*|\s*$/g,"").split(":");
+		var fechaInscI = $("#fechaInscripcionesI").attr("value").replace(/^\s*|\s*$/g,"").split("/");
+		var fechaInscF = $("#fechaInscripcionesF").attr("value").replace(/^\s*|\s*$/g,"").split("/");
+		var horaInicioI = $("#horaIIH").attr("value").replace(/^\s*|\s*$/g,"").split(":");
+		var horaFinI = $("#horaFIH").attr("value").replace(/^\s*|\s*$/g,"").split(":");
+		
+		var fechaI = new Date(fechaInicio[2],fechaInicio[1]-1,fechaInicio[0],horaInicio[0],horaInicio[1],0,0);
+		var fechaF = new Date(fechaFin[2],fechaFin[1]-1,fechaFin[0],horaFin[0],horaFin[1],0,0);
+		var fechaInscripcionesI = new Date(fechaInscI[2],fechaInscI[1]-1,fechaInscI[0],horaInicioI[0],horaInicioI[1],0,0);
+		var fechaInscripcionesF = new Date(fechaInscF[2],fechaInscF[1]-1,fechaInscF[0],horaFinI[0],horaFinI[1],0,0);
+			
+		if ($("#nombre").attr("value").replace(/^\s*|\s*$/g,"")==""){
+			document.getElementById('mensajeNombre').hidden = false;
+			document.getElementById('mensajeNombre').innerHTML = "Ingresá el nombre del evento";
+			return;
+		} else {
+			document.getElementById('mensajeNombre').hidden = true;
+		}
+		
+		var distrito = document.getElementById("distrito");
+		
+		if (distrito.selectedOptions.length == 0){
+			document.getElementById('mensajeDistrito').hidden = false;
+			document.getElementById('mensajeDistrito').innerHTML = "Selecciona al menos un distrito organizador";
+			return;
+		} else {
+			document.getElementById('mensajeDistrito').hidden = true;
+		}
+		
+		if ($("#fechaI").attr("value").replace(/^\s*|\s*$/g,"")=="" || $("#horaIH").attr("value").replace(/^\s*|\s*$/g,"")==""){
+			document.getElementById('mensajeFechaHoraI').hidden = false;
+			document.getElementById('mensajeFechaHoraI').innerHTML = "Ingresá fecha y hora de inicio";
+			return;
+		} else {
+			document.getElementById('mensajeFechaHoraI').hidden = true;
+		}
+		
+		if ($("#fechaF").attr("value").replace(/^\s*|\s*$/g,"")=="" || $("#horaFH").attr("value").replace(/^\s*|\s*$/g,"")==""){
+			document.getElementById('mensajeFechaHoraF').hidden = false;
+			document.getElementById('mensajeFechaHoraF').innerHTML = "Ingresá fecha y hora de finalización";
+			return;
+		} else {
+			document.getElementById('mensajeFechaHoraF').hidden = true;
+		}
+		
+		if (fechaI > fechaF){
+			document.getElementById('mensajeFechaHoraF2').hidden = false;
+			document.getElementById('mensajeFechaHoraF2').innerHTML = "La fecha de inicio del evento debe ser menor o igual que la fecha de fin";
+			return;
+		} else {
+			document.getElementById('mensajeFechaHoraF2').hidden = true;
+		}
+		
+		if ($("#fechaInscripcionesI").attr("value").replace(/^\s*|\s*$/g,"")==""){
+			document.getElementById('mensajeFechaII').hidden = false;
+			document.getElementById('mensajeFechaII').innerHTML = "Ingresá la fecha de apertura de inscripciones";
+			return;
+		} else {
+			document.getElementById('mensajeFechaII').hidden = true;
+		}
+		
+		if ($("#fechaInscripcionesF").attr("value").replace(/^\s*|\s*$/g,"")==""){
+			document.getElementById('mensajeFechaFI').hidden = false;
+			document.getElementById('mensajeFechaFI').innerHTML = "Ingresá la fecha de cierre de inscripciones";
+			return;
+		} else {
+			document.getElementById('mensajeFechaFI').hidden = true;
+		}
+		
+		if (fechaInscripcionesI > fechaInscripcionesF){
+			document.getElementById('mensajeFechaFI2').hidden = false;
+			document.getElementById('mensajeFechaFI2').innerHTML = "La fecha de apertura de inscripciones debe ser menor que la fecha de cierre";
+			return;
+		} else {
+			document.getElementById('mensajeFechaFI2').hidden = true;
+		}
+		
+		if (fechaInscripcionesI > fechaI){
+			document.getElementById('mensajeFechaFI3').hidden = false;
+			document.getElementById('mensajeFechaFI3').innerHTML = "La fecha de inicio de inscripciones debe ser menor que la fecha de inicio del evento";
+			return;
+		} else {
+			document.getElementById('mensajeFechaFI3').hidden = true;
+		}
+		
+		if (fechaInscripcionesF > fechaI){
+			document.getElementById('mensajeFechaFI3').hidden = false;
+			document.getElementById('mensajeFechaFI3').innerHTML = "La fecha de cierre de inscripciones debe ser menor que la fecha de inicio del evento";
+			return;
+		} else {
+			document.getElementById('mensajeFechaFI3').hidden = true;
+		}
+		
+		if ($("#ubicacion").attr("value").replace(/^\s*|\s*$/g,"")==""){
+			document.getElementById('mensajeUbicacion').hidden = false;
+			document.getElementById('mensajeUbicacion').innerHTML = "Ingresá la ubicación del evento";
+			return;
+		} else {
+			document.getElementById('mensajeUbicacion').hidden = true;
+		}
+		
+		if ($("#costo").attr("value").replace(/^\s*|\s*$/g,"")=="" || $("#monedaTicket").attr("value")=="vacio"){
+			document.getElementById('mensajeTicket').hidden = false;
+			document.getElementById('mensajeTicket').innerHTML = "Completá ambos campos";
+			return;
+		} else {
+			document.getElementById('mensajeTicket').hidden = true;
+		}
+		
+		if (isNaN($("#costo").attr("value").replace(/^\s*|\s*$/g,"")) || $("#costo").attr("value").replace(/^\s*|\s*$/g,"") < 0){
+			document.getElementById('mensajeTicket').hidden = false;
+			document.getElementById('mensajeTicket').innerHTML = "El costo del ticket debe ser mayor o igual a 0";
+			return;
+		} else {
+			document.getElementById('mensajeTicket').hidden = true;
+		}
+		
+		if ($("#tipoEvento").attr("value")=="vacio"){
+			document.getElementById('mensajeTipoEvento').hidden = false;
+			document.getElementById('mensajeTipoEvento').innerHTML = "Selecciona una opción de la lista";
+			return;
+		} else {
+			document.getElementById('mensajeTipoEvento').hidden = true;
+		}
+		
+		if ($("#cupo").attr("value").replace(/^\s*|\s*$/g,"")==""){
+			document.getElementById('mensajeCupo').hidden = false;
+			document.getElementById('mensajeCupo').innerHTML = "Ingresá el cupo máximo para el evento";
+			return;
+		} else {
+			document.getElementById('mensajeCupo').hidden = true;
+		}
+		
+		if (isNaN($("#cupo").attr("value").replace(/^\s*|\s*$/g,"")) || $("#cupo").attr("value").replace(/^\s*|\s*$/g,"") < 1){
+			document.getElementById('mensajeCupo').hidden = false;
+			document.getElementById('mensajeCupo').innerHTML = "El cupo debe ser numérico";
+			return;
+		} else {
+			document.getElementById('mensajeCupo').hidden = true;
+		}
+		
+		for (var x=1; x < 6; x++) {
+			if ($("#transporte" + x).attr("value").replace(/^\s*|\s*$/g,"")!=""){
+				if ($("#costo" + x).attr("value").replace(/^\s*|\s*$/g,"")==""){
+					document.getElementById('mensajeTransporte' + x).hidden = false;
+					document.getElementById('mensajeTransporte' + x).innerHTML = "Tenés que ingresar el costo para cada opción de transporte";
+					return;
+				} else if (isNaN($("#costo" + x).attr("value").replace(/^\s*|\s*$/g,"")) || $("#costo" + x).attr("value").replace(/^\s*|\s*$/g,"")<0){
+					document.getElementById('mensajeTransporte' + x).hidden = false;
+					document.getElementById('mensajeTransporte' + x).innerHTML = "El costo de cada opción de transporte debe ser mayor o igual a 0";
+					return;
+				} else if ($("#monedaCosto" + x).attr("value")=="vacio"){
+					document.getElementById('mensajeTransporte' + x).hidden = false;
+					document.getElementById('mensajeTransporte' + x).innerHTML = "Tenés que seleccionar la moneda para cada opción de transporte";
+					return;
+				}
+			}
+		}
+
+		document.getElementById("fechaI").disabled = false;
+		document.getElementById("fechaF").disabled = false;
+		document.getElementById("fechaInscripcionesI").disabled = false;
+		document.getElementById("fechaInscripcionesF").disabled = false;
+		document.getElementById("horaIH").disabled = false;
+		document.getElementById("horaFH").disabled = false;
+		document.getElementById("horaIIH").disabled = false;
+		document.getElementById("horaFIH").disabled = false;
+		document.aceptarInfo.submit();
+	}
+</script>
+<style type="text/css">
+.centro {
+	text-align: center;
+	font-family: Verdana;
+	font-weight: bold;
+	font-size: 24px;
+}
+.centro2 {
+	font-size: 18px;
+	font-weight: bold;
+	font-family: Verdana;
+}
+.EstiloMarcado {	font-size: 16px;
+	color: #FFF;
+	text-align: center;
+	font-family: Verdana;
+}
+.negrita {	font-family: Verdana;
+	font-size: 12px;
+	color: #e4457d;
+}
+.subtitulos {	font-size: 16px;
+	font-weight: bold;
+	color: #e4457d;
+	text-align: left;
+	font-family: Verdana;
+}
+.texto {	font-family: Verdana;
+	font-size: 12px;
+	color: #666;
+}
+.mensaje2 {
+	color: #F03;
+	font-family: Verdana;
+	font-size: 14px;
+}
+</style>
+</head>
+
+<body>
+<table width="1205" border="0" align="center">
+  <tr>
+    <td colspan="2"><div align="center"><img src="Images/cabezal.png" alt="" width="1144" height="170" /></div></td>
+  </tr>
+  <tr>
+    <td width="168" valign="top"><table width="168" border="1" bordercolor="#E4457D">
+      <tr>
+      <td width="149" class="Estilo4" height="30" bgcolor="#FFF" onmouseover="cambiarFondo(this,'#E4457D','rosado')" onmouseout="cambiarFondo(this,'#FFF','blanco')" style="cursor: pointer; font-family: Verdana; color: #e4457d; font-size: 16px;" onclick="window.location='perfil.php?a=p'"><div align="center">Mi perfil</div></td>
+      </tr>
+      <!-- START BLOCK : menuEventos -->
+      <tr>
+        <td width="149" height="30" class="EstiloMarcado" bgcolor="#E4457D">Eventos</td>
+      </tr>
+      <!-- END BLOCK : menuEventos -->
+      <tr>
+        <td width="149" class="Estilo4" height="30" bgcolor="#FFF" onmouseover="cambiarFondo(this,'#E4457D','rosado')" onmouseout="cambiarFondo(this,'#FFF','blanco')" style="cursor: pointer; font-family: Verdana; color: #e4457d; font-size: 16px;" onclick="window.location='perfil.php?a=i'"><div align="center">Inscripciones</div></td>
+      </tr>
+      <!-- START BLOCK : menuAprobacion -->
+      <tr>
+        <td width="149" class="Estilo4" height="30" bgcolor="#FFF" onmouseover="cambiarFondo(this,'#E4457D','rosado')" onmouseout="cambiarFondo(this,'#FFF','blanco')" style="cursor: pointer; font-family: Verdana; color: #e4457d; font-size: 16px;" onclick="window.location='perfil.php?a=a'"><div align="center">Aprobaciones</div></td>
+      </tr>
+      <!-- END BLOCK : menuAprobacion -->
+      <!-- START BLOCK : menuCuadroSocial -->
+      <tr>
+<td width="149" class="Estilo4" height="30" bgcolor="#FFF" onmouseover="cambiarFondo(this,'#E4457D','rosado')" onmouseout="cambiarFondo(this,'#FFF','blanco')" style="cursor: pointer; font-family: Verdana; color: #e4457d; font-size: 16px;" onclick="window.location='cuadrosocial.php'"><div align="center">Cuadro Social</div></td>
+        </tr>
+      <!-- END BLOCK : menuCuadroSocial -->
+      <!-- START BLOCK : menuStats -->
+      <tr>
+		<td width="149" class="Estilo4" height="30" bgcolor="#FFF" onmouseover="cambiarFondo(this,'#E4457D','rosado')" onmouseout="cambiarFondo(this,'#FFF','blanco')" style="cursor: pointer; font-family: Verdana; color: #e4457d; font-size: 16px;" onclick="window.location='stats.php'"><div align="center">Estadísticas</div></td>
+        </tr>
+      <!-- END BLOCK : menuStats -->
+      <tr>
+        <td width="149" class="Estilo4" height="30" bgcolor="#FFF" onmouseover="cambiarFondo(this,'#E4457D','rosado')" onmouseout="cambiarFondo(this,'#FFF','blanco')" style="cursor: pointer; font-family: Verdana; color: #e4457d; font-size: 16px;" onclick="window.location='logout.php'"><div align="center">Salir</div></td>
+      </tr>
+    </table></td>
+	<td width="1027" height="50" valign="top" class="texto">
+    <!-- START BLOCK : evento -->
+      <form action="abmeventos.php" method="post" name="aceptarInfo" id="aceptarInfo" style="margin:0">
+        <table width="1021" border="0" align="left">
+          <tr>
+            <td width="1015"><span class="subtitulos">{accion} evento</span></td>
+          </tr>
+          <tr>
+            <td height="21"><span class="negrita">Nombre:</span>
+              <input name="nombre" type="text" id="nombre" value="{nombre}" /> <span id="mensajeNombre" class="mensaje2" hidden="hidden"></span>
+              <br />
+              <span class="negrita">Distrito/s organizador/es (si el evento es organizado por más de un distrito, podes marcarlos sosteniendo la tecla CTRL):<br />
+              </span>
+              <select name="distrito[]" size="10" multiple="multiple" id="distrito" style="width:90px" onchange="cargarAdmins()">
+                <!-- START BLOCK : comboDistrito -->
+                <option value="{valor}" {seleccionado}>{opcion}</option>
+                <!-- END BLOCK : comboDistrito -->
+              </select> <span id="mensajeDistrito" class="mensaje2" hidden="hidden"></span>
+              <br />
+              <span class="negrita"><span class="jCalendar">Fecha de inicio:</span></span>
+<input name="fechaI" type="text" id="fechaI" class="date-pick" disabled="disabled" value="{fechaI}" />
+              <span class="negrita">Hora:</span>
+              <input type="text" name="horaIH" id="horaIH" value="{horaI}" disabled="disabled"/>
+        <img src="Images/reloj.png" width="25" height="25" id="horaI" name="horaI" align="absmiddle" onmouseover="this.src='Images/relojAp.png';" onmouseout="this.src='Images/reloj.png';"/> <span id="mensajeFechaHoraI" class="mensaje2" hidden="hidden"></span><br />
+              <span class="negrita">Fecha de fin:</span>
+              <input name="fechaF" type="text" id="fechaF" class="date-pick" disabled="disabled" value="{fechaF}" />
+              <span class="negrita">Hora:</span>
+              <input type="text" name="horaFH" id="horaFH" value="{horaF}" disabled="disabled"/>
+        <img src="Images/reloj.png" width="25" height="25" id="horaF" name="horaF" align="absmiddle" onmouseover="this.src='Images/relojAp.png';" onmouseout="this.src='Images/reloj.png';"/> <span id="mensajeFechaHoraF" class="mensaje2" hidden="hidden"></span> <span id="mensajeFechaHoraF2" class="mensaje2" hidden="hidden"></span><br />
+              <span class="negrita">Fecha de apertura de inscripciones:</span>
+              <input name="fechaInscripcionesI" type="text" id="fechaInscripcionesI" class="date-pick" disabled="disabled" value="{fechaII}" /> <span id="mensajeFechaII" class="mensaje2" hidden="hidden"></span>
+              <span class="negrita">Hora:</span>
+              <input type="text" name="horaIIH" id="horaIIH" value="{horaII}" disabled="disabled"/>
+        <img src="Images/reloj.png" width="25" height="25" id="horaII" name="horaII" align="absmiddle" onmouseover="this.src='Images/relojAp.png';" onmouseout="this.src='Images/reloj.png';"/> <span id="mensajeFechaHoraII" class="mensaje2" hidden="hidden"></span><br />
+              <span class="negrita">Fecha de cierre de inscripciones:</span>
+              <input name="fechaInscripcionesF" type="text" id="fechaInscripcionesF" class="date-pick" disabled="disabled" value="{fechaFI}" /> <span id="mensajeFechaFI" class="mensaje2" hidden="hidden"></span> <span id="mensajeFechaFI2" class="mensaje2" hidden="hidden"></span> <span id="mensajeFechaFI3" class="mensaje2" hidden="hidden"></span>
+              <span class="negrita">Hora:</span>
+              <input type="text" name="horaFIH" id="horaFIH" value="{horaFI}" disabled="disabled"/>
+        <img src="Images/reloj.png" width="25" height="25" id="horaFI" name="horaFI" align="absmiddle" onmouseover="this.src='Images/relojAp.png';" onmouseout="this.src='Images/reloj.png';"/> <span id="mensajeFechaHoraFI" class="mensaje2" hidden="hidden"></span><br />
+              <span class="negrita">Ubicación:</span>
+              <input name="ubicacion" type="text" id="ubicacion" value="{ubicacion}" /> <span id="mensajeUbicacion" class="mensaje2" hidden="hidden"></span>
+              <br />
+              <span class="negrita">Costo:</span>
+              <input name="costo" type="text" id="costo" value="{costo}" /> 
+              Moneda: <select name="monedaTicket" id="monedaTicket">
+                <option value="vacio"></option>
+                <!-- START BLOCK : comboMonedaTicket -->
+                <option value="{valor}" {seleccionado}>{opcion}</option>
+                <!-- END BLOCK : comboMonedaTicket -->
+              </select> <span id="mensajeTicket" class="mensaje2" hidden="hidden"></span>
+              <br />
+              <span class="negrita">Tipo de evento:</span>
+<select name="tipoEvento" id="tipoEvento">
+                <option value="vacio"></option>
+                <!-- START BLOCK : comboTipoEvento -->
+                <option value="{valor}" {seleccionado}>{opcion}</option>
+                <!-- END BLOCK : comboTipoEvento -->
+              </select> <span id="mensajeTipoEvento" class="mensaje2" hidden="hidden"></span>
+              <br />
+              <span class="negrita">Cupo máximo:</span>
+              <input name="cupo" type="text" id="cupo" value="{cupo}" /> 
+              <span id="mensajeCupo" class="mensaje2" hidden="hidden"></span>
+              <!-- START BLOCK : seleccionarAdmins -->
+              <table width="900" border="0">
+				<tr>
+                	<td width="894">
+                    <span class="negrita">Seleccioná a los administradores del evento: (no obligatorio, podes marcar todos los que quieras sosteniendo la tecla CTRL presionada)</span>                    </td>
+                </tr>
+                <tr>
+                  <td>
+                  <select name="admins[]" size="10" multiple="multiple" id="admins" style="width:400px">
+	                <!-- START BLOCK : comboAdmins -->
+    		            <option value="{valor}" {seleccionado}>{opcion}</option>
+            	    <!-- END BLOCK : comboAdmins -->
+	              </select>
+                  </td>
+                </tr>
+              </table>
+              <!-- END BLOCK : seleccionarAdmins -->
+              <table width="1007" border="0">
+                <tr>
+                  <td colspan="2" class="negrita">Opciones de transporte (la opción &quot;Particular&quot; se registra por defecto):</td>
+                </tr>
+                <tr>
+                  <td width="191">Nombre</td>
+                  <td width="806">Costo</td>
+                </tr>
+                <tr>
+                  <td><input name="transporte1" type="text" id="transporte1" value="{transporte1}" /></td>
+                  <td><input name="costo1" type="text" id="costo1" value="{costo1}" /> Moneda: <select name="monedaCosto1" id="monedaTicket">
+                <option value="vacio"></option>
+                <!-- START BLOCK : comboMonedaCosto1 -->
+                <option value="{valor}" {seleccionado}>{opcion}</option>
+                <!-- END BLOCK : comboMonedaCosto1 -->
+              </select>
+                    <input type="hidden" name="idTransporte1" value="{idTransporte1}" /> <span id="mensajeTransporte1" class="mensaje2" hidden="hidden"></span></td>
+                </tr>
+                <tr>
+                  <td><input name="transporte2" type="text" id="transporte2" value="{transporte2}" /></td>
+                  <td><input name="costo2" type="text" id="costo2" value="{costo2}" /> Moneda: <select name="monedaCosto2" id="monedaTicket">
+                <option value="vacio"></option>
+                <!-- START BLOCK : comboMonedaCosto2 -->
+                <option value="{valor}" {seleccionado}>{opcion}</option>
+                <!-- END BLOCK : comboMonedaCosto2 -->
+              </select>
+                    <input type="hidden" name="idTransporte2" value="{idTransporte2}" /> <span id="mensajeTransporte2" class="mensaje2" hidden="hidden"></span></td>
+                </tr>
+                <tr>
+                  <td><input name="transporte3" type="text" id="transporte3" value="{transporte3}" /></td>
+                  <td><input name="costo3" type="text" id="costo3" value="{costo3}" /> Moneda: <select name="monedaCosto3" id="monedaTicket">
+                <option value="vacio"></option>
+                <!-- START BLOCK : comboMonedaCosto3 -->
+                <option value="{valor}" {seleccionado}>{opcion}</option>
+                <!-- END BLOCK : comboMonedaCosto3 -->
+              </select>
+                    <input type="hidden" name="idTransporte3" value="{idTransporte3}" /> <span id="mensajeTransporte3" class="mensaje2" hidden="hidden"></span></td>
+                </tr>
+                <tr>
+                  <td><input name="transporte4" type="text" id="transporte4" value="{transporte4}" /></td>
+                  <td><input name="costo4" type="text" id="costo4" value="{costo4}" /> Moneda: <select name="monedaCosto4" id="monedaTicket">
+                <option value="vacio"></option>
+                <!-- START BLOCK : comboMonedaCosto4 -->
+                <option value="{valor}" {seleccionado}>{opcion}</option>
+                <!-- END BLOCK : comboMonedaCosto4 -->
+              </select>
+                    <input type="hidden" name="idTransporte4" value="{idTransporte4}" /> <span id="mensajeTransporte4" class="mensaje2" hidden="hidden"></span></td>
+                </tr>
+                <tr>
+                  <td><input name="transporte5" type="text" id="transporte5" value="{transporte5}" /></td>
+                  <td><input name="costo5" type="text" id="costo5" value="{costo5}" /> Moneda: <select name="monedaCosto5" id="monedaTicket">
+                <option value="vacio"></option>
+                <!-- START BLOCK : comboMonedaCosto5 -->
+                <option value="{valor}" {seleccionado}>{opcion}</option>
+                <!-- END BLOCK : comboMonedaCosto5 -->
+              </select>
+                    <input type="hidden" name="idTransporte5" value="{idTransporte5}" /> <span id="mensajeTransporte5" class="mensaje2" hidden="hidden"></span></td>
+                </tr>
+              </table></td>
+          </tr>
+          <tr>
+            <td height="21"><div align="center">
+            <table width="197" border="1" align="left" bordercolor="#E4457D">
+              <tr>
+                <td width="81" id="aceptar" class="Estilo4" height="35" bgcolor="#FFF" onmouseover="cambiarFondo(this,'#E4457D','rosado')" onmouseout="cambiarFondo(this,'#FFF','blanco')" style="cursor: pointer; font-family: Verdana; color: #e4457d; font-size: 16px;" onclick="validarDatos()"><div align="center">Aceptar</div>
+                <input type="hidden" name="idEvento" value="{idEvento}" />
+              <input type="hidden" name="accion" value="aceptar" />
+                </td>
+                <td width="81" class="Estilo4" height="35" bgcolor="#FFF" onmouseover="cambiarFondo(this,'#E4457D','rosado')" onmouseout="cambiarFondo(this,'#FFF','blanco')" style="cursor: pointer; font-family: Verdana; color: #e4457d; font-size: 16px;" onclick="window.location='eventos.php'"><div align="center">Volver</div></td>
+              </tr>
+            </table>
+            </div></td>
+          </tr>
+        </table>
+</form>
+      <!-- END BLOCK : evento -->
+    </td>
+  </tr>
+</table>
+</body>
+</html>

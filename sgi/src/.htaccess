@@ -1,0 +1,8 @@
+# Local Environment
+DirectoryIndex login.php
+
+# Production Environment
+#RewriteEngine on
+#RewriteCond %{HTTP_HOST} ^sgi\.airaup\.org$ [OR]
+#RewriteCond %{HTTP_HOST} ^www\.sgi\.airaup\.org$
+#RewriteRule ^/?$ "http\:\/\/sgi\.airaup\.org\/login\.php" [R=301,L]

@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Sistema de gestión integral - Rotaract</title>
+<link href="dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="dist/css/metisMenu.min.css" rel="stylesheet">
+<link href="dist/css/sb-admin-2.css" rel="stylesheet">
+<link href="dist/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<meta name="viewport" content="initial-scale=1">
+
+<link href="datePicker.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-4 col-md-offset-4">
+				<img style="padding:20px" class="img-responsive" src="Images/Logo.png" alt="">
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-2">
+				<nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+					<div class="navbar-header">
+						<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+							<span class="sr-only">Navegación</span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+						</button>
+						<!-- <a class="navbar-brand" href="#">AIRAUP 2.0</a> -->
+					</div>
+					<div class="navbar-default panel panel-default" role="navigation">
+						<div class="sidebar-nav navbar-collapse collapse">
+							<ul class="nav in" id="side-menu">
+								<li><a href="perfil.php?a=p">Mi perfíl</a></li>
+								<li><a href="perfil.php?a=i">Inscripciones</a></li>
+								<!-- START BLOCK : menuEventos -->
+								<li><a href="eventos.php">Eventos</a></li>
+								<!-- END BLOCK : menuEventos -->
+								<!-- START BLOCK : menuAprobacion -->
+								<li><a href="perfil.php?a=a">Aprobaciones</a></li>
+								<!-- END BLOCK : menuAprobacion -->
+								<!-- START BLOCK : menuCuadroSocial -->
+								<li><a href="cuadrosocial.php">Cuadro Social</a></li>
+								<!-- END BLOCK : menuCuadroSocial -->
+								<!-- START BLOCK : menuStats -->
+								<li><a href="stats.php">Estadísticas</a></li>
+								<!-- END BLOCK : menuStats -->
+								<li><a href="logout.php">Salir</a></li>
+							</ul>
+						</div>
+					</div>
+				</nav>
+			</div>
+			<div class="col-lg-10">
+					<!-- START BLOCK : datosEvento -->
+				<div class="panel panel-default">
+					<div class="panel-heading">Inscripción a {evento}</div>
+					<div class="panel-body">
+						<form action="inscripcion.php" method="post" name="inscrip" id="inscrip">
+							<p><b>Fecha y hora de inicio:</b> {fechaI}<br />
+								<b>Fecha y hora de fin:</b> {fechaF}<br />
+								<b>Ubicación:</b> {ubicacion}<br />
+								<b>Costo del ticket:</b> {costo}<br />
+								<b>Transporte:</b>
+								<select name="transporte" id="transporte" required>
+									<option selected disabled></option>
+									<!-- START BLOCK : comboTransporte -->
+									<option value="{valor}">{opcion}</option>
+									<!-- END BLOCK : comboTransporte -->
+								</select><br />
+								<b>Calidad de asistencia:</b>
+								<select name="calidad" id="calidad" {deshabilitado} required>
+									<option selected disabled></option>
+									<!-- START BLOCK : comboCalidad -->
+									<option value="{valor}" {seleccionado}>{opcion}</option>
+									<!-- END BLOCK : comboCalidad -->
+								</select>
+								<em class="text-muted small">Si tenes dudas sobre este punto, selecciona &quot;Sin definir&quot;</em></p>
+								<!-- START BLOCK : servicio -->
+								<p><b>Priorizá según tu interés las actividades de servicio disponibles:</b><br />
+								<!-- START BLOCK : actividad -->
+								<br />{actividad}<br />Prioridad:
+								<select name="prioridadS{opcion}" id="prioridadS{opcion}" {deshabilitado} required>
+									<option selected disabled></option>
+									<!-- START BLOCK : comboPrioridad -->
+									<option value="{opcion}" {seleccionado}>{opcion}</option>
+									<!-- END BLOCK : comboPrioridad -->
+								</select></p>
+								<!-- END BLOCK : actividad -->
+								<!-- END BLOCK : servicio -->
+					</div>
+					<div class="panel-footer">
+						<input type="submit" class="btn btn-success" value="Aceptar" />
+						<input type="hidden" name="idEvento" value="{idEvento}" />
+						<input type="hidden" name="accion" value="inscripcion" />
+						<a href="perfil.php?a=i" class="btn btn-success">Volver</a>
+					</div>
+				</form>
+				</div>
+				<!-- END BLOCK : datosEvento -->
+
+				<!-- START BLOCK : editarInscripto -->
+				<div class="panel panel-default">
+					<div class="panel-heading">Inscripción a {evento}</div>
+					<div class="panel-body">
+						<form action="inscripcion.php" method="post" name="inscripE" id="inscripE">
+							<h4>{nombre}</h4>
+							<!-- START BLOCK : listaSocios -->
+							<p><b>Marcá el nombre del socio que ocupará el lugar:</b><br />
+								<select name="socios" size="10" id="socios">
+									<!-- START BLOCK : comboSocios -->
+									<option value="{valor}" {seleccionado}>{opcion}</option>
+									<!-- END BLOCK : comboSocios -->
+								</select>
+								<span id="mensajeCambio" hidden="hidden"></span><br />
+								<!-- END BLOCK : listaSocios -->
+								<!-- START BLOCK : noCN -->
+							</p>
+							<p><b>Transporte:</b>
+								<select name="transporteE" id="transporteE" required>
+									<option selected disabled></option>
+									<!-- START BLOCK : comboTransporteE -->
+									<option value="{valor}" {seleccionado}>{opcion}</option>
+									<!-- END BLOCK : comboTransporteE -->
+								</select><br />
+								<b>Calidad de asistencia:</b>
+								<select name="calidadE" id="calidadE" {deshabilitado} required>
+									<option selected disabled></option>
+									<!-- START BLOCK : comboCalidadE -->
+									<option value="{valor}" {seleccionado}>{opcion}</option>
+									<!-- END BLOCK : comboCalidadE -->
+								</select>
+							</p><br>
+							<p class="text-muted small">*Para expresiones decimales usar puntos</p>
+							<label for="monto"><b>Monto pagado:</b></label>
+							<input name="monto" type="number" step="any" id="monto" value="{monto}" />
+							<span class="text-muted small">*Dejando este campo vacío, se borra el resto de los datos de pago</span><br>
+							<label for="cotizacion"><b>Cotización:</b></label>
+							<input name="cotizacion" type="number" step="any" id="cotizacion" value="{cotizacion}" /><br />
+							<label for="fechaPago"><b>Fecha de pago:</b></label>
+							<input name="fechaPago" id="fechaPago" type="text" class="date-pick" disabled="disabled" value="{fechaP}" /><br />
+							<label for="moneda"><b>Moneda:</b></label>
+							<select name="moneda" id="moneda" required>
+								<option disabled selected></option>
+								<!-- START BLOCK : comboMoneda -->
+								<option value="{valor}" {seleccionado}>{opcion}</option>
+								<!-- END BLOCK : comboMoneda -->
+							</select><br />
+						</p>
+						<p><label for="reserva">Ocupa cupo reservado (solo ERAUP):</label>
+							<input type="checkbox" name="reserva" id="reserva" {marcado} /></p>
+							<p><label for="observaciones"><b>Observaciones:</b></label><br>
+								<textarea name="observaciones" cols="50" rows="5" id="observaciones">{observaciones}</textarea>
+							</p>
+							<!-- END BLOCK : noCN -->
+						</div>
+						<div class="panel-footer">
+							<input type="submit" class="btn btn-success" value="Aceptar" />
+							<input type="hidden" name="idEvento" value="{idEvento}" />
+							<input type="hidden" name="idSocio" value="{idSocio}" />
+							<input type="hidden" name="accion" value="{accion}" />
+							<a href="inscriptos.php?id={idEvento}" class="btn btn-success">Volver</a>
+						</div>
+					</form>
+				</div>
+				<!-- END BLOCK : editarInscripto -->
+				<!-- START BLOCK : mensaje -->
+				<div class="panel panel-default">
+					<div class="panel-heading">Informe de inscripcion</div>
+					<div class="panel-body">
+						<div class="alert alert-warning">{mensaje}</div>
+					</div>
+				</div>
+				<!-- END BLOCK : mensaje -->
+			</div>
+		</div>
+	</div>
+</body>
+</html>
+<script src="jquery-1.3.2.min.js"></script>
+<script src="dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="jquery.datePicker.js"></script>
+<script type="text/javascript" src="date.js"></script>
+<script type="text/javascript">
+	$(function() {
+		var myDate = new Date(); 
+		myDate.setFullYear(myDate.getFullYear() + 1);
+
+		var inicio = new Date();
+		inicio.setFullYear(inicio.getFullYear() - 1);
+	
+			$('.date-pick').datePicker({
+					startDate: inicio,
+			endDate: myDate
+			});
+	});
+	
+	function validarDatos(accion){
+		if (accion == "I"){
+			// <!-- START BLOCK : eraup -->
+			// cantidad = {cantAct};
+			// paso = true;
+			
+			// for (var i = 1; i<=cantidad;  i++){
+			// 		if ($("#prioridadS" + i).attr("value")=="vacio"){
+			// 		paso = false;
+			// 	}
+			// }
+			// <!-- END BLOCK : eraup -->
+			// <!-- START BLOCK : caseERAUP -->
+			// } else if (paso == false){
+			// 	alert("Tenes que priorizar todas las actividades de servicio");
+			// <!-- END BLOCK : caseERAUP -->
+			// } else {
+			// 	document.getElementById("calidad").disabled = false;
+			// 	document.inscrip.submit();
+			// }
+		} else if (accion == "E"){
+			// if ($("#transporteE").attr("value")=="vacio"){
+			// 	alert("Tenes que seleccionar una opción de transporte de la lista");
+			// } else if ($("#calidadE").attr("value")=="vacio"){
+			// 	alert("Tenes que seleccionar la calidad en la que asistirás al evento");
+			// } else {
+			// 	document.getElementById("fechaPago").disabled = false;
+			// 	document.getElementById("calidadE").disabled = false;
+			// 	document.inscripE.submit();
+			// }
+		} else if (accion == "C"){
+			var socios = document.getElementById("socios");
+		
+			if (socios.selectedOptions.length == 0){
+				document.getElementById('mensajeCambio').hidden = false;
+				document.getElementById('mensajeCambio').innerHTML = "Selecciona al socio que ocupará el lugar";
+				return;
+			} else {
+				document.getElementById('mensajeCambio').hidden = true;
+				document.inscripE.submit();
+			}
+		}
+	}
+</script>

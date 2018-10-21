@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Sistema de gestión integral - Rotaract</title>
+<link href="dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="dist/css/sb-admin-2.css" rel="stylesheet">
+<meta name="viewport" content="initial-scale=1">
+</head>
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-4 col-md-offset-4">
+			<div style="margin-top:20%;margin-bottom:-15%">
+				<img class="img-responsive" src="Images/Logo.png" alt="">
+			</div>
+			<div class="login-panel panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">Recuperar Contraseña</h3>
+				</div>
+				<div class="panel-body">
+					<form action="recoverpwd.php" method="post" name="recovery" id="recovery">
+						<fieldset>
+							<div class="form-group">
+								<input class="form-control" placeholder="E-mail" name="mail" id="mail" type="mail" autofocus required>
+							</div>
+							<!-- START BLOCK : mensaje -->
+							<p align="center">{mensaje}</p>
+							<!-- END BLOCK : mensaje -->
+							<input type="hidden" name="accion" value="recover" />
+							<input type="submit" class="btn btn-lg btn-success btn-block" value="Recuperar">
+							<a href="login.php" class="btn btn-lg btn-success btn-block">Volver</a>
+						</fieldset>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>

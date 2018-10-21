@@ -1,0 +1,853 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Sistema de gestión integral - Rotaract</title>
+<script type="text/javascript" src="jquery-1.3.2.min.js">
+</script>
+<script type="text/javascript" src="date.js"></script>
+<script type="text/javascript" src="validacionRegistro.js"></script>
+<script type="text/javascript" src="masked_input_1.4.1.js"></script>
+
+<script type="text/javascript">
+	function cambiarFondo(titulo,color,io){
+		if (io == "rosado"){
+			titulo.style.color='#FFFFFF';
+			titulo.style.backgroundColor=color;	
+		} else if (io == "blanco"){
+			titulo.style.color='#E4457D';
+			titulo.style.backgroundColor=color;
+		}
+	}
+	
+	$(function() {
+	    $('#registro').keypress(function(e){
+		    if(e.keyCode==13)
+    		$('#aceptar').click();
+	    });
+		
+		var editar = getUrlVars()["a"];
+		
+		if (editar == "e"){
+			document.getElementById('botonesEditar').hidden = true;
+			document.getElementById('anteriorPasoFinal').hidden = true;
+		} else {
+			cambiarPagina('2','0');
+		
+			if (editar == "editarCargos"){
+				cargarClubes();
+				chequearRueda();
+			} else {
+				var formattedInput = MaskedInput({
+					elm: document.getElementById('fechaIng'),
+					format: '___-__-____'
+				});
+				formattedInput.setFormat('__/__/____');
+				formattedInput.setSeparator('/');
+			}
+		}
+	});
+	
+	function getUrlVars() {
+		var vars = {};
+		var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+		vars[key] = value;
+		});
+		return vars;
+	}
+	
+	function cambiarPagina(numero, accion){
+		window.scrollTo(0, 0);
+		
+		var editar = getUrlVars()["a"];
+		var eventos = document.getElementById('cantTipoEvento').value;
+		
+		if (editar == "e"){
+			tipo = "editar";
+		} else if (editar == "editarCargos"){
+			tipo = "editarCargos";
+		} else {
+			tipo = "nuevo";
+		}
+		
+		switch (numero) {
+    		case '1':
+				document.getElementById('paso1').hidden = false;
+				document.getElementById('paso2').hidden = true;
+				document.getElementById('paso3').hidden = true;
+				document.getElementById('paso4').hidden = true;
+				document.getElementById('paso5').hidden = true;	
+				break;
+		    case '2':
+				if ($('input[name=tipoRueda]:checked').val() == 'Interact'){
+					if (tipo == "editarCargos"){
+						document.getElementById("botonInteract").innerHTML = "Finalizar";
+					}
+				}
+				
+				document.getElementById('paso1').hidden = true;
+				document.getElementById('paso2').hidden = false;
+				document.getElementById('paso3').hidden = true;
+				document.getElementById('paso4').hidden = true;
+				document.getElementById('paso5').hidden = true;
+				
+				break;
+		    case '3':
+				if ($('input[name=tipoRueda]:checked').val() == 'Interact' && accion == "sig"){
+					if (tipo == "editarCargos"){
+						validacion = validarDatos(tipo,eventos,'p2');
+						
+						if (validacion == 1){
+							document.registro.submit();
+						}
+					} else {
+						document.getElementById('paso1').hidden = true;
+						document.getElementById('paso2').hidden = true;
+						document.getElementById('paso3').hidden = true;
+						document.getElementById('paso4').hidden = true;
+						document.getElementById('paso5').hidden = false;
+					}	
+				} else if ($('input[name=tipoRueda]:checked').val() == 'Rotary' && accion == "sig"){
+					document.getElementById('paso1').hidden = true;
+					document.getElementById('paso2').hidden = true;
+					document.getElementById('paso3').hidden = true;
+					document.getElementById('paso4').hidden = false;
+					document.getElementById('paso5').hidden = true;
+					
+					if (tipo == "editarCargos"){
+						document.getElementById('botonesAIRAUP').hidden = true;
+					}
+				} else if ($('input[name=tipoRueda]:checked').val() == 'Rotary' && accion == "ant"){
+					document.getElementById('paso1').hidden = true;
+					document.getElementById('paso2').hidden = false;
+					document.getElementById('paso3').hidden = true;
+					document.getElementById('paso4').hidden = true;
+					document.getElementById('paso5').hidden = true;	
+				} else {
+					validacion = validarDatos(tipo,eventos,'p2');
+				
+					if (validacion == "1"){
+						document.getElementById('paso1').hidden = true;
+						document.getElementById('paso2').hidden = true;
+						document.getElementById('paso3').hidden = false;
+						document.getElementById('paso4').hidden = true;
+						document.getElementById('paso5').hidden = true;	
+					}
+				}
+		        break;
+		    case '4':
+				if ($('input[name=tipoRueda]:checked').val() == 'Interact' && accion == "ant"){
+					document.getElementById('paso1').hidden = true;
+					document.getElementById('paso2').hidden = false;
+					document.getElementById('paso3').hidden = true;
+					document.getElementById('paso4').hidden = true;
+					document.getElementById('paso5').hidden = true;
+				} else {
+					validacion = validarDatos(tipo,eventos,'p3');
+				
+					if (validacion == "1"){
+						document.getElementById('paso1').hidden = true;
+						document.getElementById('paso2').hidden = true;
+						document.getElementById('paso3').hidden = true;
+						document.getElementById('paso4').hidden = false;
+						document.getElementById('paso5').hidden = true;
+						
+						if (tipo == "editarCargos"){
+							document.getElementById('botonesAIRAUP').hidden = true;
+						}
+					}
+				}
+		        break;
+		    case '5':
+				validacion = validarDatos(tipo,eventos,'p4');
+				
+				if (validacion == "1"){
+					document.getElementById('paso1').hidden = true;
+					document.getElementById('paso2').hidden = true;
+					document.getElementById('paso3').hidden = true;
+					document.getElementById('paso4').hidden = true;
+					document.getElementById('paso5').hidden = false;
+				}
+			    
+				break;
+		}
+	}
+	
+	function cargarClubes(){
+		var accion = "n";
+		<!-- START BLOCK : cargaClubes -->
+		accion = '{idSocio}';
+		<!-- END BLOCK : cargaClubes -->
+		idDistrito = $("#distrito").attr("value");
+		
+		var editar = getUrlVars()["a"];
+		
+		if (editar != "editarCargos"){
+			document.getElementById('rotaract').checked = false;
+			
+			var radios = document.getElementsByName('tipoRueda');
+			for (var i = 0; i< radios.length;  i++){
+		    	radios[i].disabled = false;
+			}
+		}
+		
+		$.getJSON('cargarClubes.php?id=' + idDistrito + '&a=' + accion, function(data){
+			var select = document.getElementById("club"); 
+			select.innerHTML = "";
+			
+			select.innerHTML += "<option value='vacio'></option>";
+			
+			if (data[0]['total'] > 1){
+				select.disabled = false;
+				
+				for (var x = 1; x <= data[0]['total']; x++) {
+					if (data[x]['selected'] == '0'){
+						select.innerHTML += "<option value=\"" + data[x]['idClub'] + "\">" + data[x]['nombre'] + "</option>";
+					} else if (data[x]['selected'] == '1'){
+						select.innerHTML += "<option value=\"" + data[x]['idClub'] + "\" selected='selected'>" + data[x]['nombre'] + "</option>";
+					}
+				}
+			} else {
+				if (data[1]['nombre'] == 'Otro'){
+					select.innerHTML = "";
+					select.innerHTML += "<option value=\"" + data[1]['idClub'] + "\" selected='selected'>" + data[1]['nombre'] + "</option>";
+					select.disabled = true;	
+				} else {
+					select.innerHTML = "";
+					select.innerHTML += "<option value=\"" + data[1]['idClub'] + "\" selected='selected'>" + data[1]['nombre'] + "</option>";
+					select.disabled = false;
+				}
+			}
+		});
+	}
+</script>
+
+<style type="text/css">
+.centro {
+	text-align: center;
+	font-size: 18px;
+	font-family: Verdana;
+}
+.subtitulos {
+	font-size: 16px;
+	font-weight: bold;
+	color: #e4457d;
+	text-align: left;
+	font-family: Verdana;
+}
+.negrita {	font-family: Verdana;
+	font-size: 12px;
+	color: #e4457d;
+}
+.subtitulos1 {	font-size: 16px;
+	font-weight: bold;
+	color: #e4457d;
+	text-align: left;
+	font-family: Verdana;
+}
+.texto {	font-family: Verdana;
+	font-size: 12px;
+	color: #666;
+}
+.titulo {
+	font-family: Verdana;
+	color: #e4457d;
+	font-size: 16px;
+	font-weight: bold;
+}
+</style>
+</head>
+
+<body>
+<table width="1147" border="0" align="center">
+  <tr>
+    <td width="1141" colspan="3"><div align="center"><img src="Images/cabezal.png" alt="" width="1144" height="170" /></div></td>
+  </tr>
+  <tr>
+    <td colspan="3">
+    <form action="registro.php" method="post" name="registro" id="registro" style="margin:0">
+<table id="paso1" width="755" border="0" align="center">
+	<tr>
+    <td colspan="2"><div align="center" class="titulo">Registro de usuario</div></td>
+  </tr>
+<!-- START BLOCK : personales -->
+  <tr>
+    <td colspan="2"><div align="center" class="subtitulos">Datos personales</div></td>
+  </tr>
+  <tr>
+    <td width="370" class="negrita">Nombres:</td>
+    <td width="375" class="texto">
+    <input name="nombres" type="text" id="nombres" value="{nombres}" /></td>
+  </tr>
+  <tr>
+    <td class="negrita">Apellidos:</td>
+    <td class="texto"><input type="text" name="apellidos" id="apellidos"  value="{apellidos}"/></td>
+  </tr>
+  <tr>
+    <td class="negrita">Documento: <span class="texto">Solo números</span></td>
+    <td class="texto"><input type="text" name="documento" id="documento"  value="{documento}"/></td>
+  </tr>
+  <tr>
+    <td class="negrita">Dirección física:</td>
+    <td class="texto"><input type="text" name="direccion" id="direccion"  value="{direccion}"/></td>
+  </tr>
+  <tr>
+    <td class="negrita">Ciudad:</td>
+    <td class="texto"><input type="text" name="ciudad" id="ciudad"  value="{ciudad}"/></td>
+  </tr>
+  <tr>
+    <td class="negrita">Con quién vivis?:</td>
+    <td class="texto"><input type="text" name="viveCon" id="viveCon"  value="{viveCon}"/></td>
+  </tr>
+  <tr>
+    <td class="negrita">Podes hospedar gente?</td>
+    <td><p class="texto">
+      <label>
+        <input type="radio" name="hospeda" value="1" id="hospeda1" {checkedhospeda1}/>
+        Si</label>
+      <br />
+      <label>
+        <input type="radio" name="hospeda" value="0" id="hospeda2" {checkedhospeda2}/>
+        No</label>
+      <br />
+    </p></td>
+  </tr>
+  <tr>
+    <td class="negrita">Fecha de nacimiento: <span class="texto">DD/MM/AAAA</span></td>
+    <td class="texto"><input type="text" name="fechaNac" id="fechaNac" value="{fechaNac}" /></td>
+  </tr>
+    <tr>
+    <td class="negrita">Sexo:</td>
+    <td class="texto"><input type="radio" name="sexo" id="sexo" value="1" {checkedsexo1}/>
+    <label for="interact">Femenino</label>
+      <input type="radio" name="sexo" id="sexo" value="2" {checkedsexo2}/>
+      <label for="rotaract">Masculino</label>
+    </td>
+  </tr>
+  <tr>
+    <td class="negrita">Teléfono: <span class="texto">Ej: +598 99 123 456 // +54 9 11 1234 5678</span></td>
+    <td class="texto"><input type="text" name="telefono" id="telefono"  value="{telefono}"/></td>
+  </tr>
+  <tr>
+    <td class="negrita">Área de estudio / Profesión:</td>
+    <td class="texto"><input type="text" name="ocupacion" id="ocupacion" value="{ocupacion}"/></td>
+  </tr>
+  <tr>
+    <td class="negrita">Lugar de trabajo:</td>
+    <td class="texto"><input type="text" name="trabajo" id="trabajo" value="{trabajo}"/></td>
+  </tr>
+  <tr>
+    <td class="negrita">URL de Facebook:</td>
+    <td class="texto"><input type="text" name="facebook" id="facebook" value="{facebook}" /></td>
+  </tr>
+  <tr>
+    <td class="negrita">Email:</td>
+    <td class="texto"><input type="text" name="mail" id="mail" value="{mail}" /></td>
+  </tr>
+  <!-- START BLOCK : password -->
+  <tr>
+    <td class="negrita">Contraseña:</td>
+    <td class="texto"><input type="password" name="pwd" id="pwd" /></td>
+  </tr>
+  <tr>
+    <td class="negrita">Repite la contraseña:</td>
+    <td class="texto"><input type="password" name="pwd2" id="pwd2" /></td>
+  </tr>
+  <!-- END BLOCK : password -->
+  <tr id="botonesEditar">
+    <td colspan="2" class="negrita">
+    <table width="114" border="1" align="center" bordercolor="#E4457D">
+              <tr>
+                <td width="202" class="Estilo4" height="30" bgcolor="#FFF" onmouseover="cambiarFondo(this,'#E4457D','rosado')" onmouseout="cambiarFondo(this,'#FFF','blanco')" style="cursor: pointer; font-family: Verdana; color: #e4457d; font-size: 14px;" onclick="cambiarPagina('2','sig')"><div align="center">Siguiente</div></td>
+              </tr>
+          </table>
+    </td>
+    </tr>
+  </table>
+<!-- END BLOCK : personales -->
+<!-- START BLOCK : club -->
+<table id="paso2" width="755" border="0" align="center">
+	<!-- START BLOCK : correoEditarCargos -->
+    <tr>
+    <td colspan="2"><div align="center" class="subtitulos">Edición de datos de {nombreCompleto}</div></td>
+  </tr>
+   <tr>
+    <td colspan="2" class="negrita">Email: <input type="text" name="correo" id="correo" value="{correo}" /></td>
+  </tr>
+  <tr>
+    <td colspan="2"><br /></td>
+  </tr>
+  <!-- END BLOCK : correoEditarCargos -->
+  <tr>
+    <td colspan="2"><div align="center" class="subtitulos">
+      <p>ATENCIÓN: Todos los datos correspondientes a tus cargos y asistencia a eventos tanto en tu club, como en tu distrito y en AIRAUP no vas a poder editarlos una vez que estés registrado. Solo tu Presidente, Secretario y/o RDR podrá hacerlo, te pedimos que revises todo antes de finalizar.<br />  
+          <br />
+        Para los cargos de Presidente, Secretario y RDR no se permite seleccionar el período en curso y el siguiente dado que tienen acceso a secciones restringidas del sistema.<br />
+        Si estás ejerciendo alguno de estos cargos o lo vas a hacer en el período entrante, luego de registrarte comunicate con tu RDR para que se te asigne el cargo correspondiente.</p>
+      </div></td>
+  </tr>
+  <tr>
+    <td colspan="2">&nbsp;</td>
+  </tr>
+  <tr>
+    <td colspan="2"><div align="center" class="subtitulos">Tus datos en tu club</div></td>
+  </tr>
+  <tr>
+    <td class="negrita">Distrito:</td>
+    <td class="texto">
+    <select name="distrito" id="distrito" onchange="cargarClubes()">
+        <option value="vacio"></option>
+        <!-- START BLOCK : comboDistrito -->
+        <option value="{valor}" {seleccionado}>{opcion}</option>
+        <!-- END BLOCK : comboDistrito -->
+    </select>    </td>
+  </tr>
+  <tr>
+    <td class="negrita">Club:</td>
+    <td class="texto">
+      <select name="club" id="club" disabled="disabled" onchange="verificarRueda()">
+        <option value="vacio"></option>
+	   </select>
+      *Si sos Interactiano o Rotario elegí la opción &quot;Otro&quot;</td>
+  </tr>
+  <tr>
+    <td class="negrita">Fecha de ingreso: <span class="texto">DD/MM/AAAA</span></td>
+    <td class="texto"><input type="text" name="fechaIng" id="fechaIng" value="{fechaIng}" /></td>
+  </tr>
+  <tr>
+    <td class="negrita">Socio de:</td>
+    <td class="texto"><input type="radio" name="tipoRueda" id="interact" value="Interact" {checkedInteract} onclick="chequearRueda()"/>
+    <label for="interact">Interact</label>
+      <input type="radio" name="tipoRueda" id="rotaract" value="Rotaract" {checkedRotaract} onclick="chequearRueda()"/>
+      <label for="rotaract">Rotaract</label>
+      <input type="radio" name="tipoRueda" id="rotary" value="Rotary" {checkedRotary} onclick="chequearRueda()"/>
+      <label for="rotary">Rotary</label>    </td>
+  </tr>
+  <tr class="ocultar">
+    <td valign="top" class="negrita">Marca tu cargo actual, cargo futuro y todos los cargos por los que hayas pasado en tu club y el período correspondiente (si tuviste el mismo cargo en diferentes períodos, podes marcarlos todos sosteniendo la tecla CTRL y haciendo click en cada uno):</td>
+    <td valign="top">
+      <!-- START BLOCK : checkCargoClub -->
+      <table width="363" border="0">
+        <tr>
+          <td width="268" valign="top" class="texto"><input type="checkbox" name="cargosPasadosClub[]" {checkedCargoClub} value="{idCargo}" id="{idCargo}" />
+        {cargo}</td>
+          <td width="85" class="texto"><select name="periodoClub{idCargo}[]" size="4" multiple="multiple" id="periodoClub{idCargo}">
+	        <!-- START BLOCK : comboPeriodoClub -->
+    	    <option value="{valor}" {seleccionado}>{opcion}</option>
+        	<!-- END BLOCK : comboPeriodoClub -->
+        </select></td>
+        </tr>
+      </table>
+      <p class="texto">&nbsp;</p>
+      <!-- END BLOCK : checkCargoClub -->      </td>
+  </tr>
+  <tr>
+    <td colspan="2" valign="top" class="negrita">
+    <table width="120" border="1" align="center" bordercolor="#E4457D">
+              <tr>
+                <td width="110" class="Estilo4" height="30" bgcolor="#FFF" onmouseover="cambiarFondo(this,'#E4457D','rosado')" onmouseout="cambiarFondo(this,'#FFF','blanco')" style="cursor: pointer; font-family: Verdana; color: #e4457d; font-size: 14px;" onclick="cambiarPagina('3','sig')"><div id="botonInteract" align="center">Siguiente</div>
+                <input type="hidden" name="transaccion" value="{idTransaccion}" />                </td>
+              </tr>
+          </table>    </td>
+    </tr>
+  </table>
+<!-- END BLOCK : club -->
+ <!-- START BLOCK : distrito -->
+ <table id="paso3" width="755" border="0" align="center">
+  <tr class="ocultar">
+    <td colspan="2"><div align="center" class="subtitulos">Tus datos en el distrito <label id="numDist"></label></div></td>
+  </tr>
+  <tr class="ocultar">
+    <td valign="top" class="negrita">Marca tu cargo actual, cargo futuro y todos los cargos por los que hayas pasado en el distrito  y el período correspondiente  (si tuviste el mismo cargo en diferentes períodos, podes marcarlos todos sosteniendo la tecla CTRL y haciendo click en cada uno):</td>
+    <td valign="top">
+    <!-- START BLOCK : checkCargoDistrito -->
+    <table width="363" border="0">
+      <tr>
+        <td width="268" valign="top" class="texto"><input type="checkbox" name="cargosPasadosDistrito[]" {checkedCargoDistrito} value="{idCargo}" id="{idCargo}" />
+        {cargo}</td>
+        <td width="85" class="texto"><select name="periodoDist{idCargo}[]" size="4" multiple="multiple" id="periodoDist{idCargo}">
+	        <!-- START BLOCK : comboPeriodoDistrito -->
+    	    <option value="{valor}" {seleccionado}>{opcion}</option>
+        	<!-- END BLOCK : comboPeriodoDistrito -->
+        </select></td>
+      </tr>
+    </table>
+    <p class="texto">&nbsp;</p>
+    <!-- END BLOCK : checkCargoDistrito -->
+        </td>
+  </tr>
+  <tr class="ocultar">
+    <td colspan="2" class="negrita">Ingresa la cantidad de veces que asististe a cada uno de los siguientes eventos:</td>
+  </tr>
+   <!-- START BLOCK : tipoEvento -->
+  <tr class="ocultar">
+    <td class="texto">{tipoEvento}:</td>
+    <td class="texto"><input type="text" name="tipoEvento{numTipoEvento}" id="tipoEvento{numTipoEvento}" value="{vecesTipoEvento}" /></td>
+  </tr>
+  <tr class="ocultar">
+    <td class="negrita">Cuántas veces fuiste instructor/orador en eventos de tipo {tipoEvento}?</td>
+    <td class="texto"><input type="text" name="instructorD{numTipoEvento}" id="instructorD{numTipoEvento}" value="{vecesInstTipoEvento}" /></td>
+  </tr>
+  <!-- END BLOCK : tipoEvento -->
+    <tr class="ocultar">
+    <td colspan="2" class="negrita">
+    <table width="228" border="1" align="center" bordercolor="#E4457D">
+              <tr>
+              <td width="114" class="Estilo4" height="30" bgcolor="#FFF" onmouseover="cambiarFondo(this,'#E4457D','rosado')" onmouseout="cambiarFondo(this,'#FFF','blanco')" style="cursor: pointer; font-family: Verdana; color: #e4457d; font-size: 14px;" onclick="cambiarPagina('2','ant')"><div align="center">Anterior</div></td>
+                <td width="114" class="Estilo4" height="30" bgcolor="#FFF" onmouseover="cambiarFondo(this,'#E4457D','rosado')" onmouseout="cambiarFondo(this,'#FFF','blanco')" style="cursor: pointer; font-family: Verdana; color: #e4457d; font-size: 14px;" onclick="cambiarPagina('4','sig')"><div align="center">Siguiente</div></td>
+              </tr>
+          </table>
+    </td>
+    </tr>
+  </table>
+  <!-- END BLOCK : distrito -->
+  <!-- START BLOCK : airaup -->
+  <table id="paso4" width="755" border="0" align="center">
+  <tr class="ocultar">
+    <td colspan="2"><div align="center" class="subtitulos">Tus datos en A.I.R.A.U.P.</div></td>
+  </tr>
+  <tr class="ocultar">
+    <td valign="top" class="negrita">Marca tu cargo actual, cargo futuro y todos los cargos por los que hayas pasado en A.I.R.A.U.P.  y el período correspondiente  (si tuviste el mismo cargo en diferentes períodos, podes marcarlos todos sosteniendo la tecla CTRL y haciendo click en cada uno):</td>
+    <td valign="top">
+    <!-- START BLOCK : checkCargoAIRAUP -->
+    <table width="372" border="0">
+      <tr>
+        <td width="277" valign="top" class="texto"><input type="checkbox" name="cargosPasadosAIRAUP[]" {checkedCargoAIRAUP} value="{idCargo}" id="{idCargo}" />
+        {cargo}</td>
+        <td width="85" class="texto"><select name="periodoAIRAUP{idCargo}[]" size="4" multiple="multiple" id="periodoAIRAUP{idCargo}">
+	        <!-- START BLOCK : comboPeriodoAIRAUP -->
+    	    <option value="{valor}" {seleccionado}>{opcion}</option>
+        	<!-- END BLOCK : comboPeriodoAIRAUP -->
+        </select></td>
+      </tr>
+    </table>
+    <p class="texto">&nbsp;</p>
+    <!-- END BLOCK : checkCargoAIRAUP -->
+    </td>
+  </tr>
+  <tr class="ocultarInteract">
+    <td class="negrita">Cuántas veces asististe a un E.R.A.U.P.: <span class="texto">Solo como asistente</span></td>
+    <td class="texto"><input type="text" name="eraups" id="eraups" value="{asistERAUP}" /></td>
+  </tr>
+  <tr class="ocultarInteract">
+    <td class="negrita">Marca todas las opciones de asistencia que hayas pasado en el E.R.A.U.P.:</td>
+    <td class="texto">
+      <!-- START BLOCK : checkMesasERAUP -->
+        <input type="checkbox" name="mesasPasadasERAUP[]" value="{calidadAsistente}" id="mesasPasadasERAUP{idCalidad}" {checkedMesaERAUP} />
+        {calidadAsistente}
+        <br />
+        <!-- END BLOCK : checkMesasERAUP -->
+    </td>
+  </tr>
+  <tr class="ocultarInteract">
+    <td class="negrita">Cuántas veces fuiste instructor en el E.R.A.U.P.? <span class="texto">Solo como instructor</span></td>
+    <td class="texto"><input type="text" name="instructorERAUP" id="instructorERAUP" value="{asistInstERAUP}" /></td>
+  </tr>
+  <tr class="ocultarInteract">
+    <td class="negrita">Marca todas las mesas de capacitación en las que fuiste instructor en el E.R.A.U.P.:</td>
+    <td class="texto">
+      <!-- START BLOCK : checkMesasInsERAUP -->
+        <input type="checkbox" name="mesasPasadasInsERAUP[]" value="{calidadInstructor}" id="mesasPasadasInsERAUP{idCalidad}" {checkedInstMesaERAUP} />
+        {calidadInstructor} 
+        <br />
+        <!-- END BLOCK : checkMesasInsERAUP -->
+    </td>
+  </tr>
+  <tr class="ocultar">
+    <td class="negrita">A cuántas Asambleas de A.I.R.A.U.P. asististe?</td>
+    <td class="texto"><input type="text" name="asambleasA" id="asambleasA" value="{vecesAsamblea}" /></td>
+  </tr>
+  <tr class="ocultarInteract">
+    <td colspan="2" class="negrita">
+    <table id="botonesAIRAUP" width="228" border="1" align="center" bordercolor="#E4457D">
+              <tr>
+              <td width="114" class="Estilo4" height="30" bgcolor="#FFF" onmouseover="cambiarFondo(this,'#E4457D','rosado')" onmouseout="cambiarFondo(this,'#FFF','blanco')" style="cursor: pointer; font-family: Verdana; color: #e4457d; font-size: 14px;" onclick="cambiarPagina('3','ant')"><div align="center">Anterior</div></td>
+                <td width="114" class="Estilo4" height="30" bgcolor="#FFF" onmouseover="cambiarFondo(this,'#E4457D','rosado')" onmouseout="cambiarFondo(this,'#FFF','blanco')" style="cursor: pointer; font-family: Verdana; color: #e4457d; font-size: 14px;" onclick="cambiarPagina('5','sig')"><div align="center">Siguiente</div></td>
+              </tr>
+          </table>
+          <!-- START BLOCK : finalizarECargos -->
+          <table width="228" border="1" align="center" bordercolor="#E4457D">
+              <tr>
+              <td width="114" class="Estilo4" height="30" bgcolor="#FFF" onmouseover="cambiarFondo(this,'#E4457D','rosado')" onmouseout="cambiarFondo(this,'#FFF','blanco')" style="cursor: pointer; font-family: Verdana; color: #e4457d; font-size: 14px;" onclick="cambiarPagina('3','ant')"><div align="center">Anterior</div></td>
+                <td width="114" class="Estilo4" height="30" bgcolor="#FFF" onmouseover="cambiarFondo(this,'#E4457D','rosado')" onmouseout="cambiarFondo(this,'#FFF','blanco')" style="cursor: pointer; font-family: Verdana; color: #e4457d; font-size: 14px;" onclick="validarDatos('{tipo}','{cantTipoEvento}','p4')"><div align="center">Finalizar</div></td>
+                <input type="hidden" name="accionE" value="editarCargos" />
+                <input type="hidden" name="idSocioE" value="{idSocio}" />
+              </tr>
+          </table>
+          <!-- END BLOCK : finalizarECargos -->
+    </td>
+    </tr>
+  </table>
+  <!-- END BLOCK : airaup -->
+  <!-- START BLOCK : medicos -->
+  <table id="paso5" width="755" border="0" align="center">
+  <tr>
+    <td colspan="2"><div align="center" class="subtitulos">Tus datos médicos</div></td>
+  </tr>
+  <tr>
+    <td width="418" class="negrita">Obra social / Sociedad médica:</td>
+    <td width="327" class="texto"><input name="obraSocial" type="text" id="obraSocial" value="{obraSocial}" /></td>
+  </tr>
+  <tr>
+    <td class="negrita">Número de socio (no obligatorio):</td>
+    <td class="texto"><input type="text" name="numSocio" id="numSocio" value="{numSocio}" /></td>
+  </tr>
+  <tr>
+    <td class="negrita">Grupo sanguíneo:</td>
+    <td class="texto"><select name="grupoS" id="grupoS">
+        <option value="vacio"></option>
+        <option value="A" {seleccionadoA}>A</option>
+        <option value="B" {seleccionadoB}>B</option>
+        <option value="O" {seleccionadoO}>O</option>
+        <option value="AB" {seleccionadoAB}>AB</option>
+    </select></td>
+  </tr>
+  <tr>
+    <td class="negrita">Factor:</td>
+    <td class="texto">
+    <label>
+        <input type="radio" name="factor" value="1" id="factor1" {checkedfactor1} />
+        Rh +</label>
+      <br />
+      <label>
+        <input type="radio" name="factor" value="0" id="factor2" {checkedfactor2}/>
+        Rh -</label>
+    </td>
+  </tr>
+  <tr>
+    <td class="negrita">Sufre alguna enfermedad de tratamiento crónico?</td>
+    <td><p class="texto">
+      <label>
+        <input type="radio" name="enfermedadC" value="1" id="enfermedadC1" {checkedenfermedadC1}/>
+        Si</label>
+      <br />
+      <label>
+        <input type="radio" name="enfermedadC" value="0" id="enfermedadC2" {checkedenfermedadC2}/>
+        No</label>
+      <br />
+    </p></td>
+  </tr>
+  <tr>
+    <td class="texto">Especifique</td>
+    <td class="texto"><input type="text" name="enfermedadCE" id="enfermedadCE" value="{enfermedadCE}" /></td>
+  </tr>
+  <tr>
+    <td class="negrita">Durante los últimos 3 años fue internado alguna vez?</td>
+    <td class="texto">
+    <label>
+        <input type="radio" name="internacion" value="1" id="internacion1" {checkedinternacion1}/>
+        Si</label>
+      <br />
+      <label>
+        <input type="radio" name="internacion" value="0" id="internacion2" {checkedinternacion2}/>
+        No</label>
+    </td>
+  </tr>
+  <tr>
+    <td class="texto">Motivo</td>
+    <td class="texto"><input type="text" name="internacionE" id="internacionE" value="{internacionE}" /></td>
+  </tr>
+  <tr>
+    <td class="negrita">Sufre de alguna enfermedad Infecto-Contagiosa?</td>
+    <td class="texto">
+    <label>
+        <input type="radio" name="enfermedadI" value="1" id="enfermedadI1" {checkedenfermedadI1}/>
+        Si</label>
+      <br />
+      <label>
+        <input type="radio" name="enfermedadI" value="0" id="enfermedadI2" {checkedenfermedadI2}/>
+        No</label>
+    </td>
+  </tr>
+  <tr>
+    <td class="texto">Especifique</td>
+    <td class="texto"><input type="text" name="enfermedadIE" id="enfermedadIE" value="{enfermedadIE}" /></td>
+  </tr>
+  <tr>
+    <td class="negrita">Le realizaron alguna intervención quirúrgica?</td>
+    <td class="texto"><label>
+        <input type="radio" name="intervencion" value="1" id="intervencion1" {checkedintervencion1}/>
+        Si</label>
+      <br />
+      <label>
+        <input type="radio" name="intervencion" value="0" id="intervencion2" {checkedintervencion2}/>
+        No</label></td>
+  </tr>
+  <tr>
+    <td class="texto">Especifique</td>
+    <td class="texto"><input type="text" name="intervencionE" id="intervencionE" value="{intervencionE}" /></td>
+  </tr>
+  <tr>
+    <td class="negrita">Sufre algún tipo de alergia?</td>
+    <td class="texto"><label>
+        <input type="radio" name="alergia" value="1" id="alergia1" {checkedalergia1}/>
+        Si</label>
+      <br />
+      <label>
+        <input type="radio" name="alergia" value="0" id="alergia2" {checkedalergia2}/>
+        No</label></td>
+  </tr>
+  <tr>
+    <td class="texto">Especifique</td>
+    <td class="texto"><input type="text" name="alergiaE" id="alergiaE" value="{alergiaE}" /></td>
+  </tr>
+  <tr>
+    <td class="negrita">Es vegetariano?</td>
+    <td class="texto"><label>
+        <input type="radio" name="vegetariano" value="1" id="vegetariano1" {checkedvegetariano1}/>
+        Si</label>
+      <br />
+      <label>
+        <input type="radio" name="vegetariano" value="0" id="vegetariano2" {checkedvegetariano2}/>
+        No</label></td>
+  </tr>
+  <tr>
+    <td class="texto">Consideraciones en la dieta (no obligatorio)</td>
+    <td class="texto"><input type="text" name="dieta" id="dieta" value="{dieta}" /></td>
+  </tr>
+  <tr>
+    <td class="negrita">Fuma?</td>
+    <td class="texto"><label>
+        <input type="radio" name="fumador" value="1" id="fumador1" {checkedfumador1}/>
+        Si</label>
+      <br />
+      <label>
+        <input type="radio" name="fumador" value="0" id="fumador2" {checkedfumador2}/>
+        No</label></td>
+  </tr>
+  <tr>
+    <td class="negrita">Lateralidad</td>
+    <td class="texto"><label>
+        <input type="radio" name="lateralidad" value="1" id="lateralidad1" {checkedlateralidad1}/>
+        Diestro</label>
+      <br />
+      <label>
+        <input type="radio" name="lateralidad" value="0" id="lateralidad2" {checkedlateralidad2}/>
+        Zurdo</label></td>
+  </tr>
+  <tr>
+    <td class="negrita">Usa lentes?</td>
+    <td class="texto">
+    <label>
+        <input type="radio" name="lentes" value="1" id="lentes1" {checkedlentes1}/>
+        Si</label>
+      <br />
+      <label>
+        <input type="radio" name="lentes" value="0" id="lentes2" {checkedlentes2}/>
+        No</label>
+    </td>
+  </tr>
+  <tr>
+    <td class="negrita">Usa audífonos?</td>
+    <td class="texto">
+    <label>
+        <input type="radio" name="audifonos" value="1" id="audifonos1" {checkedaudifonos1}/>
+        Si</label>
+      <br />
+      <label>
+        <input type="radio" name="audifonos" value="0" id="audifonos2" {checkedaudifonos2}/>
+        No</label>
+    </td>
+  </tr>
+  <tr>
+    <td class="negrita">Sufre de alguna limitación física?</td>
+    <td class="texto">
+    <label>
+        <input type="radio" name="limitacion" value="1" id="limitacion1" {checkedlimitacion1}/>
+        Si</label>
+      <br />
+      <label>
+        <input type="radio" name="limitacion" value="0" id="limitacion2" {checkedlimitacion2}/>
+        No</label>
+    </td>
+  </tr>
+  <tr>
+    <td class="texto">Especifique</td>
+    <td class="texto"><input type="text" name="limitacionE" id="limitacionE" value="{limitacionE}" /></td>
+  </tr>
+  <tr>
+    <td class="negrita">Es donante de órganos?</td>
+    <td class="texto">
+    <label>
+        <input type="radio" name="donanteOrganos" value="1" id="donanteOrganos1" {checkeddonanteorganos1}/>
+        Si</label>
+      <br />
+      <label>
+        <input type="radio" name="donanteOrganos" value="0" id="donanteOrganos2" {checkeddonanteorganos2}/>
+        No</label>
+    </td>
+  </tr>
+  <tr>
+    <td class="negrita">Es donante de médula?</td>
+    <td class="texto">
+    <label>
+        <input type="radio" name="donanteMedula" value="1" id="donanteMedula1" {checkeddonantemedula1}/>
+        Si</label>
+      <br />
+      <label>
+        <input type="radio" name="donanteMedula" value="0" id="donanteMedula2" {checkeddonantemedula2}/>
+        No</label>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="negrita">Medicamento que toma habitualmente (incluye ibuprofeno, paracetamol, aspirina, etc.)</td>
+  </tr>
+  <tr>
+    <td class="texto">Nombre Comercial</td>
+    <td class="texto"><input type="text" name="nombreMed" id="nombreMed" value="{nombreMed}" /></td>
+  </tr>
+  <tr>
+    <td class="texto">Monodroga</td>
+    <td class="texto"><input type="text" name="monodroga" id="monodroga" value="{monodroga}"/></td>
+  </tr>
+  <tr>
+    <td class="texto">Cantidad Administrada</td>
+    <td class="texto"><input type="text" name="cantidadMed" id="cantidadMed" value="{cantidadMed}"/></td>
+  </tr>
+  <tr>
+    <td colspan="2" class="negrita">En caso de necesitar contactar a alguien:</td>
+  </tr>
+  <tr>
+    <td class="texto">Nombre:</td>
+    <td class="texto"><input type="text" name="nomContacto" id="nomContacto" value="{nomContacto}"/></td>
+  </tr>
+  <tr>
+    <td class="texto">Teléfono: Ej: +598 99 123 456 // +54 9 11 1234 5678</td>
+    <td class="texto"><input type="text" name="telContacto" id="telContacto" value="{telContacto}"/></td>
+  </tr>
+  <tr>
+    <td class="texto">Relación:</td>
+    <td class="texto"><input type="text" name="relContacto" id="relContacto" value="{relContacto}"/></td>
+  </tr>
+  <tr>
+    <td colspan="2" class="subtitulos">DECLARO: La totalidad de los datos e información suministrada por quien <br />
+    suscribe la presente tiene carácter de Declaración Jurada.</td>
+  </tr>
+  <!-- END BLOCK : medicos -->
+  <tr>
+    <td colspan="2">
+    <!-- START BLOCK : accion -->
+    <table width="228" border="1" align="center" bordercolor="#E4457D">
+              <tr>
+              <td id="anteriorPasoFinal" width="114" class="Estilo4" height="30" bgcolor="#FFF" onmouseover="cambiarFondo(this,'#E4457D','rosado')" onmouseout="cambiarFondo(this,'#FFF','blanco')" style="cursor: pointer; font-family: Verdana; color: #e4457d; font-size: 14px;" onclick="cambiarPagina('4','ant')"><div align="center">Anterior</div></td>
+                <td width="114" class="Estilo4" height="30" bgcolor="#FFF" onmouseover="cambiarFondo(this,'#E4457D','rosado')" onmouseout="cambiarFondo(this,'#FFF','blanco')" style="cursor: pointer; font-family: Verdana; color: #e4457d; font-size: 14px;" onclick="validarDatos('{tipo}','{cantTipoEvento}','p5')"><div align="center">Finalizar</div>
+                <input type="hidden" name="accion" value="aceptar" />
+				      <input type="hidden" id="cantTipoEvento" name="cantTipoEvento" value="{cantTipoEvento}" />
+                </td>
+              </tr>
+          </table>
+           <!-- END BLOCK : accion -->
+	</td>
+  </tr>
+  <!-- START BLOCK : mensaje -->
+  <tr>
+    <td colspan="2" class="texto">{mensaje}</td>
+  </tr>
+  <!-- END BLOCK : mensaje -->
+</table>
+</form>
+    </td>
+  </tr>
+</table>
+</body>
+</html>
