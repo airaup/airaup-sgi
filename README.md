@@ -26,6 +26,17 @@ $ docker-compose up --build
 
 Luego podrás ver el proyecto en el puerto 8000 de tu [localhost](http://localhost:8000).
 
+#### Ingresar
+
+Los datos personales han sido ofuscados para seguridad de los usuarios.
+
+Para ingresar con un usuario puedes probar con:
+
+```
+user: 66socio@airaup.org
+passwd: airaup01
+```
+
 ### Tooling
 
 #### Adminer
@@ -33,6 +44,13 @@ Luego podrás ver el proyecto en el puerto 8000 de tu [localhost](http://localho
 Adminer te permite explorar la base MySQL, similar a phpMyAdmin.
 
 Lo podrás ver el proyecto en el puerto 8080 de tu [localhost](http://localhost:8080).
+
+Podes utilizar las siguientes credenciales:
+
+```
+user: root
+passwd: changeme
+```
 
 ## Licencia
 
