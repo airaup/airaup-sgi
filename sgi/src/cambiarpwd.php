@@ -72,7 +72,7 @@
 			$socio=$conexion->Siguiente();
 			
 			if ($socio['Password'] == $pwdActual){ //SI COINCIDEN, SE CAMBIA EL PWD
-				$conexion->Ejecuto("update socio set Password='" . $pwdNueva . "' where idSocio=" . $idSocio);
+				$conexion->Ejecuto("update socio set Password='" . crypt($pwdNueva) . "' where idSocio=" . $idSocio);
 			
 				$tpl->NewBlock("mensaje");
 				$tpl->Assign("mensaje", utf8_encode("La contraseña se modificó correctamente."));
@@ -101,3 +101,4 @@
 		return $periodo['idPeriodo'];
 	}
 ?>
+

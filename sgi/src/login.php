@@ -18,10 +18,11 @@
 	if ($accion == "login"){
 		$direccion=$_POST['mail'];
 		$pwd=$_POST['pwd'];
-		$conexion->Ejecuto("select idSocio, Activo from socio where Email='" . $direccion . "' and Password='" . $pwd . "'");
+		$conexion->Ejecuto("select idSocio, Activo, Password from socio where Email='" . $direccion . "'");
 		$socio=$conexion->Siguiente();
+		$checkPassword=password_verify($pwd, $socio["Password"]);
 
-		if ($socio['idSocio'] != ""){
+		if ($checkPassword){
 			if ($socio['Activo'] == 0){
 				$tpl->NewBlock("mensaje");
 				$tpl->Assign("mensaje", "Tu cuenta est� desactivada");
