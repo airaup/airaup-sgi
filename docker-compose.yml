@@ -13,6 +13,10 @@ services:
       DB_USERNAME: c0310458_sgi
       DB_PASSWORD: Rotaract2016
       DB_DATABASE: c0310458_sgi
+      SMTP_HOST: mailcatcher
+      SMTP_PORT: 1025
+      SMTP_FROM: sgi@airaup.org
+      SMTP_FROMNAME: SGI AIRAUP
   mysql:
     image: mysql:5.6
     container_name: sgi_mysql
@@ -29,3 +33,7 @@ services:
     image: adminer
     ports:
      - 8080:8080
+  mailcatcher:
+    image: schickling/mailcatcher
+    ports:
+    - 1080:1080
