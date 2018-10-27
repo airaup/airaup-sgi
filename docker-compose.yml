@@ -8,6 +8,11 @@ services:
       - ./sgi/src:/var/www/html
     ports:
       - 8000:80
+    environment:
+      DB_HOST: mysql
+      DB_USERNAME: c0310458_sgi
+      DB_PASSWORD: Rotaract2016
+      DB_DATABASE: c0310458_sgi
   mysql:
     image: mysql:5.6
     container_name: sgi_mysql

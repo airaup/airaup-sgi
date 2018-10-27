@@ -7,7 +7,7 @@ class ConexionDB
     public $result = null;
     public $linea = null;
 
-    public function ConexionDB($server="mysql", $basedatos="c0310458_sgi", $user="c0310458_sgi", $pass="Rotaract2016")
+    public function ConexionDB($server, $basedatos, $user, $pass)
     {
         if ($this->link=mysql_connect("$server", "$user", "$pass")) {
             if (mysql_select_db("$basedatos", $this->link)) {
