@@ -1,199 +1,201 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Sistema de gestión integral - Rotaract</title>
-<link href="dist/css/bootstrap.min.css" rel="stylesheet">
-<link href="dist/css/sb-admin-2.css" rel="stylesheet">
-<meta name="viewport" content="initial-scale=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Sistema de gestión integral - Rotaract</title>
+  <link href="dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="dist/css/sb-admin-2.css" rel="stylesheet">
+  <meta name="viewport" content="initial-scale=1">
 </head>
 
 <body>
-	<div class="container">
-		<div class="row">
-			<div class="col-md-4 col-md-offset-4">
-				<img style="padding:20px" class="img-responsive" src="Images/Logo.png" alt="">
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-lg-2">
-				<nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
-					<div class="navbar-header">
-						<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-							<span class="sr-only">Navegación</span>
-							<span class="icon-bar"></span>
-							<span class="icon-bar"></span>
-							<span class="icon-bar"></span>
-						</button>
-						<!-- <a class="navbar-brand" href="#">AIRAUP 2.0</a> -->
-					</div>
-					<div class="navbar-default panel panel-default" role="navigation">
-						<div class="sidebar-nav navbar-collapse collapse">
-							<ul class="nav nav-pills nav-stacked" id="side-menu">
-								<li><a href="perfil.php?a=p">Mi perfíl</a></li>
-								<li><a href="perfil.php?a=i">Inscripciones</a></li>
-								<!-- START BLOCK : menuEventos -->
-								<li class="active"><a href="eventos.php">Eventos</a></li>
-								<!-- END BLOCK : menuEventos -->
-								<!-- START BLOCK : menuAprobacion -->
-								<li><a href="perfil.php?a=a">Aprobaciones</a></li>
-								<!-- END BLOCK : menuAprobacion -->
-								<!-- START BLOCK : menuCuadroSocial -->
-								<li><a href="cuadrosocial.php">Cuadro Social</a></li>
-								<!-- END BLOCK : menuCuadroSocial -->
-								<!-- START BLOCK : menuStats -->
-								<li><a href="stats.php">Estadísticas</a></li>
-								<!-- END BLOCK : menuStats -->
-								<li><a href="logout.php">Salir</a></li>
-							</ul>
-						</div>
-					</div>
-				</nav>
-			</div>
-			<div class="col-lg-10">
-				<div class="panel panel-default">
-					<div class="panel-heading clearfix">
-						<!-- START BLOCK : datosEvento -->
-						<form action="inscriptos.php" method="post" name="dListado">
-							<b>Lista de inscriptos a {evento}</b><br>{inscriptos} (sin contar {eraup}reprobados y eliminados)
-							<input type="submit" class="btn btn-success pull-right" name="descargar" value="Descargar listado">
-							<input type="hidden" name="d" id="d" value="d" />
-							<input type="hidden" name="idEvento" id="idEvento" value="{idEventoD}" />
-							<input type="hidden" name="accionD" id="accionD" value="{accionD}" />
-						</form>
-					</div>
-					<div class="panel-body">
-						<!-- START BLOCK : mensaje -->
-						<div class="alert alert-warning">{mensaje}</div>
-						<!-- END BLOCK : mensaje -->
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4 col-md-offset-4">
+        <img style="padding:20px" class="img-responsive" src="Images/Logo.png" alt="">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-2">
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Navegación</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <!-- <a class="navbar-brand" href="#">AIRAUP 2.0</a> -->
+          </div>
+          <div class="navbar-default panel panel-default" role="navigation">
+            <div class="sidebar-nav navbar-collapse collapse">
+              <ul class="nav nav-pills nav-stacked" id="side-menu">
+                <li><a href="perfil.php?a=p">Mi perfíl</a></li>
+                <li><a href="perfil.php?a=i">Inscripciones</a></li>
+                <!-- START BLOCK : menuEventos -->
+                <li class="active"><a href="eventos.php">Eventos</a></li>
+                <!-- END BLOCK : menuEventos -->
+                <!-- START BLOCK : menuAprobacion -->
+                <li><a href="perfil.php?a=a">Aprobaciones</a></li>
+                <!-- END BLOCK : menuAprobacion -->
+                <!-- START BLOCK : menuCuadroSocial -->
+                <li><a href="cuadrosocial.php">Cuadro Social</a></li>
+                <!-- END BLOCK : menuCuadroSocial -->
+                <!-- START BLOCK : menuStats -->
+                <li><a href="stats.php">Estadísticas</a></li>
+                <!-- END BLOCK : menuStats -->
+                <li><a href="logout.php">Salir</a></li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+      </div>
+      <div class="col-lg-10">
+        <div class="panel panel-default">
+          <div class="panel-heading clearfix">
+            <!-- START BLOCK : datosEvento -->
+            <form action="inscriptos.php" method="post" name="dListado">
+              <b>Lista de inscriptos a {evento}</b><br>{inscriptos} (sin contar {eraup}reprobados y eliminados)
+              <input type="submit" class="btn btn-success pull-right" name="descargar" value="Descargar listado">
+              <input type="hidden" name="d" id="d" value="d" />
+              <input type="hidden" name="idEvento" id="idEvento" value="{idEventoD}" />
+              <input type="hidden" name="accionD" id="accionD" value="{accionD}" />
+            </form>
+          </div>
+          <div class="panel-body">
+            <!-- START BLOCK : mensaje -->
+            <div class="alert alert-warning">{mensaje}</div>
+            <!-- END BLOCK : mensaje -->
 
 
-						<table width="100%" class="table table-striped" style="font-size: 11px">
-							<thead>
-								<tr>
-									<th><a href="inscriptos.php?orden=0&id={idEvento}">Nombre</a></th>
-									<!-- <th><a href="#">Documento</a></th> -->
-									<th><a href="inscriptos.php?orden=9&id={idEvento}">Distrito</a></th>
-									<th><a href="inscriptos.php?orden=1&id={idEvento}">Club</a></th>
-									<th><a href="inscriptos.php?orden=8&id={idEvento}">Sexo</a></th>
-									<th><a href="inscriptos.php?orden=6&id={idEvento}">Rueda</a></th>
-									<th><a href="inscriptos.php?orden=2&id={idEvento}">Calidad de asistencia</a></th>
-									<th><a href="inscriptos.php?orden=3&id={idEvento}">Transporte</a></th>
-									<th><a href="inscriptos.php?orden=7&id={idEvento}">Dieta</a></th>
-									<th><a href="inscriptos.php?orden=4&id={idEvento}">Fecha de inscripción</a></th>
-									<th><a href="inscriptos.php?orden=5&id={idEvento}">Aprobado</a></th>
-									<!-- START BLOCK : tituloERAUP -->
-									<th><a href="inscriptos.php?orden=10&id={idEvento}">Reserva?</a></th>
-									<th><a href="inscriptos.php?orden=11&id={idEvento}">Info de pago?</a></th>
-									<!-- END BLOCK : tituloERAUP -->
-									<th><a href="#">Acciones</a></th>
-								</tr>
-							</thead>
-							<tbody>
-								<!-- START BLOCK : lineaInscripto -->
-								<tr>
-									<td>{nombre}</td>
-									<!-- <td>{documento}</td> -->
-									<td>{distrito}</td>
-									<td>{club}</td>
-									<td>{sexo}</td>
-									<td>{rueda}</td>
-									<td>{calidad}</td>
-									<td>{transporte}</td>
-									<td>{dieta}</td>
-									<td>{fecha}</td>
-									<td>{aprobado}</td>
-									<!-- START BLOCK : lineaERAUP -->
-									<td>{reserva}</td>
-									<td>{pago}</td>
-									<!-- END BLOCK : lineaERAUP -->
-									<td style="white-space: nowrap">
-										<form action="perfil.php" onClick="this.submit()" method="post" name="vPerfil" style="display: inline">
-											<input type="submit" name="EnviarPerfil" value="Perfil" class="btn btn-xs btn-success">
-											<input type="hidden" name="a" id="a" value="p" />
-											<input type="hidden" name="idS" id="idS" value="{idSocio}" />
-											<input type="hidden" name="idE" id="idE" value="{idEvento}" />
-										</form>
-										<!-- START BLOCK : botonesAdmin -->
-										<!-- START BLOCK : cambioNombre -->
-										<form action="inscripcion.php" onClick="this.submit()" method="post" name="fCambio" style="display: inline">
-											<input type="submit" name="Enviarcambio" value="Cambio" class="btn btn-xs btn-success">
-											<input type="hidden" name="accion" id="accion" value="cambio" />
-											<input type="hidden" name="idS" id="idS" value="{idSocio}" />
-											<input type="hidden" name="idE" id="idE" value="{idEvento}" />
-										</form>
-										<!-- END BLOCK : cambioNombre -->
-										<form action="inscripcion.php" onClick="this.submit()" method="post" name="fEdit" style="display: inline">
-											<input type="submit" name="EnviarEditar" value="Editar" class="btn btn-xs btn-success">
-											<input type="hidden" name="accion" id="accion" value="e" />
-											<input type="hidden" name="idS" id="idS" value="{idSocio}" />
-											<input type="hidden" name="idE" id="idE" value="{idEvento}" />
-										</form>
-										<input type="checkbox" name="eliminarI{contarI}" id="eliminarI{contarI}" value="{idInscripcion}" {deshabilitado} />
-										<!-- END BLOCK : botonesAdmin -->
-									</td>
-								</tr>
-								<!-- END BLOCK : lineaInscripto -->
-								</tbody>
-							</table>
-							<!-- START BLOCK : botonVolver -->
-							<a href="{urlVolver}" class="btn btn-success pull-right">Volver</a>
-							<!-- END BLOCK : botonVolver -->
-							<!-- START BLOCK : elimS -->
-							<form action="inscriptos.php" method="post" name="eliminarIns">
-								<input type="button" onClick="validarBorrado({idEvento})" class="btn btn-success pull-right" value="Eliminar seleccionados">
-								<!-- START BLOCK : totalInscriptos -->
-								<input type="hidden" name="cantInscriptos" id="cantInscriptos" value="{cantInscriptos}" />
-								<input type="hidden" name="accion" id="accion" value="eliminarS" />
-								<!-- END BLOCK : totalInscriptos -->
-							</form>
-							<!-- END BLOCK : elimS -->
-							<!-- END BLOCK : datosEvento -->
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</body>
+            <table width="100%" class="table table-striped" style="font-size: 11px">
+              <thead>
+                <tr>
+                  <th><a href="inscriptos.php?orden=0&id={idEvento}">Nombre</a></th>
+                  <!-- <th><a href="#">Documento</a></th> -->
+                  <th><a href="inscriptos.php?orden=9&id={idEvento}">Distrito</a></th>
+                  <th><a href="inscriptos.php?orden=1&id={idEvento}">Club</a></th>
+                  <th><a href="inscriptos.php?orden=8&id={idEvento}">Sexo</a></th>
+                  <th><a href="inscriptos.php?orden=6&id={idEvento}">Rueda</a></th>
+                  <th><a href="inscriptos.php?orden=2&id={idEvento}">Calidad de asistencia</a></th>
+                  <th><a href="inscriptos.php?orden=3&id={idEvento}">Transporte</a></th>
+                  <th><a href="inscriptos.php?orden=7&id={idEvento}">Dieta</a></th>
+                  <th><a href="inscriptos.php?orden=4&id={idEvento}">Fecha de inscripción</a></th>
+                  <th><a href="inscriptos.php?orden=5&id={idEvento}">Aprobado</a></th>
+                  <!-- START BLOCK : tituloERAUP -->
+                  <th><a href="inscriptos.php?orden=10&id={idEvento}">Reserva?</a></th>
+                  <th><a href="inscriptos.php?orden=11&id={idEvento}">Info de pago?</a></th>
+                  <!-- END BLOCK : tituloERAUP -->
+                  <th><a href="#">Acciones</a></th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- START BLOCK : lineaInscripto -->
+                <tr>
+                  <td>{nombre}</td>
+                  <!-- <td>{documento}</td> -->
+                  <td>{distrito}</td>
+                  <td>{club}</td>
+                  <td>{sexo}</td>
+                  <td>{rueda}</td>
+                  <td>{calidad}</td>
+                  <td>{transporte}</td>
+                  <td>{dieta}</td>
+                  <td>{fecha}</td>
+                  <td>{aprobado}</td>
+                  <!-- START BLOCK : lineaERAUP -->
+                  <td>{reserva}</td>
+                  <td>{pago}</td>
+                  <!-- END BLOCK : lineaERAUP -->
+                  <td style="white-space: nowrap">
+                    <form action="perfil.php" onClick="this.submit()" method="post" name="vPerfil" style="display: inline">
+                      <input type="submit" name="EnviarPerfil" value="Perfil" class="btn btn-xs btn-success">
+                      <input type="hidden" name="a" id="a" value="p" />
+                      <input type="hidden" name="idS" id="idS" value="{idSocio}" />
+                      <input type="hidden" name="idE" id="idE" value="{idEvento}" />
+                    </form>
+                    <!-- START BLOCK : botonesAdmin -->
+                    <!-- START BLOCK : cambioNombre -->
+                    <form action="inscripcion.php" onClick="this.submit()" method="post" name="fCambio" style="display: inline">
+                      <input type="submit" name="Enviarcambio" value="Cambio" class="btn btn-xs btn-success">
+                      <input type="hidden" name="accion" id="accion" value="cambio" />
+                      <input type="hidden" name="idS" id="idS" value="{idSocio}" />
+                      <input type="hidden" name="idE" id="idE" value="{idEvento}" />
+                    </form>
+                    <!-- END BLOCK : cambioNombre -->
+                    <form action="inscripcion.php" onClick="this.submit()" method="post" name="fEdit" style="display: inline">
+                      <input type="submit" name="EnviarEditar" value="Editar" class="btn btn-xs btn-success">
+                      <input type="hidden" name="accion" id="accion" value="e" />
+                      <input type="hidden" name="idS" id="idS" value="{idSocio}" />
+                      <input type="hidden" name="idE" id="idE" value="{idEvento}" />
+                    </form>
+                    <input type="checkbox" name="eliminarI{contarI}" id="eliminarI{contarI}" value="{idInscripcion}" {deshabilitado} />
+                    <!-- END BLOCK : botonesAdmin -->
+                  </td>
+                </tr>
+                <!-- END BLOCK : lineaInscripto -->
+              </tbody>
+            </table>
+            <!-- START BLOCK : botonVolver -->
+            <a href="{urlVolver}" class="btn btn-success pull-right">Volver</a>
+            <!-- END BLOCK : botonVolver -->
+            <!-- START BLOCK : elimS -->
+            <form action="inscriptos.php" method="post" name="eliminarIns">
+              <input type="button" onClick="validarBorrado({idEvento})" class="btn btn-success pull-right" value="Eliminar seleccionados">
+              <!-- START BLOCK : totalInscriptos -->
+              <input type="hidden" name="cantInscriptos" id="cantInscriptos" value="{cantInscriptos}" />
+              <input type="hidden" name="accion" id="accion" value="eliminarS" />
+              <!-- END BLOCK : totalInscriptos -->
+            </form>
+            <!-- END BLOCK : elimS -->
+            <!-- END BLOCK : datosEvento -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
 </html>
 <script src="jquery-1.3.2.min.js"></script>
 <script type="text/javascript">
-function validarBorrado(idEvento){
-	chequeo = false;
-	contar = 0;
-	var cantidad = $("#cantInscriptos").attr("value");
-	
-	for (i=1; i<=cantidad; i++){
-		if ($("#eliminarI" + i).attr("checked")){
-			chequeo = true;
-			contar = contar + 1;
-			var idInscripcion = $("#eliminarI" + i).attr("value");
-			var nuevaVar = document.createElement('input');
-			nombre = "eliminarI" + contar;
-			nuevaVar.setAttribute('type','hidden');
-			nuevaVar.setAttribute('name', nombre);
-			nuevaVar.setAttribute('value', idInscripcion);
-			document.eliminarIns.appendChild(nuevaVar);
-		}
-	}
-		
-	if (chequeo == false){
-		alert('Tenes que seleccionar al menos una inscripción a eliminar');
-	} else {
-		if (confirm('Estás seguro de querer eliminar la/s inscripción/es seleccionada/s?')){
-			var nuevaVarC = document.createElement('input');
-			nuevaVarC.setAttribute('type','hidden');
-			nuevaVarC.setAttribute('name','cantBorrar');
-			nuevaVarC.setAttribute('value', contar);
-			document.eliminarIns.appendChild(nuevaVarC);
-			var nuevaVarId = document.createElement('input');
-			nuevaVarId.setAttribute('type','hidden');
-			nuevaVarId.setAttribute('name','idEvento');
-			nuevaVarId.setAttribute('value', idEvento);
-			document.eliminarIns.appendChild(nuevaVarId);
-			
-			document.eliminarIns.submit();
-		}
-	}
-}
+  function validarBorrado(idEvento) {
+    chequeo = false;
+    contar = 0;
+    var cantidad = $("#cantInscriptos").attr("value");
+
+    for (i = 1; i <= cantidad; i++) {
+      if ($("#eliminarI" + i).attr("checked")) {
+        chequeo = true;
+        contar = contar + 1;
+        var idInscripcion = $("#eliminarI" + i).attr("value");
+        var nuevaVar = document.createElement('input');
+        nombre = "eliminarI" + contar;
+        nuevaVar.setAttribute('type', 'hidden');
+        nuevaVar.setAttribute('name', nombre);
+        nuevaVar.setAttribute('value', idInscripcion);
+        document.eliminarIns.appendChild(nuevaVar);
+      }
+    }
+
+    if (chequeo == false) {
+      alert('Tenes que seleccionar al menos una inscripción a eliminar');
+    } else {
+      if (confirm('Estás seguro de querer eliminar la/s inscripción/es seleccionada/s?')) {
+        var nuevaVarC = document.createElement('input');
+        nuevaVarC.setAttribute('type', 'hidden');
+        nuevaVarC.setAttribute('name', 'cantBorrar');
+        nuevaVarC.setAttribute('value', contar);
+        document.eliminarIns.appendChild(nuevaVarC);
+        var nuevaVarId = document.createElement('input');
+        nuevaVarId.setAttribute('type', 'hidden');
+        nuevaVarId.setAttribute('name', 'idEvento');
+        nuevaVarId.setAttribute('value', idEvento);
+        document.eliminarIns.appendChild(nuevaVarId);
+
+        document.eliminarIns.submit();
+      }
+    }
+  }
 </script>

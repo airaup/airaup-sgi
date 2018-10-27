@@ -1,210 +1,275 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Sistema de gestión integral - Rotaract</title>
-<script type="text/javascript" src="jquery-1.3.2.min.js">
-</script>
 
-<script type="text/javascript">
-	function validarActivo(){
-		chequeo = false;
-		contar = 0;
-		var cantidad = $("#cantSocios").attr("value");
-		
-		for (i=1; i<=cantidad; i++){
-			if ($("#activo" + i).attr("checked")){
-				chequeo = true;
-				contar = contar + 1;
-				var idSocio = $("#activo" + i).attr("value");
-				var nuevaVar = document.createElement('input');
-				nombre = "activoI" + contar;
-				nuevaVar.setAttribute('type','hidden');
-				nuevaVar.setAttribute('name', nombre);
-				nuevaVar.setAttribute('value', idSocio);
-				document.activoS.appendChild(nuevaVar);
-			}
-		}
-			
-		if (chequeo == false){
-			alert('Tenes que seleccionar al menos un socio a activar/desactivar');
-		} else {
-			if (confirm('Estás seguro de querer ejecutar esta acción?')){
-				var nuevaVarC = document.createElement('input');
-				nuevaVarC.setAttribute('type','hidden');
-				nuevaVarC.setAttribute('name','cantSocios');
-				nuevaVarC.setAttribute('value', contar);
-				document.activoS.appendChild(nuevaVarC);
-				document.activoS.submit();
-			}
-		}
-	}
-	
-	function validarAdmin(idSocio){
-		if (confirm('Estás seguro de querer ejecutar esta acción?')){
-			window.location='cuadrosocial.php?a=adm&idS=' + idSocio;
-		}
-	}
-	
-	function cambiarFondo(titulo,color,io){
-		if (io == "rosado"){
-			titulo.style.color='#FFFFFF';
-			titulo.style.backgroundColor=color;	
-		} else if (io == "blanco"){
-			titulo.style.color='#E4457D';
-			titulo.style.backgroundColor=color;
-		}
-	}
-</script>
-<style type="text/css">
-.centro {
-	text-align: center;
-	font-family: Verdana;
-	font-weight: bold;
-	font-size: 24px;
-}
-.centro2 {
-	font-size: 18px;
-	font-weight: bold;
-	font-family: Verdana;
-}
-.EstiloMarcado {	font-size: 16px;
-	color: #FFF;
-	text-align: center;
-	font-family: Verdana;
-}
-.negrita {	font-family: Verdana;
-	font-size: 12px;
-	color: #e4457d;
-}
-.subtitulos {	font-size: 16px;
-	font-weight: bold;
-	color: #e4457d;
-	text-align: left;
-	font-family: Verdana;
-}
-.texto {	font-family: Verdana;
-	font-size: 12px;
-	color: #666;
-}
-.Estilo1 {color: #E4457D}
-</style>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Sistema de gestión integral - Rotaract</title>
+  <script type="text/javascript" src="jquery-1.3.2.min.js">
+  </script>
+
+  <script type="text/javascript">
+    function validarActivo() {
+      chequeo = false;
+      contar = 0;
+      var cantidad = $("#cantSocios").attr("value");
+
+      for (i = 1; i <= cantidad; i++) {
+        if ($("#activo" + i).attr("checked")) {
+          chequeo = true;
+          contar = contar + 1;
+          var idSocio = $("#activo" + i).attr("value");
+          var nuevaVar = document.createElement('input');
+          nombre = "activoI" + contar;
+          nuevaVar.setAttribute('type', 'hidden');
+          nuevaVar.setAttribute('name', nombre);
+          nuevaVar.setAttribute('value', idSocio);
+          document.activoS.appendChild(nuevaVar);
+        }
+      }
+
+      if (chequeo == false) {
+        alert('Tenes que seleccionar al menos un socio a activar/desactivar');
+      } else {
+        if (confirm('Estás seguro de querer ejecutar esta acción?')) {
+          var nuevaVarC = document.createElement('input');
+          nuevaVarC.setAttribute('type', 'hidden');
+          nuevaVarC.setAttribute('name', 'cantSocios');
+          nuevaVarC.setAttribute('value', contar);
+          document.activoS.appendChild(nuevaVarC);
+          document.activoS.submit();
+        }
+      }
+    }
+
+    function validarAdmin(idSocio) {
+      if (confirm('Estás seguro de querer ejecutar esta acción?')) {
+        window.location = 'cuadrosocial.php?a=adm&idS=' + idSocio;
+      }
+    }
+
+    function cambiarFondo(titulo, color, io) {
+      if (io == "rosado") {
+        titulo.style.color = '#FFFFFF';
+        titulo.style.backgroundColor = color;
+      } else if (io == "blanco") {
+        titulo.style.color = '#E4457D';
+        titulo.style.backgroundColor = color;
+      }
+    }
+  </script>
+  <style type="text/css">
+    .centro {
+      text-align: center;
+      font-family: Verdana;
+      font-weight: bold;
+      font-size: 24px;
+    }
+
+    .centro2 {
+      font-size: 18px;
+      font-weight: bold;
+      font-family: Verdana;
+    }
+
+    .EstiloMarcado {
+      font-size: 16px;
+      color: #FFF;
+      text-align: center;
+      font-family: Verdana;
+    }
+
+    .negrita {
+      font-family: Verdana;
+      font-size: 12px;
+      color: #e4457d;
+    }
+
+    .subtitulos {
+      font-size: 16px;
+      font-weight: bold;
+      color: #e4457d;
+      text-align: left;
+      font-family: Verdana;
+    }
+
+    .texto {
+      font-family: Verdana;
+      font-size: 12px;
+      color: #666;
+    }
+
+    .Estilo1 {
+      color: #E4457D
+    }
+  </style>
 </head>
 
 <body>
-<table width="1172" height="346" border="0" align="center">
-  <tr>
-    <td colspan="2"><div align="center"><img src="Images/cabezal.png" alt="" width="1144" height="170" /></div></td>
-  </tr>
-  <tr>
-    <td width="168" rowspan="3" valign="top"><table width="168" border="1" bordercolor="#E4457D">
-      <tr>
-      <td width="149" class="Estilo4" height="30" bgcolor="#FFF" onmouseover="cambiarFondo(this,'#E4457D','rosado')" onmouseout="cambiarFondo(this,'#FFF','blanco')" style="cursor: pointer; font-family: Verdana; color: #e4457d; font-size: 16px;" onclick="window.location='perfil.php?a=p'"><div align="center">Mi perfil</div></td>
-      </tr>
-      <!-- START BLOCK : menuEventos -->
-      <tr>
-		<td width="149" class="Estilo4" height="30" bgcolor="#FFF" onmouseover="cambiarFondo(this,'#E4457D','rosado')" onmouseout="cambiarFondo(this,'#FFF','blanco')" style="cursor: pointer; font-family: Verdana; color: #e4457d; font-size: 16px;" onclick="window.location='eventos.php'"><div align="center">Eventos</div></td>
-        </tr>
-      <!-- END BLOCK : menuEventos -->
-      <tr>
-        <td width="149" class="Estilo4" height="30" bgcolor="#FFF" onmouseover="cambiarFondo(this,'#E4457D','rosado')" onmouseout="cambiarFondo(this,'#FFF','blanco')" style="cursor: pointer; font-family: Verdana; color: #e4457d; font-size: 16px;" onclick="window.location='perfil.php?a=i'"><div align="center">Inscripciones</div></td>
-      </tr>
-      <!-- START BLOCK : menuAprobacion -->
-      <tr>
-        <td width="149" class="Estilo4" height="30" bgcolor="#FFF" onmouseover="cambiarFondo(this,'#E4457D','rosado')" onmouseout="cambiarFondo(this,'#FFF','blanco')" style="cursor: pointer; font-family: Verdana; color: #e4457d; font-size: 16px;" onclick="window.location='perfil.php?a=a'"><div align="center">Aprobaciones</div></td>
-      </tr>
-      <!-- END BLOCK : menuAprobacion -->
-      <!-- START BLOCK : menuCuadroSocial -->
-      <tr>
-		<td width="149" class="Estilo4" height="30" bgcolor="#FFF" onmouseover="cambiarFondo(this,'#E4457D','rosado')" onmouseout="cambiarFondo(this,'#FFF','blanco')" style="cursor: pointer; font-family: Verdana; color: #e4457d; font-size: 16px;" onclick="window.location='cuadrosocial.php'"><div align="center">Cuadro Social</div></td>
-        </tr>
-      <!-- END BLOCK : menuCuadroSocial -->
-      <!-- START BLOCK : menuStats -->
-      <tr>
-		<td width="149" height="30" class="EstiloMarcado" bgcolor="#E4457D">Estadísticas</td>      
-        </tr>
-      <!-- END BLOCK : menuStats -->
-      <tr>
-        <td width="149" class="Estilo4" height="30" bgcolor="#FFF" onmouseover="cambiarFondo(this,'#E4457D','rosado')" onmouseout="cambiarFondo(this,'#FFF','blanco')" style="cursor: pointer; font-family: Verdana; color: #e4457d; font-size: 16px;" onclick="window.location='logout.php'"><div align="center">Salir</div></td>
-      </tr>
-    </table></td>
-    <td width="1031" height="24" valign="top" class="texto">
-    <table width="994" border="0" align="left">
-  <!-- START BLOCK : titulo -->
-  <tr>
-    <td><span class="subtitulos">Resumen estadístico - {segmento}</span></td>
+  <table width="1172" height="346" border="0" align="center">
+    <tr>
+      <td colspan="2">
+        <div align="center"><img src="Images/cabezal.png" alt="" width="1144" height="170" /></div>
+      </td>
     </tr>
-  <!-- END BLOCK : titulo -->
-  <tr>
-    <td><p><strong><span class="Estilo1">Membresía</span><br />
-    </strong><strong><br />
-      </strong>Cantidad general, segmentación por sexo y promedio de edad<br />
-    </p>
-      <table width="906" border="1" bordercolor="#E4457D">
-        <tr>
-          <td width="252"><strong>Segmento</strong></td>
-          <td width="142"><div align="center"><strong>Cantidad de socios</strong></div></td>
-          <td width="108"><div align="center"><strong>Hombres</strong></div></td>
-          <td width="98"><div align="center"><strong>Mujeres</strong></div></td>
-          <td width="130"><div align="center"><strong>Sin especificar</strong></div></td>
-          <td width="136"><div align="center"><strong>Edad promedio</strong></div></td>
-        </tr>
-        <!-- START BLOCK : lineaGeneral -->
-        <tr>
-          <td>{lineaSegmento}</td>
-          <td><div align="center">{cantidad}</div></td>
-          <td><div align="center">{cantH}</div></td>
-          <td><div align="center">{cantM}</div></td>
-          <td><div align="center">{cantSE}</div></td>
-          <td><div align="center">{edad}</div></td>
-        </tr>
-        <!-- END BLOCK : lineaGeneral -->
-      </table>
-      <!-- START BLOCK : bloqueEventos -->
-      <br />
-      <strong><span class="Estilo1">Eventos</span><br />
-      <br />
-      </strong>Cantidad de eventos gestionados en SGI (los eventos organizados por más de un distrito se suman por separado a cada uno)<br />
-      <br />
-      <table width="308" border="1" bordercolor="#E4457D">
-        <tr>
-          <td width="183"><strong>Segmento</strong></td>
-          <td width="115"><div align="center"><strong>Cantidad</strong></div></td>
-        </tr>
-        <!-- START BLOCK : lineaEventos -->
-        <tr>
-          <td>{lineaSegmento}</td>
-          <td><div align="center">{cantE}</div></td>
-        </tr>
-        <!-- END BLOCK : lineaEventos -->
-      </table>
-      <!-- END BLOCK : bloqueEventos -->
-      <!-- START BLOCK : promAsistencia -->
-      <br />
-      Promedio de asistencias (se muestra promedio de inscripciones aprobadas / promedio de bajas)<br />
-      <br />
-      <table border="1" bordercolor="#E4457D">
-        <tr>
-          <td width="123"><strong>Distrito</strong></td>
-          <!-- START BLOCK : columnaEvento -->
-          <td width="189"><div align="center"><strong>{segmento}</strong></div></td>
-          <!-- END BLOCK : columnaEvento -->
-        </tr>
-        <!-- START BLOCK : filaDistrito -->
-        <tr>
-          <td>{lineaDistrito}</td>
-          <!-- START BLOCK : columnaPromTipoEvento -->
-          <td><div align="center">{lineaPromedio}</div></td>
-          <!-- END BLOCK : columnaPromTipoEvento -->
-        </tr>
-        <!-- END BLOCK : filaDistrito -->
-      </table>
-      <!-- END BLOCK : promAsistencia -->
-     </td>
-  </tr>
-</table>
-    </td>
-  </tr>
-</table>
+    <tr>
+      <td width="168" rowspan="3" valign="top">
+        <table width="168" border="1" bordercolor="#E4457D">
+          <tr>
+            <td width="149" class="Estilo4" height="30" bgcolor="#FFF" onmouseover="cambiarFondo(this,'#E4457D','rosado')" onmouseout="cambiarFondo(this,'#FFF','blanco')" style="cursor: pointer; font-family: Verdana; color: #e4457d; font-size: 16px;"
+              onclick="window.location='perfil.php?a=p'">
+              <div align="center">Mi perfil</div>
+            </td>
+          </tr>
+          <!-- START BLOCK : menuEventos -->
+          <tr>
+            <td width="149" class="Estilo4" height="30" bgcolor="#FFF" onmouseover="cambiarFondo(this,'#E4457D','rosado')" onmouseout="cambiarFondo(this,'#FFF','blanco')" style="cursor: pointer; font-family: Verdana; color: #e4457d; font-size: 16px;"
+              onclick="window.location='eventos.php'">
+              <div align="center">Eventos</div>
+            </td>
+          </tr>
+          <!-- END BLOCK : menuEventos -->
+          <tr>
+            <td width="149" class="Estilo4" height="30" bgcolor="#FFF" onmouseover="cambiarFondo(this,'#E4457D','rosado')" onmouseout="cambiarFondo(this,'#FFF','blanco')" style="cursor: pointer; font-family: Verdana; color: #e4457d; font-size: 16px;"
+              onclick="window.location='perfil.php?a=i'">
+              <div align="center">Inscripciones</div>
+            </td>
+          </tr>
+          <!-- START BLOCK : menuAprobacion -->
+          <tr>
+            <td width="149" class="Estilo4" height="30" bgcolor="#FFF" onmouseover="cambiarFondo(this,'#E4457D','rosado')" onmouseout="cambiarFondo(this,'#FFF','blanco')" style="cursor: pointer; font-family: Verdana; color: #e4457d; font-size: 16px;"
+              onclick="window.location='perfil.php?a=a'">
+              <div align="center">Aprobaciones</div>
+            </td>
+          </tr>
+          <!-- END BLOCK : menuAprobacion -->
+          <!-- START BLOCK : menuCuadroSocial -->
+          <tr>
+            <td width="149" class="Estilo4" height="30" bgcolor="#FFF" onmouseover="cambiarFondo(this,'#E4457D','rosado')" onmouseout="cambiarFondo(this,'#FFF','blanco')" style="cursor: pointer; font-family: Verdana; color: #e4457d; font-size: 16px;"
+              onclick="window.location='cuadrosocial.php'">
+              <div align="center">Cuadro Social</div>
+            </td>
+          </tr>
+          <!-- END BLOCK : menuCuadroSocial -->
+          <!-- START BLOCK : menuStats -->
+          <tr>
+            <td width="149" height="30" class="EstiloMarcado" bgcolor="#E4457D">Estadísticas</td>
+          </tr>
+          <!-- END BLOCK : menuStats -->
+          <tr>
+            <td width="149" class="Estilo4" height="30" bgcolor="#FFF" onmouseover="cambiarFondo(this,'#E4457D','rosado')" onmouseout="cambiarFondo(this,'#FFF','blanco')" style="cursor: pointer; font-family: Verdana; color: #e4457d; font-size: 16px;"
+              onclick="window.location='logout.php'">
+              <div align="center">Salir</div>
+            </td>
+          </tr>
+        </table>
+      </td>
+      <td width="1031" height="24" valign="top" class="texto">
+        <table width="994" border="0" align="left">
+          <!-- START BLOCK : titulo -->
+          <tr>
+            <td><span class="subtitulos">Resumen estadístico - {segmento}</span></td>
+          </tr>
+          <!-- END BLOCK : titulo -->
+          <tr>
+            <td>
+              <p><strong><span class="Estilo1">Membresía</span><br />
+                </strong><strong><br />
+                </strong>Cantidad general, segmentación por sexo y promedio de edad<br />
+              </p>
+              <table width="906" border="1" bordercolor="#E4457D">
+                <tr>
+                  <td width="252"><strong>Segmento</strong></td>
+                  <td width="142">
+                    <div align="center"><strong>Cantidad de socios</strong></div>
+                  </td>
+                  <td width="108">
+                    <div align="center"><strong>Hombres</strong></div>
+                  </td>
+                  <td width="98">
+                    <div align="center"><strong>Mujeres</strong></div>
+                  </td>
+                  <td width="130">
+                    <div align="center"><strong>Sin especificar</strong></div>
+                  </td>
+                  <td width="136">
+                    <div align="center"><strong>Edad promedio</strong></div>
+                  </td>
+                </tr>
+                <!-- START BLOCK : lineaGeneral -->
+                <tr>
+                  <td>{lineaSegmento}</td>
+                  <td>
+                    <div align="center">{cantidad}</div>
+                  </td>
+                  <td>
+                    <div align="center">{cantH}</div>
+                  </td>
+                  <td>
+                    <div align="center">{cantM}</div>
+                  </td>
+                  <td>
+                    <div align="center">{cantSE}</div>
+                  </td>
+                  <td>
+                    <div align="center">{edad}</div>
+                  </td>
+                </tr>
+                <!-- END BLOCK : lineaGeneral -->
+              </table>
+              <!-- START BLOCK : bloqueEventos -->
+              <br />
+              <strong><span class="Estilo1">Eventos</span><br />
+                <br />
+              </strong>Cantidad de eventos gestionados en SGI (los eventos organizados por más de un distrito se suman por separado a cada uno)<br />
+              <br />
+              <table width="308" border="1" bordercolor="#E4457D">
+                <tr>
+                  <td width="183"><strong>Segmento</strong></td>
+                  <td width="115">
+                    <div align="center"><strong>Cantidad</strong></div>
+                  </td>
+                </tr>
+                <!-- START BLOCK : lineaEventos -->
+                <tr>
+                  <td>{lineaSegmento}</td>
+                  <td>
+                    <div align="center">{cantE}</div>
+                  </td>
+                </tr>
+                <!-- END BLOCK : lineaEventos -->
+              </table>
+              <!-- END BLOCK : bloqueEventos -->
+              <!-- START BLOCK : promAsistencia -->
+              <br />
+              Promedio de asistencias (se muestra promedio de inscripciones aprobadas / promedio de bajas)<br />
+              <br />
+              <table border="1" bordercolor="#E4457D">
+                <tr>
+                  <td width="123"><strong>Distrito</strong></td>
+                  <!-- START BLOCK : columnaEvento -->
+                  <td width="189">
+                    <div align="center"><strong>{segmento}</strong></div>
+                  </td>
+                  <!-- END BLOCK : columnaEvento -->
+                </tr>
+                <!-- START BLOCK : filaDistrito -->
+                <tr>
+                  <td>{lineaDistrito}</td>
+                  <!-- START BLOCK : columnaPromTipoEvento -->
+                  <td>
+                    <div align="center">{lineaPromedio}</div>
+                  </td>
+                  <!-- END BLOCK : columnaPromTipoEvento -->
+                </tr>
+                <!-- END BLOCK : filaDistrito -->
+              </table>
+              <!-- END BLOCK : promAsistencia -->
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
 </body>
+
 </html>

@@ -1,603 +1,663 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
+
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Sistema de gestión integral - Rotaract</title>
-<script type="text/javascript" src="jquery-1.3.2.min.js"></script>
-<script type="text/javascript" src="jquery.datePicker.js"></script>
-<script type="text/javascript" src="date.js"></script>
-<link href="datePicker.css" rel="stylesheet" type="text/css">
-<script type="text/javascript" src="time.js"></script>
-<link href="time.css" rel="stylesheet" type="text/css">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Sistema de gestión integral - Rotaract</title>
+  <script type="text/javascript" src="jquery-1.3.2.min.js"></script>
+  <script type="text/javascript" src="jquery.datePicker.js"></script>
+  <script type="text/javascript" src="date.js"></script>
+  <link href="datePicker.css" rel="stylesheet" type="text/css">
+  <script type="text/javascript" src="time.js"></script>
+  <link href="time.css" rel="stylesheet" type="text/css">
 
-<script type="text/javascript">
-	$(function() {
-		var myDate = new Date(); 
-		myDate.setFullYear(myDate.getFullYear() + 1);
+  <script type="text/javascript">
+    $(function() {
+      var myDate = new Date();
+      myDate.setFullYear(myDate.getFullYear() + 1);
 
-		var inicio = new Date();
-		inicio.setDate(inicio.getDate() - 1);
-	
-   		$('.date-pick').datePicker({
-        	startDate: inicio,
-			endDate: myDate
-	    });
-		$("#horaI").timePicker();
-		$("#horaF").timePicker();
-		$("#horaII").timePicker();
-		$("#horaIF").timePicker();
-		$("#horaSI").timePicker();
-		$("#horaSF").timePicker();
-	});
-	
-	function cambiarFondo(titulo,color,io){
-		if (io == "rosado"){
-			titulo.style.color='#FFFFFF';
-			titulo.style.backgroundColor=color;	
-		} else if (io == "blanco"){
-			titulo.style.color='#E4457D';
-			titulo.style.backgroundColor=color;
-		}
-	}
-	
-	function cargarAdmins(){
-		var values = $('#distrito').val();
-		var distritos = "";
-		
-		for (var x=0; x < values.length; x++) {
-			if (x == (values.length - 1)){
-				distritos += values[x];
-			} else {
-				distritos += values[x] + ",";
-			}
-		}
-		
-		$.getJSON('cargarAdmins.php?distritos=' + distritos, function(data){
-			var select = document.getElementById("admins"); 
-			select.innerHTML = "";
-			
-			for (var x = 1; x <= data[0]['total']; x++) {
-				select.innerHTML += "<option value=\"" + data[x]['idsocio'] + "\">" + data[x]['nombre'] + "</option>";
-			}
-		});
-	}
-	
-	function validarDatos(){
-		var fechaInicio = $("#fechaI").attr("value").replace(/^\s*|\s*$/g,"").split("/");
-		var horaInicio = $("#horaIH").attr("value").replace(/^\s*|\s*$/g,"").split(":");
-		var fechaFin = $("#fechaF").attr("value").replace(/^\s*|\s*$/g,"").split("/");
-		var horaFin = $("#horaFH").attr("value").replace(/^\s*|\s*$/g,"").split(":");
-		var fechaInscI1 = $("#fechaII").attr("value").replace(/^\s*|\s*$/g,"").split("/");
-		var fechaInscF1 = $("#fechaIF").attr("value").replace(/^\s*|\s*$/g,"").split("/");
-		var horaInicioI1 = $("#horaIIH").attr("value").replace(/^\s*|\s*$/g,"").split(":");
-		var horaFinI1 = $("#horaIFH").attr("value").replace(/^\s*|\s*$/g,"").split(":");
-		var fechaInscI2 = $("#fechaSI").attr("value").replace(/^\s*|\s*$/g,"").split("/");
-		var fechaInscF2 = $("#fechaSF").attr("value").replace(/^\s*|\s*$/g,"").split("/");
-		var horaInicioI2 = $("#horaSIH").attr("value").replace(/^\s*|\s*$/g,"").split(":");
-		var horaFinI2 = $("#horaSFH").attr("value").replace(/^\s*|\s*$/g,"").split(":");
-		
-		var fechaI = new Date(fechaInicio[2],fechaInicio[1]-1,fechaInicio[0],horaInicio[0],horaInicio[1],0,0);
-		var fechaF = new Date(fechaFin[2],fechaFin[1]-1,fechaFin[0],horaFin[0],horaFin[1],0,0);
-		var fechaII = new Date(fechaInscI1[2],fechaInscI1[1]-1,fechaInscI1[0],horaInicioI1[0],horaInicioI1[1],0,0);
-		var fechaIF = new Date(fechaInscF1[2],fechaInscF1[1]-1,fechaInscF1[0],horaFinI1[0],horaFinI1[1],0,0);
-		var fechaSI = new Date(fechaInscI2[2],fechaInscI2[1]-1,fechaInscI2[0],horaInicioI2[0],horaInicioI2[1],0,0);
-		var fechaSF = new Date(fechaInscF2[2],fechaInscF2[1]-1,fechaInscF2[0],horaFinI2[0],horaFinI2[1],0,0);
-		
-		var cupoA = document.getElementById('cupoActual').value;
-		var reservaA = document.getElementById('reservaActual').value;
-			
-		if ($("#nombre").attr("value").replace(/^\s*|\s*$/g,"")==""){
-			document.getElementById('mensajeNombre').hidden = false;
-			document.getElementById('mensajeNombre').innerHTML = "Ingresá el nombre del evento";
-			return;
-		} else {
-			document.getElementById('mensajeNombre').hidden = true;
-		}
-		
-		var distrito = document.getElementById("distrito");
-		
-		if (distrito.selectedOptions.length == 0){
-			document.getElementById('mensajeDistrito').hidden = false;
-			document.getElementById('mensajeDistrito').innerHTML = "Selecciona al menos un distrito organizador";
-			return;
-		} else {
-			document.getElementById('mensajeDistrito').hidden = true;
-		}
-		
-		if ($("#fechaI").attr("value").replace(/^\s*|\s*$/g,"")=="" || $("#horaIH").attr("value").replace(/^\s*|\s*$/g,"")==""){
-			document.getElementById('mensajeFechaHoraI').hidden = false;
-			document.getElementById('mensajeFechaHoraI').innerHTML = "Ingresá fecha y hora de inicio del evento";
-			return;
-		} else {
-			document.getElementById('mensajeFechaHoraI').hidden = true;
-		}
-		
-		if ($("#fechaF").attr("value").replace(/^\s*|\s*$/g,"")=="" || $("#horaFH").attr("value").replace(/^\s*|\s*$/g,"")==""){
-			document.getElementById('mensajeFechaHoraF').hidden = false;
-			document.getElementById('mensajeFechaHoraF').innerHTML = "Ingresá fecha y hora de finalización del evento";
-			return;
-		} else {
-			document.getElementById('mensajeFechaHoraF').hidden = true;
-		}
-		
-		if (fechaI > fechaF){
-			document.getElementById('mensajeFechaHoraF2').hidden = false;
-			document.getElementById('mensajeFechaHoraF2').innerHTML = "La fecha de inicio del evento debe ser menor o igual que la fecha de fin";
-			return;
-		} else {
-			document.getElementById('mensajeFechaHoraF2').hidden = true;
-		}
-		
-		if ($("#fechaII").attr("value").replace(/^\s*|\s*$/g,"")=="" || $("#horaIIH").attr("value").replace(/^\s*|\s*$/g,"")==""){
-			document.getElementById('mensajeFechaHoraI1').hidden = false;
-			document.getElementById('mensajeFechaHoraI1').innerHTML = "Ingresá la fecha y hora de apertura de la fase I de inscripciones";
-			return;
-		} else {
-			document.getElementById('mensajeFechaHoraI1').hidden = true;
-		}
-		
-		if ($("#fechaIF").attr("value").replace(/^\s*|\s*$/g,"")=="" || $("#horaIFH").attr("value").replace(/^\s*|\s*$/g,"")==""){
-			document.getElementById('mensajeFechaHoraF1').hidden = false;
-			document.getElementById('mensajeFechaHoraF1').innerHTML = "Ingresá la fecha y hora de cierre de la fase I de inscripciones";
-			return;
-		} else {
-			document.getElementById('mensajeFechaHoraF1').hidden = true;
-		}
-		
-		if (fechaII > fechaIF){
-			document.getElementById('mensajeFechaHoraF3').hidden = false;
-			document.getElementById('mensajeFechaHoraF3').innerHTML = "La fecha de apertura de la fase I de inscripciones debe ser menor que la fecha de cierre";
-			return;
-		} else {
-			document.getElementById('mensajeFechaHoraF3').hidden = true;
-		}
-		
-		if (fechaII > fechaI){
-			document.getElementById('mensajeFechaHoraF3').hidden = false;
-			document.getElementById('mensajeFechaHoraF3').innerHTML = "La fecha de apertura de la fase I de inscripciones debe ser menor que la fecha de inicio del evento";
-			return;
-		} else {
-			document.getElementById('mensajeFechaHoraF3').hidden = true;
-		}
-		
-		if (fechaIF > fechaI){
-			document.getElementById('mensajeFechaHoraF3').hidden = false;
-			document.getElementById('mensajeFechaHoraF3').innerHTML = "La fecha de cierre de la fase I de inscripciones debe ser menor que la fecha de inicio del evento";
-			return;
-		} else {
-			document.getElementById('mensajeFechaHoraF3').hidden = true;
-		}
-		
-		if ($("#porcentajeR1").attr("value").replace(/^\s*|\s*$/g,"")=="" || isNaN($("#porcentajeR1").attr("value").replace(/^\s*|\s*$/g,"")) || $("#porcentajeR1").attr("value").replace(/^\s*|\s*$/g,"") < 0){
-			document.getElementById('mensajeRotarios1').hidden = false;
-			document.getElementById('mensajeRotarios1').innerHTML = "El porcentaje de Rotarios debe ser númerico, mayor o igual a 0";
-			return;
-		} else {
-			document.getElementById('mensajeRotarios1').hidden = true;
-		}
-		
-		if ($("#porcentajeE1").attr("value").replace(/^\s*|\s*$/g,"")=="" || isNaN($("#porcentajeE1").attr("value").replace(/^\s*|\s*$/g,"")) || $("#porcentajeE1").attr("value").replace(/^\s*|\s*$/g,"") < 0){
-			document.getElementById('mensajeExt1').hidden = false;
-			document.getElementById('mensajeExt1').innerHTML = "El porcentaje de extranjeros debe ser númerico, mayor o igual a 0";
-			return;
-		} else {
-			document.getElementById('mensajeExt1').hidden = true;
-		}
-		
-		if ($("#fechaSI").attr("value").replace(/^\s*|\s*$/g,"")=="" || $("#horaSIH").attr("value").replace(/^\s*|\s*$/g,"")==""){
-			document.getElementById('mensajeFechaHoraSI').hidden = false;
-			document.getElementById('mensajeFechaHoraSI').innerHTML = "Ingresá la fecha y hora de apertura de la fase II de inscripciones";
-			return;
-		} else {
-			document.getElementById('mensajeFechaHoraSI').hidden = true;
-		}
-		
-		if ($("#fechaSF").attr("value").replace(/^\s*|\s*$/g,"")=="" || $("#horaSFH").attr("value").replace(/^\s*|\s*$/g,"")==""){
-			document.getElementById('mensajeFechaHoraSF').hidden = false;
-			document.getElementById('mensajeFechaHoraSF').innerHTML = "Ingresá la fecha y hora de cierre de la fase II de inscripciones";
-			return;
-		} else {
-			document.getElementById('mensajeFechaHoraSF').hidden = true;
-		}
-		
-		if (fechaSI < fechaIF){
-			document.getElementById('mensajeFechaHoraSI').hidden = false;
-			document.getElementById('mensajeFechaHoraSI').innerHTML = "La fecha de apertura de la fase II de inscripciones debe ser mayor que la fecha de cierre de la fase I de inscripciones";
-			return;
-		} else {
-			document.getElementById('mensajeFechaHoraSI').hidden = true;
-		}
-		
-		if (fechaSI > fechaSF){
-			document.getElementById('mensajeFechaHoraSI').hidden = false;
-			document.getElementById('mensajeFechaHoraSI').innerHTML = "La fecha de apertura de la fase II de inscripciones debe ser menor que la fecha de cierre";
-			return;
-		} else {
-			document.getElementById('mensajeFechaHoraSI').hidden = true;
-		}
-		
-		if (fechaSI > fechaI){
-			document.getElementById('mensajeFechaHoraSI').hidden = false;
-			document.getElementById('mensajeFechaHoraSI').innerHTML = "La fecha de apertura de la fase II de inscripciones debe ser menor que la fecha de inicio del evento";
-			return;
-		} else {
-			document.getElementById('mensajeFechaHoraSI').hidden = true;
-		}
-		
-		if (fechaSF > fechaI){
-			document.getElementById('mensajeFechaHoraSF').hidden = false;
-			document.getElementById('mensajeFechaHoraSF').innerHTML = "La fecha de cierre de la fase II de inscripciones debe ser menor que la fecha de inicio del evento";
-			return;
-		} else {
-			document.getElementById('mensajeFechaHoraSF').hidden = true;
-		}
-		
-		if ($("#porcentajeR2").attr("value").replace(/^\s*|\s*$/g,"")=="" || isNaN($("#porcentajeR2").attr("value").replace(/^\s*|\s*$/g,"")) || $("#porcentajeR2").attr("value").replace(/^\s*|\s*$/g,"") < 0){
-			document.getElementById('mensajeRotarios2').hidden = false;
-			document.getElementById('mensajeRotarios2').innerHTML = "El porcentaje de Rotarios debe ser númerico, mayor o igual a 0";
-			return;
-		} else {
-			document.getElementById('mensajeRotarios2').hidden = true;
-		}
-		
-		if ($("#porcentajeE2").attr("value").replace(/^\s*|\s*$/g,"")=="" || isNaN($("#porcentajeE2").attr("value").replace(/^\s*|\s*$/g,"")) || $("#porcentajeE2").attr("value").replace(/^\s*|\s*$/g,"") < 0){
-			document.getElementById('mensajeExt2').hidden = false;
-			document.getElementById('mensajeExt2').innerHTML = "El porcentaje de extranjeros debe ser númerico, mayor o igual a 0";
-			return;
-		} else {
-			document.getElementById('mensajeExt2').hidden = true;
-		}
-		
-		if ($("#ubicacion").attr("value").replace(/^\s*|\s*$/g,"")==""){
-			document.getElementById('mensajeUbicacion').hidden = false;
-			document.getElementById('mensajeUbicacion').innerHTML = "Ingresá la ubicación del evento";
-			return;
-		} else {
-			document.getElementById('mensajeUbicacion').hidden = true;
-		}
-		
-		if ($("#costo").attr("value").replace(/^\s*|\s*$/g,"")=="" || $("#monedaTicket").attr("value")=="vacio"){
-			document.getElementById('mensajeTicket').hidden = false;
-			document.getElementById('mensajeTicket').innerHTML = "Completá ambos campos";
-			return;
-		} else {
-			document.getElementById('mensajeTicket').hidden = true;
-		}
-		
-		if (isNaN($("#costo").attr("value").replace(/^\s*|\s*$/g,"")) || $("#costo").attr("value").replace(/^\s*|\s*$/g,"") < 0){
-			document.getElementById('mensajeTicket').hidden = false;
-			document.getElementById('mensajeTicket').innerHTML = "El costo del ticket debe ser mayor o igual a 0";
-			return;
-		} else {
-			document.getElementById('mensajeTicket').hidden = true;
-		}
-		
-		if ($("#reserva").attr("value").replace(/^\s*|\s*$/g,"")==""){
-			document.getElementById('mensajeReserva').hidden = false;
-			document.getElementById('mensajeReserva').innerHTML = "Ingresá el cupo reservado para RDRs, AIRAUP e instructores";
-			return;
-		} else {
-			document.getElementById('mensajeReserva').hidden = true;
-		}
-		
-		if (isNaN($("#reserva").attr("value").replace(/^\s*|\s*$/g,"")) || $("#reserva").attr("value").replace(/^\s*|\s*$/g,"") < 1){
-			document.getElementById('mensajeReserva').hidden = false;
-			document.getElementById('mensajeReserva').innerHTML = "El cupo reservado debe ser numérico";
-			return;
-		} else {
-			document.getElementById('mensajeReserva').hidden = true;
-		}
-		
-		if ($("#cupo").attr("value").replace(/^\s*|\s*$/g,"")==""){
-			document.getElementById('mensajeCupo').hidden = false;
-			document.getElementById('mensajeCupo').innerHTML = "Ingresá el cupo máximo para el evento";
-			return;
-		} else {
-			document.getElementById('mensajeCupo').hidden = true;
-		}
-		
-		if (isNaN($("#cupo").attr("value").replace(/^\s*|\s*$/g,"")) || $("#cupo").attr("value").replace(/^\s*|\s*$/g,"") < 1){
-			document.getElementById('mensajeCupo').hidden = false;
-			document.getElementById('mensajeCupo').innerHTML = "El cupo debe ser numérico";
-			return;
-		} else {
-			document.getElementById('mensajeCupo').hidden = true;
-		}
-		
-		if (cupoA != ""){
-			if (cupoA > $("#cupo").attr("value").replace(/^\s*|\s*$/g,"")){
-				document.getElementById('mensajeCupo').hidden = false;
-				document.getElementById('mensajeCupo').innerHTML = "El cupo no puede disminuirse";
-				return;
-			} else {
-				document.getElementById('mensajeCupo').hidden = true;
-			}
-		}
-		
-		if (reservaA != ""){
-			if (reservaA > $("#reserva").attr("value").replace(/^\s*|\s*$/g,"")){
-				document.getElementById('mensajeReserva').hidden = false;
-				document.getElementById('mensajeReserva').innerHTML = "El cupo reservado no puede disminuirse";
-				return;
-			} else {
-				document.getElementById('mensajeReserva').hidden = true;
-			}
-		}
-		
-		if ($("#actividad1").attr("value").replace(/^\s*|\s*$/g,"")=="" && $("#actividad2").attr("value").replace(/^\s*|\s*$/g,"")=="" && $("#actividad3").attr("value").replace(/^\s*|\s*$/g,"")=="" && $("#actividad4").attr("value").replace(/^\s*|\s*$/g,"")=="" && $("#actividad5").attr("value").replace(/^\s*|\s*$/g,"")==""){
-			document.getElementById('mensajeActividad').hidden = false;
-			document.getElementById('mensajeActividad').innerHTML = "Ingresá al menos una actividad de servicio";
-			return;
-		} else {
-			document.getElementById('mensajeActividad').hidden = true;
-		}
-		
-		document.getElementById("fechaI").disabled = false;
-		document.getElementById("fechaF").disabled = false;
-		document.getElementById("fechaII").disabled = false;
-		document.getElementById("fechaIF").disabled = false;
-		document.getElementById("horaIH").disabled = false;
-		document.getElementById("horaFH").disabled = false;
-		document.getElementById("horaIIH").disabled = false;
-		document.getElementById("horaIFH").disabled = false;
-		document.getElementById("fechaSI").disabled = false;
-		document.getElementById("fechaSF").disabled = false;
-		document.getElementById("horaSIH").disabled = false;
-		document.getElementById("horaSFH").disabled = false;
-		document.getElementById("reserva").disabled = false;
-		document.getElementById("cupo").disabled = false;
-		document.aceptarInfo.submit();
-	}
-</script>
-<style type="text/css">
-.centro {
-	text-align: center;
-	font-family: Verdana;
-	font-weight: bold;
-	font-size: 24px;
-}
-.centro2 {
-	font-size: 18px;
-	font-weight: bold;
-	font-family: Verdana;
-}
-.EstiloMarcado {	font-size: 16px;
-	color: #FFF;
-	text-align: center;
-	font-family: Verdana;
-}
-.negrita {	font-family: Verdana;
-	font-size: 12px;
-	color: #e4457d;
-}
-.subtitulos {	font-size: 16px;
-	font-weight: bold;
-	color: #e4457d;
-	text-align: left;
-	font-family: Verdana;
-}
-.texto {	font-family: Verdana;
-	font-size: 12px;
-	color: #666;
-}
-.mensaje2 {
-	color: #F03;
-	font-family: Verdana;
-	font-size: 14px;
-}
-.Estilo1 {
-	font-size: 14px;
-	font-weight: bold;
-}
-.Estilo2 {color: #E4457D}
-.Estilo3 {color: #E8457D}
-.Estilo4 {color: #666}
-</style>
+      var inicio = new Date();
+      inicio.setDate(inicio.getDate() - 1);
+
+      $('.date-pick').datePicker({
+        startDate: inicio,
+        endDate: myDate
+      });
+      $("#horaI").timePicker();
+      $("#horaF").timePicker();
+      $("#horaII").timePicker();
+      $("#horaIF").timePicker();
+      $("#horaSI").timePicker();
+      $("#horaSF").timePicker();
+    });
+
+    function cambiarFondo(titulo, color, io) {
+      if (io == "rosado") {
+        titulo.style.color = '#FFFFFF';
+        titulo.style.backgroundColor = color;
+      } else if (io == "blanco") {
+        titulo.style.color = '#E4457D';
+        titulo.style.backgroundColor = color;
+      }
+    }
+
+    function cargarAdmins() {
+      var values = $('#distrito').val();
+      var distritos = "";
+
+      for (var x = 0; x < values.length; x++) {
+        if (x == (values.length - 1)) {
+          distritos += values[x];
+        } else {
+          distritos += values[x] + ",";
+        }
+      }
+
+      $.getJSON('cargarAdmins.php?distritos=' + distritos, function(data) {
+        var select = document.getElementById("admins");
+        select.innerHTML = "";
+
+        for (var x = 1; x <= data[0]['total']; x++) {
+          select.innerHTML += "<option value=\"" + data[x]['idsocio'] + "\">" + data[x]['nombre'] + "</option>";
+        }
+      });
+    }
+
+    function validarDatos() {
+      var fechaInicio = $("#fechaI").attr("value").replace(/^\s*|\s*$/g, "").split("/");
+      var horaInicio = $("#horaIH").attr("value").replace(/^\s*|\s*$/g, "").split(":");
+      var fechaFin = $("#fechaF").attr("value").replace(/^\s*|\s*$/g, "").split("/");
+      var horaFin = $("#horaFH").attr("value").replace(/^\s*|\s*$/g, "").split(":");
+      var fechaInscI1 = $("#fechaII").attr("value").replace(/^\s*|\s*$/g, "").split("/");
+      var fechaInscF1 = $("#fechaIF").attr("value").replace(/^\s*|\s*$/g, "").split("/");
+      var horaInicioI1 = $("#horaIIH").attr("value").replace(/^\s*|\s*$/g, "").split(":");
+      var horaFinI1 = $("#horaIFH").attr("value").replace(/^\s*|\s*$/g, "").split(":");
+      var fechaInscI2 = $("#fechaSI").attr("value").replace(/^\s*|\s*$/g, "").split("/");
+      var fechaInscF2 = $("#fechaSF").attr("value").replace(/^\s*|\s*$/g, "").split("/");
+      var horaInicioI2 = $("#horaSIH").attr("value").replace(/^\s*|\s*$/g, "").split(":");
+      var horaFinI2 = $("#horaSFH").attr("value").replace(/^\s*|\s*$/g, "").split(":");
+
+      var fechaI = new Date(fechaInicio[2], fechaInicio[1] - 1, fechaInicio[0], horaInicio[0], horaInicio[1], 0, 0);
+      var fechaF = new Date(fechaFin[2], fechaFin[1] - 1, fechaFin[0], horaFin[0], horaFin[1], 0, 0);
+      var fechaII = new Date(fechaInscI1[2], fechaInscI1[1] - 1, fechaInscI1[0], horaInicioI1[0], horaInicioI1[1], 0, 0);
+      var fechaIF = new Date(fechaInscF1[2], fechaInscF1[1] - 1, fechaInscF1[0], horaFinI1[0], horaFinI1[1], 0, 0);
+      var fechaSI = new Date(fechaInscI2[2], fechaInscI2[1] - 1, fechaInscI2[0], horaInicioI2[0], horaInicioI2[1], 0, 0);
+      var fechaSF = new Date(fechaInscF2[2], fechaInscF2[1] - 1, fechaInscF2[0], horaFinI2[0], horaFinI2[1], 0, 0);
+
+      var cupoA = document.getElementById('cupoActual').value;
+      var reservaA = document.getElementById('reservaActual').value;
+
+      if ($("#nombre").attr("value").replace(/^\s*|\s*$/g, "") == "") {
+        document.getElementById('mensajeNombre').hidden = false;
+        document.getElementById('mensajeNombre').innerHTML = "Ingresá el nombre del evento";
+        return;
+      } else {
+        document.getElementById('mensajeNombre').hidden = true;
+      }
+
+      var distrito = document.getElementById("distrito");
+
+      if (distrito.selectedOptions.length == 0) {
+        document.getElementById('mensajeDistrito').hidden = false;
+        document.getElementById('mensajeDistrito').innerHTML = "Selecciona al menos un distrito organizador";
+        return;
+      } else {
+        document.getElementById('mensajeDistrito').hidden = true;
+      }
+
+      if ($("#fechaI").attr("value").replace(/^\s*|\s*$/g, "") == "" || $("#horaIH").attr("value").replace(/^\s*|\s*$/g, "") == "") {
+        document.getElementById('mensajeFechaHoraI').hidden = false;
+        document.getElementById('mensajeFechaHoraI').innerHTML = "Ingresá fecha y hora de inicio del evento";
+        return;
+      } else {
+        document.getElementById('mensajeFechaHoraI').hidden = true;
+      }
+
+      if ($("#fechaF").attr("value").replace(/^\s*|\s*$/g, "") == "" || $("#horaFH").attr("value").replace(/^\s*|\s*$/g, "") == "") {
+        document.getElementById('mensajeFechaHoraF').hidden = false;
+        document.getElementById('mensajeFechaHoraF').innerHTML = "Ingresá fecha y hora de finalización del evento";
+        return;
+      } else {
+        document.getElementById('mensajeFechaHoraF').hidden = true;
+      }
+
+      if (fechaI > fechaF) {
+        document.getElementById('mensajeFechaHoraF2').hidden = false;
+        document.getElementById('mensajeFechaHoraF2').innerHTML = "La fecha de inicio del evento debe ser menor o igual que la fecha de fin";
+        return;
+      } else {
+        document.getElementById('mensajeFechaHoraF2').hidden = true;
+      }
+
+      if ($("#fechaII").attr("value").replace(/^\s*|\s*$/g, "") == "" || $("#horaIIH").attr("value").replace(/^\s*|\s*$/g, "") == "") {
+        document.getElementById('mensajeFechaHoraI1').hidden = false;
+        document.getElementById('mensajeFechaHoraI1').innerHTML = "Ingresá la fecha y hora de apertura de la fase I de inscripciones";
+        return;
+      } else {
+        document.getElementById('mensajeFechaHoraI1').hidden = true;
+      }
+
+      if ($("#fechaIF").attr("value").replace(/^\s*|\s*$/g, "") == "" || $("#horaIFH").attr("value").replace(/^\s*|\s*$/g, "") == "") {
+        document.getElementById('mensajeFechaHoraF1').hidden = false;
+        document.getElementById('mensajeFechaHoraF1').innerHTML = "Ingresá la fecha y hora de cierre de la fase I de inscripciones";
+        return;
+      } else {
+        document.getElementById('mensajeFechaHoraF1').hidden = true;
+      }
+
+      if (fechaII > fechaIF) {
+        document.getElementById('mensajeFechaHoraF3').hidden = false;
+        document.getElementById('mensajeFechaHoraF3').innerHTML = "La fecha de apertura de la fase I de inscripciones debe ser menor que la fecha de cierre";
+        return;
+      } else {
+        document.getElementById('mensajeFechaHoraF3').hidden = true;
+      }
+
+      if (fechaII > fechaI) {
+        document.getElementById('mensajeFechaHoraF3').hidden = false;
+        document.getElementById('mensajeFechaHoraF3').innerHTML = "La fecha de apertura de la fase I de inscripciones debe ser menor que la fecha de inicio del evento";
+        return;
+      } else {
+        document.getElementById('mensajeFechaHoraF3').hidden = true;
+      }
+
+      if (fechaIF > fechaI) {
+        document.getElementById('mensajeFechaHoraF3').hidden = false;
+        document.getElementById('mensajeFechaHoraF3').innerHTML = "La fecha de cierre de la fase I de inscripciones debe ser menor que la fecha de inicio del evento";
+        return;
+      } else {
+        document.getElementById('mensajeFechaHoraF3').hidden = true;
+      }
+
+      if ($("#porcentajeR1").attr("value").replace(/^\s*|\s*$/g, "") == "" || isNaN($("#porcentajeR1").attr("value").replace(/^\s*|\s*$/g, "")) || $("#porcentajeR1").attr("value").replace(/^\s*|\s*$/g, "") < 0) {
+        document.getElementById('mensajeRotarios1').hidden = false;
+        document.getElementById('mensajeRotarios1').innerHTML = "El porcentaje de Rotarios debe ser númerico, mayor o igual a 0";
+        return;
+      } else {
+        document.getElementById('mensajeRotarios1').hidden = true;
+      }
+
+      if ($("#porcentajeE1").attr("value").replace(/^\s*|\s*$/g, "") == "" || isNaN($("#porcentajeE1").attr("value").replace(/^\s*|\s*$/g, "")) || $("#porcentajeE1").attr("value").replace(/^\s*|\s*$/g, "") < 0) {
+        document.getElementById('mensajeExt1').hidden = false;
+        document.getElementById('mensajeExt1').innerHTML = "El porcentaje de extranjeros debe ser númerico, mayor o igual a 0";
+        return;
+      } else {
+        document.getElementById('mensajeExt1').hidden = true;
+      }
+
+      if ($("#fechaSI").attr("value").replace(/^\s*|\s*$/g, "") == "" || $("#horaSIH").attr("value").replace(/^\s*|\s*$/g, "") == "") {
+        document.getElementById('mensajeFechaHoraSI').hidden = false;
+        document.getElementById('mensajeFechaHoraSI').innerHTML = "Ingresá la fecha y hora de apertura de la fase II de inscripciones";
+        return;
+      } else {
+        document.getElementById('mensajeFechaHoraSI').hidden = true;
+      }
+
+      if ($("#fechaSF").attr("value").replace(/^\s*|\s*$/g, "") == "" || $("#horaSFH").attr("value").replace(/^\s*|\s*$/g, "") == "") {
+        document.getElementById('mensajeFechaHoraSF').hidden = false;
+        document.getElementById('mensajeFechaHoraSF').innerHTML = "Ingresá la fecha y hora de cierre de la fase II de inscripciones";
+        return;
+      } else {
+        document.getElementById('mensajeFechaHoraSF').hidden = true;
+      }
+
+      if (fechaSI < fechaIF) {
+        document.getElementById('mensajeFechaHoraSI').hidden = false;
+        document.getElementById('mensajeFechaHoraSI').innerHTML = "La fecha de apertura de la fase II de inscripciones debe ser mayor que la fecha de cierre de la fase I de inscripciones";
+        return;
+      } else {
+        document.getElementById('mensajeFechaHoraSI').hidden = true;
+      }
+
+      if (fechaSI > fechaSF) {
+        document.getElementById('mensajeFechaHoraSI').hidden = false;
+        document.getElementById('mensajeFechaHoraSI').innerHTML = "La fecha de apertura de la fase II de inscripciones debe ser menor que la fecha de cierre";
+        return;
+      } else {
+        document.getElementById('mensajeFechaHoraSI').hidden = true;
+      }
+
+      if (fechaSI > fechaI) {
+        document.getElementById('mensajeFechaHoraSI').hidden = false;
+        document.getElementById('mensajeFechaHoraSI').innerHTML = "La fecha de apertura de la fase II de inscripciones debe ser menor que la fecha de inicio del evento";
+        return;
+      } else {
+        document.getElementById('mensajeFechaHoraSI').hidden = true;
+      }
+
+      if (fechaSF > fechaI) {
+        document.getElementById('mensajeFechaHoraSF').hidden = false;
+        document.getElementById('mensajeFechaHoraSF').innerHTML = "La fecha de cierre de la fase II de inscripciones debe ser menor que la fecha de inicio del evento";
+        return;
+      } else {
+        document.getElementById('mensajeFechaHoraSF').hidden = true;
+      }
+
+      if ($("#porcentajeR2").attr("value").replace(/^\s*|\s*$/g, "") == "" || isNaN($("#porcentajeR2").attr("value").replace(/^\s*|\s*$/g, "")) || $("#porcentajeR2").attr("value").replace(/^\s*|\s*$/g, "") < 0) {
+        document.getElementById('mensajeRotarios2').hidden = false;
+        document.getElementById('mensajeRotarios2').innerHTML = "El porcentaje de Rotarios debe ser númerico, mayor o igual a 0";
+        return;
+      } else {
+        document.getElementById('mensajeRotarios2').hidden = true;
+      }
+
+      if ($("#porcentajeE2").attr("value").replace(/^\s*|\s*$/g, "") == "" || isNaN($("#porcentajeE2").attr("value").replace(/^\s*|\s*$/g, "")) || $("#porcentajeE2").attr("value").replace(/^\s*|\s*$/g, "") < 0) {
+        document.getElementById('mensajeExt2').hidden = false;
+        document.getElementById('mensajeExt2').innerHTML = "El porcentaje de extranjeros debe ser númerico, mayor o igual a 0";
+        return;
+      } else {
+        document.getElementById('mensajeExt2').hidden = true;
+      }
+
+      if ($("#ubicacion").attr("value").replace(/^\s*|\s*$/g, "") == "") {
+        document.getElementById('mensajeUbicacion').hidden = false;
+        document.getElementById('mensajeUbicacion').innerHTML = "Ingresá la ubicación del evento";
+        return;
+      } else {
+        document.getElementById('mensajeUbicacion').hidden = true;
+      }
+
+      if ($("#costo").attr("value").replace(/^\s*|\s*$/g, "") == "" || $("#monedaTicket").attr("value") == "vacio") {
+        document.getElementById('mensajeTicket').hidden = false;
+        document.getElementById('mensajeTicket').innerHTML = "Completá ambos campos";
+        return;
+      } else {
+        document.getElementById('mensajeTicket').hidden = true;
+      }
+
+      if (isNaN($("#costo").attr("value").replace(/^\s*|\s*$/g, "")) || $("#costo").attr("value").replace(/^\s*|\s*$/g, "") < 0) {
+        document.getElementById('mensajeTicket').hidden = false;
+        document.getElementById('mensajeTicket').innerHTML = "El costo del ticket debe ser mayor o igual a 0";
+        return;
+      } else {
+        document.getElementById('mensajeTicket').hidden = true;
+      }
+
+      if ($("#reserva").attr("value").replace(/^\s*|\s*$/g, "") == "") {
+        document.getElementById('mensajeReserva').hidden = false;
+        document.getElementById('mensajeReserva').innerHTML = "Ingresá el cupo reservado para RDRs, AIRAUP e instructores";
+        return;
+      } else {
+        document.getElementById('mensajeReserva').hidden = true;
+      }
+
+      if (isNaN($("#reserva").attr("value").replace(/^\s*|\s*$/g, "")) || $("#reserva").attr("value").replace(/^\s*|\s*$/g, "") < 1) {
+        document.getElementById('mensajeReserva').hidden = false;
+        document.getElementById('mensajeReserva').innerHTML = "El cupo reservado debe ser numérico";
+        return;
+      } else {
+        document.getElementById('mensajeReserva').hidden = true;
+      }
+
+      if ($("#cupo").attr("value").replace(/^\s*|\s*$/g, "") == "") {
+        document.getElementById('mensajeCupo').hidden = false;
+        document.getElementById('mensajeCupo').innerHTML = "Ingresá el cupo máximo para el evento";
+        return;
+      } else {
+        document.getElementById('mensajeCupo').hidden = true;
+      }
+
+      if (isNaN($("#cupo").attr("value").replace(/^\s*|\s*$/g, "")) || $("#cupo").attr("value").replace(/^\s*|\s*$/g, "") < 1) {
+        document.getElementById('mensajeCupo').hidden = false;
+        document.getElementById('mensajeCupo').innerHTML = "El cupo debe ser numérico";
+        return;
+      } else {
+        document.getElementById('mensajeCupo').hidden = true;
+      }
+
+      if (cupoA != "") {
+        if (cupoA > $("#cupo").attr("value").replace(/^\s*|\s*$/g, "")) {
+          document.getElementById('mensajeCupo').hidden = false;
+          document.getElementById('mensajeCupo').innerHTML = "El cupo no puede disminuirse";
+          return;
+        } else {
+          document.getElementById('mensajeCupo').hidden = true;
+        }
+      }
+
+      if (reservaA != "") {
+        if (reservaA > $("#reserva").attr("value").replace(/^\s*|\s*$/g, "")) {
+          document.getElementById('mensajeReserva').hidden = false;
+          document.getElementById('mensajeReserva').innerHTML = "El cupo reservado no puede disminuirse";
+          return;
+        } else {
+          document.getElementById('mensajeReserva').hidden = true;
+        }
+      }
+
+      if ($("#actividad1").attr("value").replace(/^\s*|\s*$/g, "") == "" && $("#actividad2").attr("value").replace(/^\s*|\s*$/g, "") == "" && $("#actividad3").attr("value").replace(/^\s*|\s*$/g, "") == "" && $("#actividad4").attr("value").replace(
+          /^\s*|\s*$/g, "") == "" && $("#actividad5").attr("value").replace(/^\s*|\s*$/g, "") == "") {
+        document.getElementById('mensajeActividad').hidden = false;
+        document.getElementById('mensajeActividad').innerHTML = "Ingresá al menos una actividad de servicio";
+        return;
+      } else {
+        document.getElementById('mensajeActividad').hidden = true;
+      }
+
+      document.getElementById("fechaI").disabled = false;
+      document.getElementById("fechaF").disabled = false;
+      document.getElementById("fechaII").disabled = false;
+      document.getElementById("fechaIF").disabled = false;
+      document.getElementById("horaIH").disabled = false;
+      document.getElementById("horaFH").disabled = false;
+      document.getElementById("horaIIH").disabled = false;
+      document.getElementById("horaIFH").disabled = false;
+      document.getElementById("fechaSI").disabled = false;
+      document.getElementById("fechaSF").disabled = false;
+      document.getElementById("horaSIH").disabled = false;
+      document.getElementById("horaSFH").disabled = false;
+      document.getElementById("reserva").disabled = false;
+      document.getElementById("cupo").disabled = false;
+      document.aceptarInfo.submit();
+    }
+  </script>
+  <style type="text/css">
+    .centro {
+      text-align: center;
+      font-family: Verdana;
+      font-weight: bold;
+      font-size: 24px;
+    }
+
+    .centro2 {
+      font-size: 18px;
+      font-weight: bold;
+      font-family: Verdana;
+    }
+
+    .EstiloMarcado {
+      font-size: 16px;
+      color: #FFF;
+      text-align: center;
+      font-family: Verdana;
+    }
+
+    .negrita {
+      font-family: Verdana;
+      font-size: 12px;
+      color: #e4457d;
+    }
+
+    .subtitulos {
+      font-size: 16px;
+      font-weight: bold;
+      color: #e4457d;
+      text-align: left;
+      font-family: Verdana;
+    }
+
+    .texto {
+      font-family: Verdana;
+      font-size: 12px;
+      color: #666;
+    }
+
+    .mensaje2 {
+      color: #F03;
+      font-family: Verdana;
+      font-size: 14px;
+    }
+
+    .Estilo1 {
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .Estilo2 {
+      color: #E4457D
+    }
+
+    .Estilo3 {
+      color: #E8457D
+    }
+
+    .Estilo4 {
+      color: #666
+    }
+  </style>
 </head>
 
 <body>
-<table width="1205" border="0" align="center">
-  <tr>
-    <td colspan="2"><div align="center"><img src="Images/cabezal.png" alt="" width="1144" height="170" /></div></td>
-  </tr>
-  <tr>
-    <td width="168" valign="top"><table width="168" border="1" bordercolor="#E4457D">
-      <tr>
-      <td width="149" class="Estilo4" height="30" bgcolor="#FFF" onmouseover="cambiarFondo(this,'#E4457D','rosado')" onmouseout="cambiarFondo(this,'#FFF','blanco')" style="cursor: pointer; font-family: Verdana; color: #e4457d; font-size: 16px;" onclick="window.location='perfil.php?a=p'"><div align="center">Mi perfil</div></td>
-      </tr>
-      <!-- START BLOCK : menuEventos -->
-      <tr>
-        <td width="149" height="30" class="EstiloMarcado" bgcolor="#E4457D">Eventos</td>
-      </tr>
-      <!-- END BLOCK : menuEventos -->
-      <tr>
-        <td width="149" class="Estilo4" height="30" bgcolor="#FFF" onmouseover="cambiarFondo(this,'#E4457D','rosado')" onmouseout="cambiarFondo(this,'#FFF','blanco')" style="cursor: pointer; font-family: Verdana; color: #e4457d; font-size: 16px;" onclick="window.location='perfil.php?a=i'"><div align="center">Inscripciones</div></td>
-      </tr>
-      <!-- START BLOCK : menuAprobacion -->
-      <tr>
-        <td width="149" class="Estilo4" height="30" bgcolor="#FFF" onmouseover="cambiarFondo(this,'#E4457D','rosado')" onmouseout="cambiarFondo(this,'#FFF','blanco')" style="cursor: pointer; font-family: Verdana; color: #e4457d; font-size: 16px;" onclick="window.location='perfil.php?a=a'"><div align="center">Aprobaciones</div></td>
-      </tr>
-      <!-- END BLOCK : menuAprobacion -->
-      <!-- START BLOCK : menuCuadroSocial -->
-      <tr>
-<td width="149" class="Estilo4" height="30" bgcolor="#FFF" onmouseover="cambiarFondo(this,'#E4457D','rosado')" onmouseout="cambiarFondo(this,'#FFF','blanco')" style="cursor: pointer; font-family: Verdana; color: #e4457d; font-size: 16px;" onclick="window.location='cuadrosocial.php'"><div align="center">Cuadro Social</div></td>
-        </tr>
-      <!-- END BLOCK : menuCuadroSocial -->
-      <!-- START BLOCK : menuStats -->
-      <tr>
-		<td width="149" class="Estilo4" height="30" bgcolor="#FFF" onmouseover="cambiarFondo(this,'#E4457D','rosado')" onmouseout="cambiarFondo(this,'#FFF','blanco')" style="cursor: pointer; font-family: Verdana; color: #e4457d; font-size: 16px;" onclick="window.location='stats.php'"><div align="center">Estadísticas</div></td>
-        </tr>
-      <!-- END BLOCK : menuStats -->
-      <tr>
-        <td width="149" class="Estilo4" height="30" bgcolor="#FFF" onmouseover="cambiarFondo(this,'#E4457D','rosado')" onmouseout="cambiarFondo(this,'#FFF','blanco')" style="cursor: pointer; font-family: Verdana; color: #e4457d; font-size: 16px;" onclick="window.location='logout.php'"><div align="center">Salir</div></td>
-      </tr>
-    </table></td>
-	<td width="1027" height="50" valign="top" class="texto">
-    <!-- START BLOCK : evento -->
-      <form action="eraup.php" method="post" name="aceptarInfo" id="aceptarInfo" style="margin:0">
-        <table width="1021" border="0" align="left">
+  <table width="1205" border="0" align="center">
+    <tr>
+      <td colspan="2">
+        <div align="center"><img src="Images/cabezal.png" alt="" width="1144" height="170" /></div>
+      </td>
+    </tr>
+    <tr>
+      <td width="168" valign="top">
+        <table width="168" border="1" bordercolor="#E4457D">
           <tr>
-            <td width="1015"><span class="subtitulos">{accion} E.R.A.U.P.</span></td>
+            <td width="149" class="Estilo4" height="30" bgcolor="#FFF" onmouseover="cambiarFondo(this,'#E4457D','rosado')" onmouseout="cambiarFondo(this,'#FFF','blanco')" style="cursor: pointer; font-family: Verdana; color: #e4457d; font-size: 16px;"
+              onclick="window.location='perfil.php?a=p'">
+              <div align="center">Mi perfil</div>
+            </td>
           </tr>
+          <!-- START BLOCK : menuEventos -->
           <tr>
-            <td height="21"><span class="negrita">Nombre:</span>
-              <input name="nombre" type="text" id="nombre" value="{nombre}" /> <span id="mensajeNombre" class="mensaje2" hidden="hidden"></span>
-              <br />
-              <span class="negrita">Distrito/s organizador/es (si el evento es organizado por más de un distrito, podes marcarlos sosteniendo la tecla CTRL):<br />
-              </span>
-              <select name="distrito[]" size="10" multiple="multiple" id="distrito" style="width:90px" onchange="cargarAdmins()">
-                <!-- START BLOCK : comboDistrito -->
-                <option value="{valor}" {seleccionado}>{opcion}</option>
-                <!-- END BLOCK : comboDistrito -->
-              </select> <span id="mensajeDistrito" class="mensaje2" hidden="hidden"></span>
-              <br />
-              <span class="negrita"><span class="jCalendar">Fecha de inicio:</span></span>
-<input name="fechaI" type="text" id="fechaI" class="date-pick" disabled="disabled" value="{fechaI}" />
-              <span class="negrita">Hora:</span>
-              <input type="text" name="horaIH" id="horaIH" value="{horaIH}" disabled="disabled"/>
-        <img src="Images/reloj.png" width="25" height="25" id="horaI" name="horaI" align="absmiddle" onmouseover="this.src='Images/relojAp.png';" onmouseout="this.src='Images/reloj.png';"/> <span id="mensajeFechaHoraI" class="mensaje2" hidden="hidden"></span><br />
-              <span class="negrita">Fecha de fin:</span>
-              <input name="fechaF" type="text" id="fechaF" class="date-pick" disabled="disabled" value="{fechaF}" />
-              <span class="negrita">Hora:</span>
-              <input type="text" name="horaFH" id="horaFH" value="{horaFH}" disabled="disabled"/>
-        <img src="Images/reloj.png" width="25" height="25" id="horaF" name="horaF" align="absmiddle" onmouseover="this.src='Images/relojAp.png';" onmouseout="this.src='Images/reloj.png';"/> <span id="mensajeFechaHoraF" class="mensaje2" hidden="hidden"></span> <span id="mensajeFechaHoraF2" class="mensaje2" hidden="hidden"></span><br />
-              <span class="negrita"><br />
-              <span class="Estilo1">Fase I de inscripciones:</span><br />
-              <span class="Estilo4">En esta fase se reservan cupos por distrito, siendo calculados en base a la asistencia a los últimos 3 E.R.A.U.P. y el número de socios del distrito.</span><br />
-              <br />
-              Fecha de apertura:</span>
-              <input name="fechaII" type="text" id="fechaII" class="date-pick" disabled="disabled" value="{fechaII}" />
-              <span class="negrita">Hora:</span>
-              <input type="text" name="horaIIH" id="horaIIH" value="{horaIIH}" disabled="disabled"/>
-        <img src="Images/reloj.png" width="25" height="25" id="horaII" name="horaII" align="absmiddle" onmouseover="this.src='Images/relojAp.png';" onmouseout="this.src='Images/reloj.png';"/> <span id="mensajeFechaHoraI1" class="mensaje2" hidden="hidden"></span><br />
-              <span class="negrita">Fecha de cierre:</span>
-              <input name="fechaIF" type="text" id="fechaIF" class="date-pick" disabled="disabled" value="{fechaIF}" />
-              <span class="negrita">Hora:</span>
-              <input type="text" name="horaIFH" id="horaIFH" value="{horaIFH}" disabled="disabled"/>
-        <img src="Images/reloj.png" width="25" height="25" id="horaIF" name="horaIF" align="absmiddle" onmouseover="this.src='Images/relojAp.png';" onmouseout="this.src='Images/reloj.png';"/> <span id="mensajeFechaHoraF1" class="mensaje2" hidden="hidden"></span> <span id="mensajeFechaHoraF2" class="mensaje2" hidden="hidden"></span> <span id="mensajeFechaHoraF3" class="mensaje2" hidden="hidden"></span><br />
-        <span class="Estilo2">Porcentaje de reserva de Rotarios: 
-        <input name="porcentajeR1" type="text" id="porcentajeR1" value="{porcentajeR1}" /> 
-        *Ingresa solo el número, si no hay límite ingresa 0<span id="mensajeRotarios1" class="mensaje2" hidden="hidden"></span>
-        <br />
-        Porcentaje de reserva de extranjeros: 
-        <input name="porcentajeE1" type="text" id="porcentajeE1" value="{porcentajeE1}" /> 
-        *Ingresa solo el número, si no hay límite ingresa 0</span> <span id="mensajeExt1" class="mensaje2" hidden="hidden"></span>
-        <br />
-        <br />
-        <span class="negrita"><span class="Estilo1">Fase II de inscripciones:</span></span><br />
-        
-        <span class="Estilo4">En esta fase no hay reserva de cupos por distrito, se abre la inscripción nuevamente de forma libre.</span><br />
-        <br />
-        <span class="Estilo3">Fecha de apertura:</span></span>
-              <input name="fechaSI" type="text" id="fechaSI" class="date-pick" disabled="disabled" value="{fechaSI}" /> 
-              <span class="negrita">Hora:</span>
-              <input type="text" name="horaSIH" id="horaSIH" value="{horaSIH}" disabled="disabled"/>
-        <img src="Images/reloj.png" width="25" height="25" id="horaSI" name="horaSI" align="absmiddle" onmouseover="this.src='Images/relojAp.png';" onmouseout="this.src='Images/reloj.png';"/> <span id="mensajeFechaHoraSI" class="mensaje2" hidden="hidden"></span><br />
-              <span class="negrita">Fecha de cierre:</span>
-              <input name="fechaSF" type="text" id="fechaSF" class="date-pick" disabled="disabled" value="{fechaSF}" /> 
-              <span class="negrita">Hora:</span>
-              <input type="text" name="horaSFH" id="horaSFH" value="{horaSFH}" disabled="disabled"/>
-        <img src="Images/reloj.png" width="25" height="25" id="horaSF" name="horaSF" align="absmiddle" onmouseover="this.src='Images/relojAp.png';" onmouseout="this.src='Images/reloj.png';"/> <span id="mensajeFechaHoraSF" class="mensaje2" hidden="hidden"></span><br />
-        <span class="Estilo2">Porcentaje máximo de Rotarios:
-        <input name="porcentajeR2" type="text" id="porcentajeR2" value="{porcentajeR2}" /> 
-        *Ingresa solo el número, si no hay límite ingresa 0<span id="mensajeRotarios2" class="mensaje2" hidden="hidden"></span>
-        <br />
-Porcentaje máximo de extranjeros:
-        <input name="porcentajeE2" type="text" id="porcentajeE2" value="{porcentajeE2}" /> 
-        *Ingresa solo el número, si no hay límite ingresa 0</span><span id="mensajeExt2" class="mensaje2" hidden="hidden"></span>
-<br />
-        <br />
-              <span class="negrita">Ubicación:</span>
-              <input name="ubicacion" type="text" id="ubicacion" value="{ubicacion}" /> <span id="mensajeUbicacion" class="mensaje2" hidden="hidden"></span>
-              <br />
-              <span class="negrita">Costo:</span>
-              <input name="costo" type="text" id="costo" value="{costo}" /> 
-              Moneda: <select name="monedaTicket" id="monedaTicket">
-                <option value="vacio"></option>
-                <!-- START BLOCK : comboMonedaTicket -->
-                <option value="{valor}" {seleccionado}>{opcion}</option>
-                <!-- END BLOCK : comboMonedaTicket -->
-              </select> <span id="mensajeTicket" class="mensaje2" hidden="hidden"></span>
-              <br />
-              <span class="negrita">Cupos reservados para RDRs, AIRAUP e instructores: </span>
-              <input name="reserva" type="text" id="reserva" value="{reserva}" {deshabilitado} />
-              <span id="mensajeReserva" class="mensaje2" hidden="hidden"></span>
-              <br />
-              <span class="negrita">Cupo máximo:</span>
-              <input name="cupo" type="text" id="cupo" value="{cupo}" {deshabilitado} /> *INCLUYE LOS CUPOS RESERVADOS, NO INCLUYE AL DISTRITO ORGANIZADOR
-              <span id="mensajeCupo" class="mensaje2" hidden="hidden"></span>
-              <!-- START BLOCK : seleccionarAdmins -->
-              <table width="900" border="0">
-				<tr>
-                	<td width="894">
-                    <span class="negrita">Seleccioná a los administradores del evento: (no obligatorio, podes marcar todos los que quieras sosteniendo la tecla CTRL presionada)</span>                    </td>
-                </tr>
-                <tr>
-                  <td>
-                  <select name="admins[]" size="10" multiple="multiple" id="admins" style="width:400px">
-	                <!-- START BLOCK : comboAdmins -->
-    		            <option value="{valor}" {seleccionado}>{opcion}</option>
-            	    <!-- END BLOCK : comboAdmins -->
-	              </select>                  </td>
-                </tr>
-                <!-- END BLOCK : seleccionarAdmins -->
-                <tr>
-                  <td><table width="468" border="0">
-                    <tr>
-                      <td width="462" class="negrita">Actividades de servicio</td>
-                      </tr>
-                      <!-- START BLOCK : actividad1 -->
-                    <tr>
-                      <td><label>
-                        <input name="actividad1" type="text" id="actividad1" value="{actividad1}" />
-                      </label><span id="mensajeActividad" class="mensaje2" hidden="hidden"></span></td>
-                      </tr>
-                      <!-- END BLOCK : actividad1 -->
-                      <!-- START BLOCK : actividad2 -->
-                    <tr>
-                      <td><input name="actividad2" type="text" id="actividad2" value="{actividad2}" /></td>
-                      </tr>
-                      <!-- END BLOCK : actividad2 -->
-                      <!-- START BLOCK : actividad3 -->
-                    <tr>
-                      <td><input name="actividad3" type="text" id="actividad3" value="{actividad3}" /></td>
-                      </tr>
-                      <!-- END BLOCK : actividad3 -->
-                      <!-- START BLOCK : actividad4 -->
-                    <tr>
-                      <td><input name="actividad4" type="text" id="actividad4" value="{actividad4}" /></td>
-                      </tr>
-                      <!-- END BLOCK : actividad4 -->
-                      <!-- START BLOCK : actividad5 -->
-                    <tr>
-                      <td><input name="actividad5" type="text" id="actividad5" value="{actividad5}" /></td>
-                      </tr>
-                      <!-- END BLOCK : actividad5 -->
-                  </table></td>
-                </tr>
-              </table>
-              </td>
+            <td width="149" height="30" class="EstiloMarcado" bgcolor="#E4457D">Eventos</td>
           </tr>
+          <!-- END BLOCK : menuEventos -->
           <tr>
-            <td height="21"><div align="center">
-            <table width="197" border="1" align="left" bordercolor="#E4457D">
-              <tr>
-                <td width="81" id="aceptar" class="Estilo4" height="35" bgcolor="#FFF" onmouseover="cambiarFondo(this,'#E4457D','rosado')" onmouseout="cambiarFondo(this,'#FFF','blanco')" style="cursor: pointer; font-family: Verdana; color: #e4457d; font-size: 16px;" onclick="validarDatos()"><div align="center">Aceptar</div>
-                <input type="hidden" name="idEvento" value="{idEvento}" />
-              <input type="hidden" name="accion" value="aceptar" />
-              <input type="hidden" id="cupoActual" name="cupoActual" value="{cupoActual}" />
-              <input type="hidden" id="reservaActual" name="reservaActual" value="{reservaActual}" />
-                </td>
-                <td width="81" class="Estilo4" height="35" bgcolor="#FFF" onmouseover="cambiarFondo(this,'#E4457D','rosado')" onmouseout="cambiarFondo(this,'#FFF','blanco')" style="cursor: pointer; font-family: Verdana; color: #e4457d; font-size: 16px;" onclick="window.location='eventos.php'"><div align="center">Volver</div></td>
-              </tr>
-            </table>
-            </div></td>
+            <td width="149" class="Estilo4" height="30" bgcolor="#FFF" onmouseover="cambiarFondo(this,'#E4457D','rosado')" onmouseout="cambiarFondo(this,'#FFF','blanco')" style="cursor: pointer; font-family: Verdana; color: #e4457d; font-size: 16px;"
+              onclick="window.location='perfil.php?a=i'">
+              <div align="center">Inscripciones</div>
+            </td>
+          </tr>
+          <!-- START BLOCK : menuAprobacion -->
+          <tr>
+            <td width="149" class="Estilo4" height="30" bgcolor="#FFF" onmouseover="cambiarFondo(this,'#E4457D','rosado')" onmouseout="cambiarFondo(this,'#FFF','blanco')" style="cursor: pointer; font-family: Verdana; color: #e4457d; font-size: 16px;"
+              onclick="window.location='perfil.php?a=a'">
+              <div align="center">Aprobaciones</div>
+            </td>
+          </tr>
+          <!-- END BLOCK : menuAprobacion -->
+          <!-- START BLOCK : menuCuadroSocial -->
+          <tr>
+            <td width="149" class="Estilo4" height="30" bgcolor="#FFF" onmouseover="cambiarFondo(this,'#E4457D','rosado')" onmouseout="cambiarFondo(this,'#FFF','blanco')" style="cursor: pointer; font-family: Verdana; color: #e4457d; font-size: 16px;"
+              onclick="window.location='cuadrosocial.php'">
+              <div align="center">Cuadro Social</div>
+            </td>
+          </tr>
+          <!-- END BLOCK : menuCuadroSocial -->
+          <!-- START BLOCK : menuStats -->
+          <tr>
+            <td width="149" class="Estilo4" height="30" bgcolor="#FFF" onmouseover="cambiarFondo(this,'#E4457D','rosado')" onmouseout="cambiarFondo(this,'#FFF','blanco')" style="cursor: pointer; font-family: Verdana; color: #e4457d; font-size: 16px;"
+              onclick="window.location='stats.php'">
+              <div align="center">Estadísticas</div>
+            </td>
+          </tr>
+          <!-- END BLOCK : menuStats -->
+          <tr>
+            <td width="149" class="Estilo4" height="30" bgcolor="#FFF" onmouseover="cambiarFondo(this,'#E4457D','rosado')" onmouseout="cambiarFondo(this,'#FFF','blanco')" style="cursor: pointer; font-family: Verdana; color: #e4457d; font-size: 16px;"
+              onclick="window.location='logout.php'">
+              <div align="center">Salir</div>
+            </td>
           </tr>
         </table>
-</form>
-      <!-- END BLOCK : evento -->
-    </td>
-  </tr>
-</table>
+      </td>
+      <td width="1027" height="50" valign="top" class="texto">
+        <!-- START BLOCK : evento -->
+        <form action="eraup.php" method="post" name="aceptarInfo" id="aceptarInfo" style="margin:0">
+          <table width="1021" border="0" align="left">
+            <tr>
+              <td width="1015"><span class="subtitulos">{accion} E.R.A.U.P.</span></td>
+            </tr>
+            <tr>
+              <td height="21"><span class="negrita">Nombre:</span>
+                <input name="nombre" type="text" id="nombre" value="{nombre}" /> <span id="mensajeNombre" class="mensaje2" hidden="hidden"></span>
+                <br />
+                <span class="negrita">Distrito/s organizador/es (si el evento es organizado por más de un distrito, podes marcarlos sosteniendo la tecla CTRL):<br />
+                </span>
+                <select name="distrito[]" size="10" multiple="multiple" id="distrito" style="width:90px" onchange="cargarAdmins()">
+                  <!-- START BLOCK : comboDistrito -->
+                  <option value="{valor}" {seleccionado}>{opcion}</option>
+                  <!-- END BLOCK : comboDistrito -->
+                </select> <span id="mensajeDistrito" class="mensaje2" hidden="hidden"></span>
+                <br />
+                <span class="negrita"><span class="jCalendar">Fecha de inicio:</span></span>
+                <input name="fechaI" type="text" id="fechaI" class="date-pick" disabled="disabled" value="{fechaI}" />
+                <span class="negrita">Hora:</span>
+                <input type="text" name="horaIH" id="horaIH" value="{horaIH}" disabled="disabled" />
+                <img src="Images/reloj.png" width="25" height="25" id="horaI" name="horaI" align="absmiddle" onmouseover="this.src='Images/relojAp.png';" onmouseout="this.src='Images/reloj.png';" /> <span id="mensajeFechaHoraI" class="mensaje2"
+                  hidden="hidden"></span><br />
+                <span class="negrita">Fecha de fin:</span>
+                <input name="fechaF" type="text" id="fechaF" class="date-pick" disabled="disabled" value="{fechaF}" />
+                <span class="negrita">Hora:</span>
+                <input type="text" name="horaFH" id="horaFH" value="{horaFH}" disabled="disabled" />
+                <img src="Images/reloj.png" width="25" height="25" id="horaF" name="horaF" align="absmiddle" onmouseover="this.src='Images/relojAp.png';" onmouseout="this.src='Images/reloj.png';" /> <span id="mensajeFechaHoraF" class="mensaje2"
+                  hidden="hidden"></span> <span id="mensajeFechaHoraF2" class="mensaje2" hidden="hidden"></span><br />
+                <span class="negrita"><br />
+                  <span class="Estilo1">Fase I de inscripciones:</span><br />
+                  <span class="Estilo4">En esta fase se reservan cupos por distrito, siendo calculados en base a la asistencia a los últimos 3 E.R.A.U.P. y el número de socios del distrito.</span><br />
+                  <br />
+                  Fecha de apertura:</span>
+                <input name="fechaII" type="text" id="fechaII" class="date-pick" disabled="disabled" value="{fechaII}" />
+                <span class="negrita">Hora:</span>
+                <input type="text" name="horaIIH" id="horaIIH" value="{horaIIH}" disabled="disabled" />
+                <img src="Images/reloj.png" width="25" height="25" id="horaII" name="horaII" align="absmiddle" onmouseover="this.src='Images/relojAp.png';" onmouseout="this.src='Images/reloj.png';" /> <span id="mensajeFechaHoraI1" class="mensaje2"
+                  hidden="hidden"></span><br />
+                <span class="negrita">Fecha de cierre:</span>
+                <input name="fechaIF" type="text" id="fechaIF" class="date-pick" disabled="disabled" value="{fechaIF}" />
+                <span class="negrita">Hora:</span>
+                <input type="text" name="horaIFH" id="horaIFH" value="{horaIFH}" disabled="disabled" />
+                <img src="Images/reloj.png" width="25" height="25" id="horaIF" name="horaIF" align="absmiddle" onmouseover="this.src='Images/relojAp.png';" onmouseout="this.src='Images/reloj.png';" /> <span id="mensajeFechaHoraF1" class="mensaje2"
+                  hidden="hidden"></span> <span id="mensajeFechaHoraF2" class="mensaje2" hidden="hidden"></span> <span id="mensajeFechaHoraF3" class="mensaje2" hidden="hidden"></span><br />
+                <span class="Estilo2">Porcentaje de reserva de Rotarios:
+                  <input name="porcentajeR1" type="text" id="porcentajeR1" value="{porcentajeR1}" />
+                  *Ingresa solo el número, si no hay límite ingresa 0<span id="mensajeRotarios1" class="mensaje2" hidden="hidden"></span>
+                  <br />
+                  Porcentaje de reserva de extranjeros:
+                  <input name="porcentajeE1" type="text" id="porcentajeE1" value="{porcentajeE1}" />
+                  *Ingresa solo el número, si no hay límite ingresa 0</span> <span id="mensajeExt1" class="mensaje2" hidden="hidden"></span>
+                <br />
+                <br />
+                <span class="negrita"><span class="Estilo1">Fase II de inscripciones:</span></span><br />
+
+                <span class="Estilo4">En esta fase no hay reserva de cupos por distrito, se abre la inscripción nuevamente de forma libre.</span><br />
+                <br />
+                <span class="Estilo3">Fecha de apertura:</span></span>
+                <input name="fechaSI" type="text" id="fechaSI" class="date-pick" disabled="disabled" value="{fechaSI}" />
+                <span class="negrita">Hora:</span>
+                <input type="text" name="horaSIH" id="horaSIH" value="{horaSIH}" disabled="disabled" />
+                <img src="Images/reloj.png" width="25" height="25" id="horaSI" name="horaSI" align="absmiddle" onmouseover="this.src='Images/relojAp.png';" onmouseout="this.src='Images/reloj.png';" /> <span id="mensajeFechaHoraSI" class="mensaje2"
+                  hidden="hidden"></span><br />
+                <span class="negrita">Fecha de cierre:</span>
+                <input name="fechaSF" type="text" id="fechaSF" class="date-pick" disabled="disabled" value="{fechaSF}" />
+                <span class="negrita">Hora:</span>
+                <input type="text" name="horaSFH" id="horaSFH" value="{horaSFH}" disabled="disabled" />
+                <img src="Images/reloj.png" width="25" height="25" id="horaSF" name="horaSF" align="absmiddle" onmouseover="this.src='Images/relojAp.png';" onmouseout="this.src='Images/reloj.png';" /> <span id="mensajeFechaHoraSF" class="mensaje2"
+                  hidden="hidden"></span><br />
+                <span class="Estilo2">Porcentaje máximo de Rotarios:
+                  <input name="porcentajeR2" type="text" id="porcentajeR2" value="{porcentajeR2}" />
+                  *Ingresa solo el número, si no hay límite ingresa 0<span id="mensajeRotarios2" class="mensaje2" hidden="hidden"></span>
+                  <br />
+                  Porcentaje máximo de extranjeros:
+                  <input name="porcentajeE2" type="text" id="porcentajeE2" value="{porcentajeE2}" />
+                  *Ingresa solo el número, si no hay límite ingresa 0</span><span id="mensajeExt2" class="mensaje2" hidden="hidden"></span>
+                <br />
+                <br />
+                <span class="negrita">Ubicación:</span>
+                <input name="ubicacion" type="text" id="ubicacion" value="{ubicacion}" /> <span id="mensajeUbicacion" class="mensaje2" hidden="hidden"></span>
+                <br />
+                <span class="negrita">Costo:</span>
+                <input name="costo" type="text" id="costo" value="{costo}" />
+                Moneda: <select name="monedaTicket" id="monedaTicket">
+                  <option value="vacio"></option>
+                  <!-- START BLOCK : comboMonedaTicket -->
+                  <option value="{valor}" {seleccionado}>{opcion}</option>
+                  <!-- END BLOCK : comboMonedaTicket -->
+                </select> <span id="mensajeTicket" class="mensaje2" hidden="hidden"></span>
+                <br />
+                <span class="negrita">Cupos reservados para RDRs, AIRAUP e instructores: </span>
+                <input name="reserva" type="text" id="reserva" value="{reserva}" {deshabilitado} />
+                <span id="mensajeReserva" class="mensaje2" hidden="hidden"></span>
+                <br />
+                <span class="negrita">Cupo máximo:</span>
+                <input name="cupo" type="text" id="cupo" value="{cupo}" {deshabilitado} /> *INCLUYE LOS CUPOS RESERVADOS, NO INCLUYE AL DISTRITO ORGANIZADOR
+                <span id="mensajeCupo" class="mensaje2" hidden="hidden"></span>
+                <!-- START BLOCK : seleccionarAdmins -->
+                <table width="900" border="0">
+                  <tr>
+                    <td width="894">
+                      <span class="negrita">Seleccioná a los administradores del evento: (no obligatorio, podes marcar todos los que quieras sosteniendo la tecla CTRL presionada)</span> </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <select name="admins[]" size="10" multiple="multiple" id="admins" style="width:400px">
+                        <!-- START BLOCK : comboAdmins -->
+                        <option value="{valor}" {seleccionado}>{opcion}</option>
+                        <!-- END BLOCK : comboAdmins -->
+                      </select> </td>
+                  </tr>
+                  <!-- END BLOCK : seleccionarAdmins -->
+                  <tr>
+                    <td>
+                      <table width="468" border="0">
+                        <tr>
+                          <td width="462" class="negrita">Actividades de servicio</td>
+                        </tr>
+                        <!-- START BLOCK : actividad1 -->
+                        <tr>
+                          <td><label>
+                              <input name="actividad1" type="text" id="actividad1" value="{actividad1}" />
+                            </label><span id="mensajeActividad" class="mensaje2" hidden="hidden"></span></td>
+                        </tr>
+                        <!-- END BLOCK : actividad1 -->
+                        <!-- START BLOCK : actividad2 -->
+                        <tr>
+                          <td><input name="actividad2" type="text" id="actividad2" value="{actividad2}" /></td>
+                        </tr>
+                        <!-- END BLOCK : actividad2 -->
+                        <!-- START BLOCK : actividad3 -->
+                        <tr>
+                          <td><input name="actividad3" type="text" id="actividad3" value="{actividad3}" /></td>
+                        </tr>
+                        <!-- END BLOCK : actividad3 -->
+                        <!-- START BLOCK : actividad4 -->
+                        <tr>
+                          <td><input name="actividad4" type="text" id="actividad4" value="{actividad4}" /></td>
+                        </tr>
+                        <!-- END BLOCK : actividad4 -->
+                        <!-- START BLOCK : actividad5 -->
+                        <tr>
+                          <td><input name="actividad5" type="text" id="actividad5" value="{actividad5}" /></td>
+                        </tr>
+                        <!-- END BLOCK : actividad5 -->
+                      </table>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            <tr>
+              <td height="21">
+                <div align="center">
+                  <table width="197" border="1" align="left" bordercolor="#E4457D">
+                    <tr>
+                      <td width="81" id="aceptar" class="Estilo4" height="35" bgcolor="#FFF" onmouseover="cambiarFondo(this,'#E4457D','rosado')" onmouseout="cambiarFondo(this,'#FFF','blanco')" style="cursor: pointer; font-family: Verdana; color: #e4457d; font-size: 16px;"
+                        onclick="validarDatos()">
+                        <div align="center">Aceptar</div>
+                        <input type="hidden" name="idEvento" value="{idEvento}" />
+                        <input type="hidden" name="accion" value="aceptar" />
+                        <input type="hidden" id="cupoActual" name="cupoActual" value="{cupoActual}" />
+                        <input type="hidden" id="reservaActual" name="reservaActual" value="{reservaActual}" />
+                      </td>
+                      <td width="81" class="Estilo4" height="35" bgcolor="#FFF" onmouseover="cambiarFondo(this,'#E4457D','rosado')" onmouseout="cambiarFondo(this,'#FFF','blanco')" style="cursor: pointer; font-family: Verdana; color: #e4457d; font-size: 16px;"
+                        onclick="window.location='eventos.php'">
+                        <div align="center">Volver</div>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+              </td>
+            </tr>
+          </table>
+        </form>
+        <!-- END BLOCK : evento -->
+      </td>
+    </tr>
+  </table>
 </body>
+
 </html>
