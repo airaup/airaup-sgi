@@ -1,9 +1,8 @@
 <?php
 ini_set("display_errors", 0);
 include("config.php");
+include("mailer.php");
 require_once("conexionDB.php");
-require 'class.phpmailer.php';
-require 'class.smtp.php';
 session_start(); //Se inicia la sesión
 $obj_con=new conectar;
 
@@ -373,7 +372,7 @@ if ($logueado == "") {
 
         try {
             if (($tipo == 0 && $presidente && $esOrganizador == "SI") || ($tipo == 0 && $representante && $esOrganizador == "SI") || ($tipo == 1 && $representante)) {
-                enviarCorreo($socio['Email'], $cuerpo, "Inscripción confirmada");
+                enviarCorreo($socio['Email'], "Inscripción confirmada", $cuerpo);
 
                 if ($espera) {
                     $mensaje = "Tu inscripción está confirmada, quedaste en lista de espera. Te enviamos un correo para tu registro personal.";
@@ -381,7 +380,7 @@ if ($logueado == "") {
                     $mensaje = "Tu inscripción está confirmada, te enviamos un correo para tu registro personal.";
                 }
             } else {
-                enviarCorreo($socio['Email'], $cuerpo, "Inscripción pendiente de aprobación");
+                enviarCorreo($socio['Email'], "Inscripción pendiente de aprobación", $cuerpo);
 
                 if ($espera) {
                     $mensaje = "Tu inscripción está pendiente de aprobación, quedaste en lista de espera. Te enviamos un correo para tu registro personal.";
@@ -459,7 +458,7 @@ if ($logueado == "") {
                     $cuerpo2 = "El socio " . $socio['Nombres'] . " " . $socio['Apellidos'] . " de tu distrito se ha inscripto a " . $evento['Nombre'] . " (" . $organiza . ")" . utf8_encode(". Este mensaje es solamente un aviso para que estés al tanto, no tenes que realizar ninguna acción en el sistema.");
 
                     try {
-                        enviarCorreo($responsable2['Email'], $cuerpo2, "Notificación de inscripción");
+                        enviarCorreo($responsable2['Email'], "Notificación de inscripción", $cuerpo2);
                     } catch (Exception $e) {
                     }
                 }
@@ -470,7 +469,7 @@ if ($logueado == "") {
 
                 for ($x=1;$x<=$cantResponsables;$x++) {
                     if ($responsables[$x] != "") {
-                        enviarCorreo($responsables[$x], $cuerpo, "Inscripción pendiente de aprobación");
+                        enviarCorreo($responsables[$x], "Inscripción pendiente de aprobación", $cuerpo2);
                         $envio++;
                     }
                 }
@@ -1063,7 +1062,7 @@ function notificarERAUP($conexion2, $aprobado, $idInscripcion, $idEvento, $idPer
     }
 
     //MAIL AL INSCRIPTO
-    enviarCorreo($correo, $mensajeI, utf8_encode("Saliste de la lista de espera!"));
+    enviarCorreo($correo, utf8_encode("Saliste de la lista de espera!"), $mensajeI);
 
     //MAIL AL/LOS RESPONSABLE/S
     $conexion2->Ejecuto("select e.Nombre, ed.idDistrito as 'Distrito', t.Tipo from evento e, tipoevento t, eventodistrito ed where e.idEvento=" . $idEvento . " and e.idTipoEvento=t.idTipoEvento and e.idEvento=ed.idEvento");
@@ -1105,7 +1104,7 @@ function notificarERAUP($conexion2, $aprobado, $idInscripcion, $idEvento, $idPer
 
     for ($x=1;$x<=$cantResponsables;$x++) {
         if ($responsables[$x] != "") {
-            enviarCorreo($responsables[$x], $mensajeR, "Cupos liberados en " . $nomEvento);
+            enviarCorreo($responsables[$x], "Cupos liberados en " . $nomEvento, $mensajeR);
         }
     }
 }
@@ -1176,27 +1175,4 @@ function obtenerPeriodoActual($conexion)
     $conexion->Ejecuto($sentencia);
     $periodo = $conexion->Siguiente();
     return $periodo['idPeriodo'];
-}
-
-function enviarCorreo($direccion, $cuerpo, $titulo)
-{
-    if ($direccion != "") {
-        $mail							= new PHPMailer();
-        $mail->CharSet = 'UTF-8';
-        $mail->IsSMTP();
-        $mail->Host				= "mail.airaup.org";
-        $mail->SMTPAuth		= true;
-        $mail->SMTPSecure = "tls";
-        $mail->Host				= "smtp.gmail.com";
-        $mail->Port				= 587;
-        $mail->Username		= "sgi@airaup.org";
-        $mail->Password		= "Sistema2017";
-        // $mail->SetFrom('sgi@airaup.org', utf8_encode("Sistema de Gestión Integral - AIRAUP"));
-        $mail->FromName = utf8_encode("Sistema de Gestión Integral - AIRAUP");
-        $mail->From = "sgi@airaup.org";
-        $mail->Subject 		= utf8_encode($titulo);
-        $mail->MsgHTML($cuerpo . utf8_encode("<br><br>Por favor no respondas este mensaje.<br>Sistema de Gestión Integral<br>AIRAUP"));
-        $mail->AddAddress($direccion);
-        $mail->Send();
-    }
 }

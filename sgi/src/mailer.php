@@ -1,9 +1,9 @@
 <?php
-include("config.php");
+include_once("config.php");
 require 'class.phpmailer.php';
 require 'class.smtp.php';
 
-function sendMail($email_to, $subject, $body)
+function enviarCorreo($email_to, $subject, $body)
 {
     if (!$email_to) {
         return;

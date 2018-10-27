@@ -1,9 +1,8 @@
 <?php
 ini_set("display_errors", 0);
 include("config.php");
+include("mailer.php");
 require_once("conexionDB.php");
-require 'class.phpmailer.php';
-require 'class.smtp.php';
 session_start(); //Se inicia la sesi�n
 $obj_con=new conectar;
 
@@ -77,7 +76,7 @@ if ($accion == "aceptar") {
         //Env�o correo de confirmaci�n
         $cuerpo = "Para continuar tu registro en SGI, hace click <a href='http://sgi.airaup.org/confirmacion.php?id=" . $idTransaccion . "'>aqu�</a>.<br><br>Por favor no respondas este mensaje.<br>Sistema de Gesti�n Integral<br>AIRAUP";
         try {
-            enviarCorreo($direccion, $cuerpo);
+            enviarCorreo($direccion, utf8_encode('Registro en SGI'), $cuerpo);
 
             header('Location: preregistro.php?a=fc');
         } catch (Exception $e) {
@@ -96,24 +95,6 @@ if ($accion == "aceptar") {
 
 $conexion->Libero(); //Se cierra la conexi�n a la base
 $tpl->printToScreen(); //Se manda todo al HTML usando TPL
-
-function enviarCorreo($direccion, $cuerpo)
-{
-    $mail							= new PHPMailer();
-    $mail->IsSMTP();
-    $mail->Host				= "mail.airaup.org";
-    $mail->SMTPAuth		= true;
-    $mail->SMTPSecure = "tls";
-    $mail->Host				= "smtp.gmail.com";
-    $mail->Port				= 587;
-    $mail->Username		= "sgi@airaup.org";
-    $mail->Password		= "Sistema2017";
-    $mail->SetFrom('sgi@airaup.org', 'SGI - Registro');
-    $mail->Subject		= utf8_encode('Registro en SGI');
-    $mail->MsgHTML(utf8_encode($cuerpo));
-    $mail->AddAddress($direccion);
-    $mail->Send();
-}
 
 function quitarCaracteres($string)
 {

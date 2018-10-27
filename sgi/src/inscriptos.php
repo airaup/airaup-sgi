@@ -1,9 +1,8 @@
 <?php
 ini_set("display_errors", 0);
 include("config.php");
+include("mailer.php");
 require_once("conexionDB.php");
-require 'class.phpmailer.php';
-require 'class.smtp.php';
 session_start(); //Se inicia la sesi�n
 $obj_con=new conectar;
 
@@ -1051,29 +1050,6 @@ function obtenerPeriodoActual($conexion)
     $conexion->Ejecuto($sentencia);
     $periodo = $conexion->Siguiente();
     return $periodo['idPeriodo'];
-}
-
-function enviarCorreo($direccion, $asunto, $texto)
-{
-    if ($direccion != "") {
-        $mail							= new PHPMailer();
-        $mail->CharSet = 'UTF-8';
-        $mail->IsSMTP();
-        $mail->Host				= "mail.airaup.org";
-        $mail->SMTPAuth		= true;
-        $mail->SMTPSecure = "tls";
-        $mail->Host				= "smtp.gmail.com";
-        $mail->Port				= 587;
-        $mail->Username		= "sgi@airaup.org";
-        $mail->Password		= "Sistema2017";
-        // $mail->SetFrom('sgi@airaup.org', utf8_encode("Sistema de Gesti�n Integral - AIRAUP"));
-        $mail->FromName = utf8_encode("Sistema de Gesti�n Integral - AIRAUP");
-        $mail->From = "sgi@airaup.org";
-        $mail->Subject		= $asunto;
-        $mail->MsgHTML($texto . utf8_encode("<br><br>Por favor no respondas este mensaje.<br>Sistema de Gesti�n Integral<br>AIRAUP"));
-        $mail->AddAddress($direccion);
-        $mail->Send();
-    }
 }
 
 function obtenerOrganizadores($conexion, $idEvento, $idBuscado, $soloID)

@@ -1,9 +1,8 @@
 <?php
 ini_set("display_errors", 0);
 include("config.php");
+include("mailer.php");
 require_once("conexionDB.php");
-require 'class.phpmailer.php';
-require 'class.smtp.php';
 session_start(); //Se inicia la sesi�n
 $obj_con=new conectar;
 
@@ -28,7 +27,9 @@ if ($accion == "recover") {
             $tpl->Assign("mensaje", utf8_encode("Tu cuenta est� desactivada, comunicate con tu Presidente."));
         } else {
             try {
-                enviarCorreo($direccion, $socio['Password']);
+                $subject = utf8_encode('Recuperar contrase�a - SGI');
+                $body = utf8_encode('Tu contrase�a actual es ') . $socio['Password'] . utf8_encode('<br><br>Por favor no respondas este mensaje.<br>Sistema de Gesti�n Integral<br>AIRAUP');
+                enviarCorreo($direccion, $subject, $body);
 
                 $tpl->NewBlock("mensaje");
                 $tpl->Assign("mensaje", utf8_encode("Te mandamos tu contrase�a por mail, revisa tu casilla."));
@@ -45,24 +46,3 @@ if ($accion == "recover") {
 
 $conexion->Libero(); //Se cierra la conexi�n a la base
 $tpl->printToScreen(); //Se manda todo al HTML usando TPL
-
-function enviarCorreo($direccion, $contrase�a)
-{
-    $mail							= new PHPMailer();
-    $mail->CharSet = 'UTF-8';
-    $mail->IsSMTP();
-    $mail->Host				= "mail.airaup.org";
-    $mail->SMTPAuth		= true;
-    $mail->SMTPSecure = "tls";
-    $mail->Host				= "smtp.gmail.com";
-    $mail->Port				= 587;
-    $mail->Username		= "sgi@airaup.org";
-    $mail->Password		= "Sistema2017";
-    // $mail->SetFrom('sgi@airaup.org', utf8_encode("Sistema de Gesti�n Integral - AIRAUP"));
-    $mail->FromName = utf8_encode("Sistema de Gesti�n Integral - AIRAUP");
-    $mail->From = "sgi@airaup.org";
-    $mail->Subject		= utf8_encode('Recuperar contrase�a - SGI');
-    $mail->MsgHTML(utf8_encode('Tu contrase�a actual es ') . $contrase�a . utf8_encode('<br><br>Por favor no respondas este mensaje.<br>Sistema de Gesti�n Integral<br>AIRAUP'));
-    $mail->AddAddress($direccion);
-    $mail->Send();
-}
