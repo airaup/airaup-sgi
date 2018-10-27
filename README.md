@@ -52,6 +52,16 @@ user: root
 passwd: changeme
 ```
 
+#### Mailcatcher
+
+Mailcatcher corre un pequeño servidor SMTP que recibe correos.
+
+En vez de enviar los correos al servidor por defecto de SMTP, envia un correo a http://mailcatcher:1025.
+
+Luego podrás los correos en [http://localhost:1080](http://localhost:1080).
+
+Lo podrás ver el proyecto en el puerto 8080 de tu [localhost](http://localhost:8080).
+
 ## Licencia
 
 Este proyecto está bajo la licencia MIT - Ver el archivo [LICENSE.md](LICENSE.md) para más detalles.
