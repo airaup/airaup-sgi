@@ -1,68 +1,68 @@
 <?php
-	ini_set("display_errors", 0);
-	include("config.php");
-	require_once("conexionDB.php");
-	require 'class.phpmailer.php';
-	require 'class.smtp.php';
-	session_start(); //Se inicia la sesión
-	$obj_con=new conectar;
-	
-	require_once("class.TemplatePower.inc.php"); //Usando Template Power
-	
-	$tpl=new TemplatePower("recoverpwd.html");
- 	$tpl->prepare();
-	
-	$accion=$_POST['accion'];
-	
-	$conexion= new ConexionDB($obj_con->getServ(),$obj_con->getBase(),$obj_con->getUsr(),$obj_con->getPass());
-	
-	if ($accion == "recover"){
-		$direccion=$_POST['mail'];
-		
-		$conexion->Ejecuto("select idSocio, Password, Activo from socio where Email='" . $direccion . "'");
-		$socio=$conexion->Siguiente();
-		
-		if ($socio['idSocio'] != ""){ //SI EXISTE
-			if ($socio['Activo'] == 0) { //SI ESTÁ DESACTIVADA LA CUENTA
-				$tpl->NewBlock("mensaje");
-				$tpl->Assign("mensaje", utf8_encode("Tu cuenta está desactivada, comunicate con tu Presidente."));
-			} else {
-				try {
-					enviarCorreo($direccion, $socio['Password']);
-	
-					$tpl->NewBlock("mensaje");
-					$tpl->Assign("mensaje", utf8_encode("Te mandamos tu contraseña por mail, revisa tu casilla."));
-				} catch (Exception $e){
-					$tpl->NewBlock("mensaje");
-					$tpl->Assign("mensaje", utf8_encode("Ocurrió un error al intentar enviar tu contraseña. Por favor comunicate con tu Presidente."));
-				}
-			}
-		} else { //SI NO EXISTE
-			$tpl->NewBlock("mensaje");
-			$tpl->Assign("mensaje", utf8_encode("La dirección de correo ingresada no existe en la base de datos."));
-		}
-	}
-	
-	$conexion->Libero(); //Se cierra la conexión a la base	
-	$tpl->printToScreen(); //Se manda todo al HTML usando TPL
-	
-	function enviarCorreo($direccion, $contraseña){
-		$mail							= new PHPMailer();
-		$mail->CharSet = 'UTF-8';
-		$mail->IsSMTP();
-		$mail->Host				= "mail.airaup.org";
-		$mail->SMTPAuth		= true;
-		$mail->SMTPSecure = "tls";
-		$mail->Host				= "smtp.gmail.com";
-		$mail->Port				= 587; 
-		$mail->Username		= "sgi@airaup.org";
-		$mail->Password		= "Sistema2017";
-		// $mail->SetFrom('sgi@airaup.org', utf8_encode("Sistema de Gestión Integral - AIRAUP"));
-		$mail->FromName = utf8_encode("Sistema de Gestión Integral - AIRAUP");
-		$mail->From = "sgi@airaup.org";
-		$mail->Subject		= utf8_encode('Recuperar contraseña - SGI');
-		$mail->MsgHTML(utf8_encode('Tu contraseña actual es ') . $contraseña . utf8_encode('<br><br>Por favor no respondas este mensaje.<br>Sistema de Gestión Integral<br>AIRAUP'));
-		$mail->AddAddress($direccion);
-		$mail->Send();
-	}
-?>
+ini_set("display_errors", 0);
+include("config.php");
+require_once("conexionDB.php");
+require 'class.phpmailer.php';
+require 'class.smtp.php';
+session_start(); //Se inicia la sesiï¿½n
+$obj_con=new conectar;
+
+require_once("class.TemplatePower.inc.php"); //Usando Template Power
+
+$tpl=new TemplatePower("recoverpwd.html");
+    $tpl->prepare();
+
+$accion=$_POST['accion'];
+
+$conexion= new ConexionDB($obj_con->getServ(), $obj_con->getBase(), $obj_con->getUsr(), $obj_con->getPass());
+
+if ($accion == "recover") {
+    $direccion=$_POST['mail'];
+
+    $conexion->Ejecuto("select idSocio, Password, Activo from socio where Email='" . $direccion . "'");
+    $socio=$conexion->Siguiente();
+
+    if ($socio['idSocio'] != "") { //SI EXISTE
+        if ($socio['Activo'] == 0) { //SI ESTï¿½ DESACTIVADA LA CUENTA
+            $tpl->NewBlock("mensaje");
+            $tpl->Assign("mensaje", utf8_encode("Tu cuenta estï¿½ desactivada, comunicate con tu Presidente."));
+        } else {
+            try {
+                enviarCorreo($direccion, $socio['Password']);
+
+                $tpl->NewBlock("mensaje");
+                $tpl->Assign("mensaje", utf8_encode("Te mandamos tu contraseï¿½a por mail, revisa tu casilla."));
+            } catch (Exception $e) {
+                $tpl->NewBlock("mensaje");
+                $tpl->Assign("mensaje", utf8_encode("Ocurriï¿½ un error al intentar enviar tu contraseï¿½a. Por favor comunicate con tu Presidente."));
+            }
+        }
+    } else { //SI NO EXISTE
+        $tpl->NewBlock("mensaje");
+        $tpl->Assign("mensaje", utf8_encode("La direcciï¿½n de correo ingresada no existe en la base de datos."));
+    }
+}
+
+$conexion->Libero(); //Se cierra la conexiï¿½n a la base
+$tpl->printToScreen(); //Se manda todo al HTML usando TPL
+
+function enviarCorreo($direccion, $contraseï¿½a)
+{
+    $mail							= new PHPMailer();
+    $mail->CharSet = 'UTF-8';
+    $mail->IsSMTP();
+    $mail->Host				= "mail.airaup.org";
+    $mail->SMTPAuth		= true;
+    $mail->SMTPSecure = "tls";
+    $mail->Host				= "smtp.gmail.com";
+    $mail->Port				= 587;
+    $mail->Username		= "sgi@airaup.org";
+    $mail->Password		= "Sistema2017";
+    // $mail->SetFrom('sgi@airaup.org', utf8_encode("Sistema de Gestiï¿½n Integral - AIRAUP"));
+    $mail->FromName = utf8_encode("Sistema de Gestiï¿½n Integral - AIRAUP");
+    $mail->From = "sgi@airaup.org";
+    $mail->Subject		= utf8_encode('Recuperar contraseï¿½a - SGI');
+    $mail->MsgHTML(utf8_encode('Tu contraseï¿½a actual es ') . $contraseï¿½a . utf8_encode('<br><br>Por favor no respondas este mensaje.<br>Sistema de Gestiï¿½n Integral<br>AIRAUP'));
+    $mail->AddAddress($direccion);
+    $mail->Send();
+}

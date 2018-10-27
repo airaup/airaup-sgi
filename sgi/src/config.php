@@ -1,24 +1,28 @@
 <?php
-	class conectar{
-		var $servidor="mysql";
-		var $base="c0310458_sgi";
-		var $usuario="c0310458_sgi";
-		var $pass="Rotaract2016";
+class conectar
+{
+    public $servidor="mysql";
+    public $base="c0310458_sgi";
+    public $usuario="c0310458_sgi";
+    public $pass="Rotaract2016";
 
-		function getPass() {
-		    return $this->pass;
-		}
+    public function getPass()
+    {
+        return $this->pass;
+    }
 
-		function getBase(){
-			return $this->base;
-		}
+    public function getBase()
+    {
+        return $this->base;
+    }
 
-		function getUsr() {
-		    return $this->usuario;
-		}
+    public function getUsr()
+    {
+        return $this->usuario;
+    }
 
-		function getServ() {
-		    return $this->servidor;
-		}
-	}
-?>
+    public function getServ()
+    {
+        return $this->servidor;
+    }
+}
