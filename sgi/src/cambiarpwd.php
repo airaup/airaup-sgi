@@ -71,12 +71,12 @@
 			$conexion->Ejecuto("select Password from socio where idSocio=" . $idSocio);
 			$socio=$conexion->Siguiente();
 			
-			if ($socio['Password'] == $pwdActual){ //SI COINCIDEN, SE CAMBIA EL PWD
+			if (password_verify($pwdActual, $socio['Password'])){ //SI COINCIDEN, SE CAMBIA EL PWD
 				$conexion->Ejecuto("update socio set Password='" . crypt($pwdNueva) . "' where idSocio=" . $idSocio);
 			
 				$tpl->NewBlock("mensaje");
 				$tpl->Assign("mensaje", utf8_encode("La contraseña se modificó correctamente."));
-			} elseif ($socio['Password'] != $pwdActual) { //SI NO COINCIDEN, SE MUESTRA MENSAJE
+			} else { //SI NO COINCIDEN, SE MUESTRA MENSAJE
 				$tpl->NewBlock("mensaje");
 				$tpl->Assign("mensaje", utf8_encode("La contraseña actual ingresada no coincide con la almacenada en la base de datos"));
 			}
