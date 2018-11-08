@@ -18,10 +18,11 @@ $conexion= new ConexionDB($obj_con->getServ(), $obj_con->getBase(), $obj_con->ge
 if ($accion == "login") {
     $direccion=$_POST['mail'];
     $pwd=$_POST['pwd'];
-    $conexion->Ejecuto("select idSocio, Activo from socio where Email='" . $direccion . "' and Password='" . $pwd . "'");
+    $conexion->Ejecuto("select idSocio, Activo, Password from socio where Email='" . $direccion . "'");
     $socio=$conexion->Siguiente();
+    $isPasswordValid=password_verify($pwd, $socio["Password"]);
 
-    if ($socio['idSocio'] != "") {
+    if ($isPasswordValid) {
         if ($socio['Activo'] == 0) {
             $tpl->NewBlock("mensaje");
             $tpl->Assign("mensaje", "Tu cuenta est� desactivada");
