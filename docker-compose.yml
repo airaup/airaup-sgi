@@ -8,7 +8,6 @@ services:
       - ./sgi/src:/var/www/html
     ports:
       - 8000:80
-    command: bash -c "php -f update_passwords.php && docker-php-entrypoint apache2-foreground"
   mysql:
     image: mysql:5.6
     container_name: sgi_mysql
