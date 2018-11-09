@@ -71,12 +71,12 @@ if ($idSocio == "") {
         $conexion->Ejecuto("select Password from socio where idSocio=" . $idSocio);
         $socio=$conexion->Siguiente();
 
-        if ($socio['Password'] == $pwdActual) { //SI COINCIDEN, SE CAMBIA EL PWD
-            $conexion->Ejecuto("update socio set Password='" . $pwdNueva . "' where idSocio=" . $idSocio);
+        if (password_verify($pwdActual, $socio['Password'])) { //SI COINCIDEN, SE CAMBIA EL PWD
+            $conexion->Ejecuto("update socio set Password='" . crypt($pwdNueva) . "' where idSocio=" . $idSocio);
 
             $tpl->NewBlock("mensaje");
             $tpl->Assign("mensaje", utf8_encode("La contrase�a se modific� correctamente."));
-        } elseif ($socio['Password'] != $pwdActual) { //SI NO COINCIDEN, SE MUESTRA MENSAJE
+        } else { //SI NO COINCIDEN, SE MUESTRA MENSAJE
             $tpl->NewBlock("mensaje");
             $tpl->Assign("mensaje", utf8_encode("La contrase�a actual ingresada no coincide con la almacenada en la base de datos"));
         }

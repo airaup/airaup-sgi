@@ -72,7 +72,7 @@ if ($accion == "aceptar") {
         $fechaN = split("/", $fechaNac);
 
         //insertar usuario inactivo hasta confirmar mail
-        $conexion->Ejecuto("insert into preregistro (Nombres, Apellidos, Documento, Direccion, Ciudad, ViveCon, Hospeda, FechaNac, Sexo, Email, Password, Telefono, AreaEstudio, Trabajo, Facebook, FechaRegistro,idTransaccion) values ('" . $nombres . "','" . $apellidos . "'," . $documento . ",'" . $direccionF . "','" . $ciudad . "','" . $viveCon . "'," . $hospeda . ",'" . $fechaN[2] . $fechaN[1] . $fechaN[0] . "'," . $sexo . ",'" . $direccion . "','" . $pwd . "','" . $telefono . "','" . $ocupacion . "','" . $trabajo . "','" . $facebook . "','" . date("Y-m-d H:i:s") . "'," . $idTransaccion . ")");
+        $conexion->Ejecuto("insert into preregistro (Nombres, Apellidos, Documento, Direccion, Ciudad, ViveCon, Hospeda, FechaNac, Sexo, Email, Password, Telefono, AreaEstudio, Trabajo, Facebook, FechaRegistro,idTransaccion) values ('" . $nombres . "','" . $apellidos . "'," . $documento . ",'" . $direccionF . "','" . $ciudad . "','" . $viveCon . "'," . $hospeda . ",'" . $fechaN[2] . $fechaN[1] . $fechaN[0] . "'," . $sexo . ",'" . $direccion . "','" . crypt($pwd) . "','" . $telefono . "','" . $ocupacion . "','" . $trabajo . "','" . $facebook . "','" . date("Y-m-d H:i:s") . "'," . $idTransaccion . ")");
 
         //Env�o correo de confirmaci�n
         $cuerpo = "Para continuar tu registro en SGI, hace click <a href='http://sgi.airaup.org/confirmacion.php?id=" . $idTransaccion . "'>aqu�</a>.<br><br>Por favor no respondas este mensaje.<br>Sistema de Gesti�n Integral<br>AIRAUP";
