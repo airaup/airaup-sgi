@@ -1,16 +1,16 @@
 <?php
 ini_set("display_errors", 0);
-include("config.php");
-include("mailer.php");
-require_once("conexionDB.php");
+include("../../config/config.php");
+include("../mailer/mailer.php");
+include("../../helpers/conexionDB.php");
 session_start(); //Se inicia la sesi�n
 $obj_con=new conectar;
 
-require_once("class.TemplatePower.inc.php"); //Usando Template Power
+include("../../lib/class.TemplatePower.inc.php"); //Usando Template Power
 
 date_default_timezone_set('America/Argentina/Buenos_Aires');
 
-$tpl=new TemplatePower("preregistro.html");
+$tpl=new TemplatePower("views/preregistro.html");
 $tpl->prepare();
 
 $conexion= new ConexionDB($obj_con->getServ(), $obj_con->getBase(), $obj_con->getUsr(), $obj_con->getPass());
@@ -26,7 +26,7 @@ if ($accion == "aceptar") {
     $idSocio = $_SESSION['usuario'];
 
     if ($idSocio != "") {
-        header('Location: perfil.php?a=p');
+        header('Location: modules/users/perfil.php?a=p');
     } else {
         //Proceso datos recibidos
         $nombres=quitarCaracteres($_POST['nombres']);
@@ -74,13 +74,13 @@ if ($accion == "aceptar") {
         $conexion->Ejecuto("insert into preregistro (Nombres, Apellidos, Documento, Direccion, Ciudad, ViveCon, Hospeda, FechaNac, Sexo, Email, Password, Telefono, AreaEstudio, Trabajo, Facebook, FechaRegistro,idTransaccion) values ('" . $nombres . "','" . $apellidos . "'," . $documento . ",'" . $direccionF . "','" . $ciudad . "','" . $viveCon . "'," . $hospeda . ",'" . $fechaN[2] . $fechaN[1] . $fechaN[0] . "'," . $sexo . ",'" . $direccion . "','" . crypt($pwd) . "','" . $telefono . "','" . $ocupacion . "','" . $trabajo . "','" . $facebook . "','" . date("Y-m-d H:i:s") . "'," . $idTransaccion . ")");
 
         //Env�o correo de confirmaci�n
-        $cuerpo = "Para continuar tu registro en SGI, hace click <a href='http://sgi.airaup.org/confirmacion.php?id=" . $idTransaccion . "'>aqu�</a>.<br><br>Por favor no respondas este mensaje.<br>Sistema de Gesti�n Integral<br>AIRAUP";
+        $cuerpo = "Para continuar tu registro en SGI, hace click <a href='http://sgi.airaup.org/modules/auth/confirmacion.php?id=" . $idTransaccion . "'>aqu�</a>.<br><br>Por favor no respondas este mensaje.<br>Sistema de Gesti�n Integral<br>AIRAUP";
         try {
             enviarCorreo($direccion, utf8_encode('Registro en SGI'), $cuerpo);
 
-            header('Location: preregistro.php?a=fc');
+            header('Location: modules/auth/preregistro.php?a=fc');
         } catch (Exception $e) {
-            header('Location: preregistro.php?a=fe');
+            header('Location: modules/auth/preregistro.php?a=fe');
         }
     }
 } elseif ($accion == "fc") {

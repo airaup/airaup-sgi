@@ -1,14 +1,14 @@
 <?php
 ini_set("display_errors", 0);
-include("config.php");
-include("mailer.php");
-require_once("conexionDB.php");
+include("../../config/config.php");
+include("../mailer/mailer.php");
+include("../../helpers/conexionDB.php");
 session_start(); //Se inicia la sesión
 $obj_con=new conectar;
 
-require_once("class.TemplatePower.inc.php"); //Usando Template Power
+include("../../lib/class.TemplatePower.inc.php"); //Usando Template Power
 
-$tpl=new TemplatePower("cuadrosocial.html");
+$tpl=new TemplatePower("views/cuadrosocial.html");
     $tpl->prepare();
 
 $conexion= new ConexionDB($obj_con->getServ(), $obj_con->getBase(), $obj_con->getUsr(), $obj_con->getPass());
@@ -25,7 +25,7 @@ if ($accion == "") {
 $logueado = $_SESSION['usuario'];
 
 if ($logueado == "") {
-    header('Location: login.php');
+    header('Location: modules/auth/login.php');
 } else {
     if ($accion == "activarS") {
         $cantSocios=$_POST['cantSocios'];
@@ -45,7 +45,7 @@ if ($logueado == "") {
             }
         }
 
-        header('Location: cuadrosocial.php');
+        header('Location: modules/club/cuadrosocial.php');
     } elseif ($accion == "adm") {
         $idSocio=$_GET['idS'];
 
@@ -65,7 +65,7 @@ if ($logueado == "") {
 
         enviarCorreo($admin['Email'], utf8_encode("Potestad de administración"), utf8_encode($mensaje));
 
-        header('Location: cuadrosocial.php');
+        header('Location: modules/club/cuadrosocial.php');
     } else {
         $conexion->Ejecuto("select Admin from socio where idSocio=" . $logueado);
         $datosSocio=$conexion->Siguiente();
@@ -123,7 +123,7 @@ if ($logueado == "") {
         }
 
         if (!$presidente && !$representante) {
-            header('Location: perfil.php?a=p');
+            header('Location: modules/users/perfil.php?a=p');
         }
 
         $conexion->Ejecuto("select s.idClub, c.Nombre as 'Club', d.idDistrito, d.Nombre as 'Distrito' from socio s, club c, distrito d where s.idSocio=" . $logueado . " and c.idClub=s.idClub and c.idDistrito=d.idDistrito");

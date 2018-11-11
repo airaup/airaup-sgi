@@ -4,8 +4,8 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>Sistema de gestión integral - Rotaract</title>
-  <link href="dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="dist/css/sb-admin-2.css" rel="stylesheet">
+  <link href="../../../dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../../../dist/css/sb-admin-2.css" rel="stylesheet">
   <meta name="viewport" content="initial-scale=1">
 </head>
 
@@ -31,21 +31,21 @@
           <div class="navbar-default panel panel-default" role="navigation">
             <div class="sidebar-nav navbar-collapse collapse">
               <ul class="nav nav-pills nav-stacked" id="side-menu">
-                <li><a href="perfil.php?a=p">Mi perfíl</a></li>
-                <li><a href="perfil.php?a=i">Inscripciones</a></li>
+                <li><a href="modules/users/perfil.php?a=p">Mi perfíl</a></li>
+                <li><a href="modules/users/perfil.php?a=i">Inscripciones</a></li>
                 <!-- START BLOCK : menuEventos -->
-                <li class="active"><a href="eventos.php">Eventos</a></li>
+                <li class="active"><a href="modules/events/eventos.php">Eventos</a></li>
                 <!-- END BLOCK : menuEventos -->
                 <!-- START BLOCK : menuAprobacion -->
-                <li><a href="perfil.php?a=a">Aprobaciones</a></li>
+                <li><a href="modules/users/perfil.php?a=a">Aprobaciones</a></li>
                 <!-- END BLOCK : menuAprobacion -->
                 <!-- START BLOCK : menuCuadroSocial -->
-                <li><a href="cuadrosocial.php">Cuadro Social</a></li>
+                <li><a href="modules/club/cuadrosocial.php">Cuadro Social</a></li>
                 <!-- END BLOCK : menuCuadroSocial -->
                 <!-- START BLOCK : menuStats -->
-                <li><a href="stats.php">Estadísticas</a></li>
+                <li><a href="modules/stats/stats.php">Estadísticas</a></li>
                 <!-- END BLOCK : menuStats -->
-                <li><a href="logout.php">Salir</a></li>
+                <li><a href="modules/auth/logout.php">Salir</a></li>
               </ul>
             </div>
           </div>
@@ -73,9 +73,9 @@
                   <td>{tipoEvento}</td>
                   <td>{cantInscriptos}/{cupo}</td>
                   <td style="white-space: nowrap;">
-                    <a href="inscriptos.php?id={idEvento}" class="btn btn-xs btn-success">Ver inscriptos</a>
+                    <a href="modules/events/inscriptos.php?id={idEvento}" class="btn btn-xs btn-success">Ver inscriptos</a>
                     <!-- START BLOCK : accionesERAUP -->
-                    <a href="resumen.php?id={idEvento}" class="btn btn-xs btn-success">Resumen</a>
+                    <a href="modules/events/resumen.php?id={idEvento}" class="btn btn-xs btn-success">Resumen</a>
                     <!-- END BLOCK : accionesERAUP -->
                     <!-- START BLOCK : accionesAdmin -->
                     <a href="{url}.php?id={idEvento}" class="btn btn-xs btn-success">Editar</a>
@@ -87,20 +87,20 @@
               </tbody>
             </table>
             <!-- START BLOCK : nuevoEvento -->
-            <a href="abmeventos.php?id=n" class="btn btn-success pull-right">Nuevo Evento</a>
+            <a href="modules/events/abmeventos.php?id=n" class="btn btn-success pull-right">Nuevo Evento</a>
             <!-- END BLOCK : nuevoEvento -->
             <!-- START BLOCK : nuevoERAUP -->
-            <a href="eraup.php?id=n" class="btn btn-success pull-right">Nuevo ERAUP</a>
+            <a href="modules/events/eraup.php?id=n" class="btn btn-success pull-right">Nuevo ERAUP</a>
             <!-- END BLOCK : nuevoERAUP -->
 
 </body>
 
 </html>
-<script src="jquery-1.3.2.min.js"></script>
+<script src="../../../lib/jquery-1.3.2.min.js"></script>
 <script type="text/javascript">
   function validarDeshabilitado(idEvento) {
     if (confirm('Estás seguro de querer deshabilitar el evento seleccionado?')) {
-      window.location.href = 'eventos.php?a=d&id=' + idEvento;
+      window.location.href = 'modules/events/eventos.php?a=d&id=' + idEvento;
     }
   }
 </script>

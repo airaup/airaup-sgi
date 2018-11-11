@@ -1,16 +1,16 @@
 <?php
 ini_set("display_errors", 0);
-include("config.php");
-include("mailer.php");
-require_once("conexionDB.php");
+include("../../config/config.php");
+include("../mailer/mailer.php");
+include("../../helpers/conexionDB.php");
 session_start(); //Se inicia la sesión
 $obj_con=new conectar;
 
 date_default_timezone_set('America/Argentina/Buenos_Aires');
 
-require_once("class.TemplatePower.inc.php"); //Usando Template Power
+include("../../lib/class.TemplatePower.inc.php"); //Usando Template Power
 
-$tpl=new TemplatePower("inscripcion.html");
+$tpl=new TemplatePower("views/inscripcion.html");
     $tpl->prepare();
 
 $conexion= new ConexionDB($obj_con->getServ(), $obj_con->getBase(), $obj_con->getUsr(), $obj_con->getPass());
@@ -20,7 +20,7 @@ $logueado = $_SESSION['usuario'];
 $idPeriodoActual = obtenerPeriodoActual($conexion);
 
 if ($logueado == "") {
-    header('Location: login.php');
+    header('Location: modules/auth/login.php');
 } else {
     $conexion->Ejecuto("select Admin from socio where idSocio=" . $logueado);
     $admin=$conexion->Siguiente();
@@ -485,7 +485,7 @@ if ($logueado == "") {
         }
 
         if ($accion == "inscripcionCN") {
-            header('Location: inscriptos.php?id=' . $idEvento . '&idS=' . $idSocio . '&a2=1&a=eliminarS&idI=' . $idEliminar);
+            header('Location: modules/events/inscriptos.php?id=' . $idEvento . '&idS=' . $idSocio . '&a2=1&a=eliminarS&idI=' . $idEliminar);
         }
 
         //Se muestra mensaje en pantalla
@@ -661,7 +661,7 @@ if ($logueado == "") {
             $conexion->Ejecuto("select idInscripcion from inscripcionevento where idEvento=" . $idEvento . " and idSocio=" . $idSocio);
             $eliminar=$conexion->Siguiente();
 
-            header('Location: inscripcion.php?id=' . $idEvento . '&idA=' . $idSocio . '&idS=' . $nuevoIdSocio . '&a=inscripcionCN&idI=' . $eliminar['idInscripcion'] . '&idN=' . $chequeo['idInscripcion']);
+            header('Location: modules/events/inscripcion.php?id=' . $idEvento . '&idA=' . $idSocio . '&idS=' . $nuevoIdSocio . '&a=inscripcionCN&idI=' . $eliminar['idInscripcion'] . '&idN=' . $chequeo['idInscripcion']);
         }
 
         $conexion->Ejecuto("select i.idInscripcion, i.Aprobado, i.Reserva, c.Nombre as 'Calidad' from inscripcionevento i, calidadasistenciaevento c where i.idCalidadAsistencia=c.idCalidadAsistencia and i.idEvento=" . $idEvento . " and i.idSocio=" . $idSocio);
@@ -753,9 +753,9 @@ if ($logueado == "") {
             }
 
             if ($accion == "inscripcionC") {
-                //header('Location: inscriptos.php?id=' . $idEvento . '&idS=' . $nuevoIdSocio . '&a2=1&a=eliminarS&idI=' . $chequeo['idInscripcion']);
+                //header('Location: modules/events/inscriptos.php?id=' . $idEvento . '&idS=' . $nuevoIdSocio . '&a2=1&a=eliminarS&idI=' . $chequeo['idInscripcion']);
             } else {
-                //header('Location: inscriptos.php?id=' . $idEvento);
+                //header('Location: modules/events/inscriptos.php?id=' . $idEvento);
             }
         } else {
             //No hay reservas disponibles

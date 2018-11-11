@@ -1,13 +1,13 @@
 <?php
 ini_set("display_errors", 0);
-include("config.php");
-require_once("conexionDB.php");
+include("../../config/config.php");
+include("../../helpers/conexionDB.php");
 session_start(); //Se inicia la sesi�n
 $obj_con=new conectar;
 
-require_once("class.TemplatePower.inc.php"); //Usando Template Power
+include("../../lib/class.TemplatePower.inc.php"); //Usando Template Power
 
-$tpl=new TemplatePower("registro.html");
+$tpl=new TemplatePower("views/registro.html");
     $tpl->prepare();
 
 $id=$_GET['id'];

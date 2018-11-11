@@ -1,17 +1,17 @@
 <?php
 ini_set("display_errors", 0);
-include("config.php");
-require_once("conexionDB.php");
-require 'class.phpmailer.php';
-require 'class.smtp.php';
+include("../../config/config.php");
+include("../../helpers/conexionDB.php");
+require '../../lib/class.phpmailer.php';
+require '../../lib/class.smtp.php';
 session_start(); //Se inicia la sesi�n
 $obj_con=new conectar;
 
-require_once("class.TemplatePower.inc.php"); //Usando Template Power
+include("../../lib/class.TemplatePower.inc.php"); //Usando Template Power
 
 date_default_timezone_set('America/Argentina/Buenos_Aires');
 
-$tpl=new TemplatePower("registro.html");
+$tpl=new TemplatePower("views/registro.html");
     $tpl->prepare();
 
 $conexion= new ConexionDB($obj_con->getServ(), $obj_con->getBase(), $obj_con->getUsr(), $obj_con->getPass());
@@ -189,7 +189,7 @@ if ($accion == "e") { //Editar datos personales
         $tpl->newBlock("accion");
         $tpl->assign("tipo", "editar");
     } else {
-        header('Location: login.php');
+        header('Location: modules/auth/login.php');
     }
 } elseif ($accion == "editarCargos") {
     $idSocio = $_GET['idS'];
@@ -567,7 +567,7 @@ if ($accion == "e") { //Editar datos personales
                 $conexion->Ejecuto("delete from preregistro where idTransaccion=" . $idTransaccion);
 
                 $_SESSION['usuario'] = $idSocio;
-                header('Location: perfil.php?a=p');
+                header('Location: modules/users/perfil.php?a=p');
             } else {
                 $tpl->newBlock("mensaje");
                 $tpl->assign("mensaje", utf8_encode("Ocurri� un error al procesar tu registro, por favor contactate con un administrador del sistema."));
@@ -652,7 +652,7 @@ if ($accion == "e") { //Editar datos personales
                 $contar++;
             }
 
-            header('Location: cuadrosocial.php');
+            header('Location: modules/club/cuadrosocial.php');
         } else {
             $fechaN = split("/", $fechaNac);
 
@@ -662,13 +662,13 @@ if ($accion == "e") { //Editar datos personales
             //Actualizo datos m�dicos
             $conexion->Ejecuto("update datosmedicos set ObraSocial='" . $obraSocial . "',NumeroSocio='" . $numSocio ."',GrupoSangre='" . $grupoS ."',Factor='" . $factor . "',EnfermedadCronica=" . $enfermedadC . ",EnfermedadCronicaE='" . $enfermedadCE . "',Internacion3anos=" . $internacion . ",Internacion3anosE='" . $internacionE . "',EnfermedadInfecciosa=" . $enfermedadI . ",EnfermedadInfecciosaE='" . $enfermedadIE . "',IntervencionQuirurjica=" . $intervencion . ",IntervencionQuirurjicaE='" . $intervencionE . "',Alergia=" . $alergia . ",AlergiaE='" . $alergiaE . "',Vegetariano=" . $vegetariano . ",Dieta='" . $dieta . "',Fuma=" . $fumador . ",Lateralidad=" . $lateralidad . ",Lentes=" . $lentes . ",Audifonos=" . $audifonos . ",LimitacionFisica=" . $limitacion . ",LimitacionFisicaE='" . $limitacionE . "',DonanteOrganos=" . $donanteOrganos . ",DonanteMedula=" . $donanteMedula . ",NombreMedicamento='" . $nombreMed . "',Droga='" . $monodroga . "',CantidadMedicamento='" . $cantidadMed . "' where idSocio=" . $idSocio);
 
-            header('Location: perfil.php?a=p');
+            header('Location: modules/users/perfil.php?a=p');
         }
     }
 } elseif ($idSocio != "") {
-    header('Location: perfil.php?a=p');
+    header('Location: modules/users/perfil.php?a=p');
 } elseif ($idSocio == "") {
-    header('Location: preregistro.php');
+    header('Location: modules/users/preregistro.php');
 }
 
 $conexion->Libero(); //Se cierra la conexi�n a la base

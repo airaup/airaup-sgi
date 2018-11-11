@@ -1,16 +1,16 @@
 <?php
 ini_set("display_errors", 0);
-include("config.php");
-include("mailer.php");
-require_once("conexionDB.php");
+include("../../config/config.php");
+include("../mailer/mailer.php");
+include("../../helpers/conexionDB.php");
 session_start(); //Se inicia la sesi�n
 $obj_con=new conectar;
 
 date_default_timezone_set('America/Argentina/Buenos_Aires');
 
-require_once("class.TemplatePower.inc.php"); //Usando Template Power
+include("../../lib/class.TemplatePower.inc.php"); //Usando Template Power
 
-$tpl=new TemplatePower("eraup.html");
+$tpl=new TemplatePower("views/eraup.html");
     $tpl->prepare();
 
 $conexion= new ConexionDB($obj_con->getServ(), $obj_con->getBase(), $obj_con->getUsr(), $obj_con->getPass());
@@ -20,7 +20,7 @@ $idSocio = $_SESSION['usuario'];
 $idPeriodoActual = obtenerPeriodoActual($conexion);
 
 if ($idSocio == "") {
-    header('Location: login.php');
+    header('Location: modules/auth/login.php');
 } else {
     $accion=$_GET['id'];
 
@@ -411,10 +411,10 @@ if ($idSocio == "") {
                 }
             }
 
-            header('Location: eventos.php');
+            header('Location: modules/events/eventos.php');
         }
     } else {
-        header('Location: login.php');
+        header('Location: modules/auth/login.php');
     }
 }
 

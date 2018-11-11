@@ -4,8 +4,8 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>Sistema de gestión integral - Rotaract</title>
-  <link href="dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="dist/css/sb-admin-2.css" rel="stylesheet">
+  <link href="../../../dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../../../dist/css/sb-admin-2.css" rel="stylesheet">
   <meta name="viewport" content="initial-scale=1">
 </head>
 
@@ -31,21 +31,21 @@
           <div class="navbar-default panel panel-default" role="navigation">
             <div class="sidebar-nav navbar-collapse collapse">
               <ul class="nav nav-pills nav-stacked" id="side-menu">
-                <li><a href="perfil.php?a=p">Mi perfíl</a></li>
-                <li><a href="perfil.php?a=i">Inscripciones</a></li>
+                <li><a href="modules/users/perfil.php?a=p">Mi perfíl</a></li>
+                <li><a href="modules/users/perfil.php?a=i">Inscripciones</a></li>
                 <!-- START BLOCK : menuEventos -->
-                <li class="active"><a href="eventos.php">Eventos</a></li>
+                <li class="active"><a href="modules/events/eventos.php">Eventos</a></li>
                 <!-- END BLOCK : menuEventos -->
                 <!-- START BLOCK : menuAprobacion -->
-                <li><a href="perfil.php?a=a">Aprobaciones</a></li>
+                <li><a href="modules/users/perfil.php?a=a">Aprobaciones</a></li>
                 <!-- END BLOCK : menuAprobacion -->
                 <!-- START BLOCK : menuCuadroSocial -->
-                <li><a href="cuadrosocial.php">Cuadro Social</a></li>
+                <li><a href="modules/club/cuadrosocial.php">Cuadro Social</a></li>
                 <!-- END BLOCK : menuCuadroSocial -->
                 <!-- START BLOCK : menuStats -->
-                <li><a href="stats.php">Estadísticas</a></li>
+                <li><a href="modules/stats/stats.php">Estadísticas</a></li>
                 <!-- END BLOCK : menuStats -->
-                <li><a href="logout.php">Salir</a></li>
+                <li><a href="modules/auth/logout.php">Salir</a></li>
               </ul>
             </div>
           </div>
@@ -55,7 +55,7 @@
         <div class="panel panel-default">
           <div class="panel-heading clearfix">
             <!-- START BLOCK : datosEvento -->
-            <form action="inscriptos.php" method="post" name="dListado">
+            <form action="modules/events/inscriptos.php" method="post" name="dListado">
               <b>Lista de inscriptos a {evento}</b><br>{inscriptos} (sin contar {eraup}reprobados y eliminados)
               <input type="submit" class="btn btn-success pull-right" name="descargar" value="Descargar listado">
               <input type="hidden" name="d" id="d" value="d" />
@@ -72,20 +72,20 @@
             <table width="100%" class="table table-striped" style="font-size: 11px">
               <thead>
                 <tr>
-                  <th><a href="inscriptos.php?orden=0&id={idEvento}">Nombre</a></th>
+                  <th><a href="modules/events/inscriptos.php?orden=0&id={idEvento}">Nombre</a></th>
                   <!-- <th><a href="#">Documento</a></th> -->
-                  <th><a href="inscriptos.php?orden=9&id={idEvento}">Distrito</a></th>
-                  <th><a href="inscriptos.php?orden=1&id={idEvento}">Club</a></th>
-                  <th><a href="inscriptos.php?orden=8&id={idEvento}">Sexo</a></th>
-                  <th><a href="inscriptos.php?orden=6&id={idEvento}">Rueda</a></th>
-                  <th><a href="inscriptos.php?orden=2&id={idEvento}">Calidad de asistencia</a></th>
-                  <th><a href="inscriptos.php?orden=3&id={idEvento}">Transporte</a></th>
-                  <th><a href="inscriptos.php?orden=7&id={idEvento}">Dieta</a></th>
-                  <th><a href="inscriptos.php?orden=4&id={idEvento}">Fecha de inscripción</a></th>
-                  <th><a href="inscriptos.php?orden=5&id={idEvento}">Aprobado</a></th>
+                  <th><a href="modules/events/inscriptos.php?orden=9&id={idEvento}">Distrito</a></th>
+                  <th><a href="modules/events/inscriptos.php?orden=1&id={idEvento}">Club</a></th>
+                  <th><a href="modules/events/inscriptos.php?orden=8&id={idEvento}">Sexo</a></th>
+                  <th><a href="modules/events/inscriptos.php?orden=6&id={idEvento}">Rueda</a></th>
+                  <th><a href="modules/events/inscriptos.php?orden=2&id={idEvento}">Calidad de asistencia</a></th>
+                  <th><a href="modules/events/inscriptos.php?orden=3&id={idEvento}">Transporte</a></th>
+                  <th><a href="modules/events/inscriptos.php?orden=7&id={idEvento}">Dieta</a></th>
+                  <th><a href="modules/events/inscriptos.php?orden=4&id={idEvento}">Fecha de inscripción</a></th>
+                  <th><a href="modules/events/inscriptos.php?orden=5&id={idEvento}">Aprobado</a></th>
                   <!-- START BLOCK : tituloERAUP -->
-                  <th><a href="inscriptos.php?orden=10&id={idEvento}">Reserva?</a></th>
-                  <th><a href="inscriptos.php?orden=11&id={idEvento}">Info de pago?</a></th>
+                  <th><a href="modules/events/inscriptos.php?orden=10&id={idEvento}">Reserva?</a></th>
+                  <th><a href="modules/events/inscriptos.php?orden=11&id={idEvento}">Info de pago?</a></th>
                   <!-- END BLOCK : tituloERAUP -->
                   <th><a href="#">Acciones</a></th>
                 </tr>
@@ -109,7 +109,7 @@
                   <td>{pago}</td>
                   <!-- END BLOCK : lineaERAUP -->
                   <td style="white-space: nowrap">
-                    <form action="perfil.php" onClick="this.submit()" method="post" name="vPerfil" style="display: inline">
+                    <form action="modules/users/perfil.php" onClick="this.submit()" method="post" name="vPerfil" style="display: inline">
                       <input type="submit" name="EnviarPerfil" value="Perfil" class="btn btn-xs btn-success">
                       <input type="hidden" name="a" id="a" value="p" />
                       <input type="hidden" name="idS" id="idS" value="{idSocio}" />
@@ -117,14 +117,14 @@
                     </form>
                     <!-- START BLOCK : botonesAdmin -->
                     <!-- START BLOCK : cambioNombre -->
-                    <form action="inscripcion.php" onClick="this.submit()" method="post" name="fCambio" style="display: inline">
+                    <form action="modules/events/inscripcion.php" onClick="this.submit()" method="post" name="fCambio" style="display: inline">
                       <input type="submit" name="Enviarcambio" value="Cambio" class="btn btn-xs btn-success">
                       <input type="hidden" name="accion" id="accion" value="cambio" />
                       <input type="hidden" name="idS" id="idS" value="{idSocio}" />
                       <input type="hidden" name="idE" id="idE" value="{idEvento}" />
                     </form>
                     <!-- END BLOCK : cambioNombre -->
-                    <form action="inscripcion.php" onClick="this.submit()" method="post" name="fEdit" style="display: inline">
+                    <form action="modules/events/inscripcion.php" onClick="this.submit()" method="post" name="fEdit" style="display: inline">
                       <input type="submit" name="EnviarEditar" value="Editar" class="btn btn-xs btn-success">
                       <input type="hidden" name="accion" id="accion" value="e" />
                       <input type="hidden" name="idS" id="idS" value="{idSocio}" />
@@ -141,7 +141,7 @@
             <a href="{urlVolver}" class="btn btn-success pull-right">Volver</a>
             <!-- END BLOCK : botonVolver -->
             <!-- START BLOCK : elimS -->
-            <form action="inscriptos.php" method="post" name="eliminarIns">
+            <form action="modules/events/inscriptos.php" method="post" name="eliminarIns">
               <input type="button" onClick="validarBorrado({idEvento})" class="btn btn-success pull-right" value="Eliminar seleccionados">
               <!-- START BLOCK : totalInscriptos -->
               <input type="hidden" name="cantInscriptos" id="cantInscriptos" value="{cantInscriptos}" />
@@ -158,7 +158,7 @@
 </body>
 
 </html>
-<script src="jquery-1.3.2.min.js"></script>
+<script src="../../../lib/jquery-1.3.2.min.js"></script>
 <script type="text/javascript">
   function validarBorrado(idEvento) {
     chequeo = false;

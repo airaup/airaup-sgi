@@ -1,16 +1,16 @@
 <?php
 ini_set("display_errors", 0);
-include("config.php");
-include("mailer.php");
-require_once("conexionDB.php");
+include("../../config/config.php");
+include("../mailer/mailer.php");
+include("../../helpers/conexionDB.php");
 session_start(); //Se inicia la sesi�n
 $obj_con=new conectar;
 
 date_default_timezone_set('America/Argentina/Buenos_Aires');
 
-require_once("class.TemplatePower.inc.php"); //Usando Template Power
+include("../../lib/class.TemplatePower.inc.php"); //Usando Template Power
 
-$tpl=new TemplatePower("inscriptos.html");
+$tpl=new TemplatePower("views/inscriptos.html");
     $tpl->prepare();
 
 $conexion= new ConexionDB($obj_con->getServ(), $obj_con->getBase(), $obj_con->getUsr(), $obj_con->getPass());
@@ -28,7 +28,7 @@ if ($accion == "") {
 $logueado = $_SESSION['usuario'];
 
 if ($logueado == "") {
-    header('Location: login.php');
+    header('Location: modules/auth/login.php');
 } else {
     if ($accion == "eliminarS") { //Si se elimina la inscripci�n
         $cantBorrar=$_POST['cantBorrar'];
@@ -391,11 +391,11 @@ if ($logueado == "") {
         if ($accion == "v") {
             $tpl->assign("idEvento", $idEvento . "&a=v");
             $tpl->newBlock("botonVolver");
-            $tpl->assign("urlVolver", "perfil.php?a=i");
+            $tpl->assign("urlVolver", "modules/users/perfil.php?a=i");
         } else {
             $tpl->assign("idEvento", $idEvento);
             $tpl->newBlock("botonVolver");
-            $tpl->assign("urlVolver", "eventos.php");
+            $tpl->assign("urlVolver", "modules/events/eventos.php");
         }
 
         //Ejecuto la consulta
@@ -578,7 +578,7 @@ function controlarAcceso($conexion, $datosSocio, $idEvento, $representante, $log
         if ($datosSocio['idDistrito'] == $evento['Distrito'] && ($representante || $datosSocio['Admin'] == 1)) {
             return;
         } else {
-            header('Location: login.php');
+            header('Location: modules/auth/login.php');
         }
     } else {
         for ($x=1;$x<=$cantDistritosO;$x++) {
@@ -589,7 +589,7 @@ function controlarAcceso($conexion, $datosSocio, $idEvento, $representante, $log
             }
         }
 
-        header('Location: login.php');
+        header('Location: modules/auth/login.php');
     }
 }
 

@@ -1,16 +1,16 @@
 <?php
 ini_set("display_errors", 0);
-include("config.php");
-include("mailer.php");
-require_once("conexionDB.php");
+include("../../config/config.php");
+include("../mailer/mailer.php");
+include("../../helpers/conexionDB.php");
 session_start(); //Se inicia la sesi�n
 $obj_con=new conectar;
 
-require_once("class.TemplatePower.inc.php"); //Usando Template Power
+include("../../lib/class.TemplatePower.inc.php"); //Usando Template Power
 
 date_default_timezone_set('America/Argentina/Buenos_Aires');
 
-$tpl=new TemplatePower("aprobacion.html");
+$tpl=new TemplatePower("views/aprobacion.html");
 $tpl->prepare();
 
 $conexion= new ConexionDB($obj_con->getServ(), $obj_con->getBase(), $obj_con->getUsr(), $obj_con->getPass());
@@ -21,7 +21,7 @@ $idSocio = $_SESSION['usuario'];
 $idPeriodoActual = obtenerPeriodoActual($conexion);
 
 if ($idSocio == "") {
-    header('Location: login.php');
+    header('Location: modules/auth/login.php');
 } else {
     $conexion->Ejecuto("select idClub, Admin from socio where idSocio=" . $idSocio);
     $logueado=$conexion->Siguiente();
@@ -179,12 +179,12 @@ if ($idSocio == "") {
             }
         }
 
-        header('Location: perfil.php?a=a');
+        header('Location: modules/users/perfil.php?a=a');
     } else {
         $idEvento=$_POST['idEvento'];
 
         if ($idEvento == "") {
-            header('Location: perfil.php?a=p');
+            header('Location: modules/users/perfil.php?a=p');
         }
 
         $conexion->Ejecuto("select e.Nombre, t.Tipo from evento e, tipoevento t where e.idEvento=" . $idEvento . " and e.idTipoEvento=t.idTipoEvento");

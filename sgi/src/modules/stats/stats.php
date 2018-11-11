@@ -1,13 +1,13 @@
 <?php
 ini_set("display_errors", 0);
-include("config.php");
-require_once("conexionDB.php");
+include("../../config/config.php");
+include("../../helpers/conexionDB.php");
 session_start(); //Se inicia la sesi�n
 $obj_con=new conectar;
 
-require_once("class.TemplatePower.inc.php"); //Usando Template Power
+include("../../lib/class.TemplatePower.inc.php"); //Usando Template Power
 
-$tpl=new TemplatePower("stats.html");
+$tpl=new TemplatePower("views/stats.html");
     $tpl->prepare();
 
 $conexion= new ConexionDB($obj_con->getServ(), $obj_con->getBase(), $obj_con->getUsr(), $obj_con->getPass());
@@ -18,7 +18,7 @@ $idPeriodoActual = obtenerPeriodoActual($conexion);
 $logueado = $_SESSION['usuario'];
 
 if ($logueado == "") {
-    header('Location: login.php');
+    header('Location: modules/auth/login.php');
 } else {
     $conexion->Ejecuto("select s.Admin, d.Nombre as 'NomDistrito', d.idDistrito, c.Nombre as 'NomClub', s.idClub from socio s, distrito d, club c where s.idSocio=" . $logueado . " and c.idDistrito=d.idDistrito and c.idClub=s.idClub");
     $datosSocio=$conexion->Siguiente();
@@ -61,7 +61,7 @@ if ($logueado == "") {
     }
 
     if (!$presidente && !$representante && $presidenteA['idSocio'] != $logueado) {
-        header('Location: perfil.php?a=p');
+        header('Location: modules/users/perfil.php?a=p');
     }
 
     if ($presidenteA['idSocio'] == $logueado) {

@@ -1,13 +1,13 @@
 <?php
-ini_set("display_errors", 0);
-include("config.php");
-require_once("conexionDB.php");
+// ini_set("display_errors", 0);
+include("../../config/config.php");
+include("../../helpers/conexionDB.php");
 session_start(); //Se inicia la sesi�n
 $obj_con=new conectar;
 
-require_once("class.TemplatePower.inc.php"); //Usando Template Power
+include("../../lib/class.TemplatePower.inc.php"); //Usando Template Power
 
-$tpl=new TemplatePower("login.html");
+$tpl=new TemplatePower("views/login.html");
     $tpl->prepare();
 
 $accion=$_POST['accion'];
@@ -28,14 +28,14 @@ if ($accion == "login") {
             $tpl->Assign("mensaje", "Tu cuenta est� desactivada");
         } else {
             $_SESSION['usuario'] = $socio['idSocio'];
-            header('Location: perfil.php?a=p');
+            header('Location: modules/users/perfil.php?a=p');
         }
     } else {
         $tpl->NewBlock("mensaje");
         $tpl->Assign("mensaje", utf8_encode("Los datos ingresados no son v�lidos"));
     }
 } elseif ($idSocio != "") {
-    header('Location: perfil.php?a=p');
+    header('Location: modules/users/perfil.php?a=p');
 }
 
 $conexion->Libero(); //Se cierra la conexi�n a la base

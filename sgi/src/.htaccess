@@ -1,5 +1,5 @@
 # Local Environment
-DirectoryIndex login.php
+DirectoryIndex modules/auth/login.php
 
 # Production Environment
 #RewriteEngine on

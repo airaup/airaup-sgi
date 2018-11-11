@@ -2,7 +2,7 @@ language: php
 
 env:
   global:
-    - PHPCS_IGNORE=class.phpmailer.php,class.TemplatePower.inc.php,class.smtp.php
+    - PHPCS_IGNORE=build,lib
     - PHPCS_STANDARD=PSR2
 
 php:

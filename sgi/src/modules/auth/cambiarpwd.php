@@ -1,19 +1,19 @@
 <?php
 ini_set("display_errors", 0);
-include("config.php");
-require_once("conexionDB.php");
+include("../../config/config.php");
+include("../../helpers/conexionDB.php");
 session_start(); //Se inicia la sesi�n
 $obj_con=new conectar;
 
-require_once("class.TemplatePower.inc.php"); //Usando Template Power
+include("../../lib/class.TemplatePower.inc.php"); //Usando Template Power
 
-$tpl=new TemplatePower("cambiarpwd.html");
+$tpl=new TemplatePower("views/cambiarpwd.html");
 $tpl->prepare();
 
 $idSocio = $_SESSION['usuario'];
 
 if ($idSocio == "") {
-    header('Location: login.php');
+    header('Location: modules/auth/login.php');
 } else {
     $accion=$_POST['accion'];
 

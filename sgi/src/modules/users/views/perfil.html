@@ -4,12 +4,12 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>Sistema de gestión integral - Rotaract</title>
-  <link href="dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="dist/css/metisMenu.min.css" rel="stylesheet">
-  <link href="dist/css/sb-admin-2.css" rel="stylesheet">
-  <link href="dist/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-  <script src="dist/js/jquery.min.js"></script>
-  <script src="dist/js/bootstrap.min.js"></script>
+  <link href="../../../dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../../../dist/css/metisMenu.min.css" rel="stylesheet">
+  <link href="../../../dist/css/sb-admin-2.css" rel="stylesheet">
+  <link href="../../../dist/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <script src="../../../dist/js/jquery.min.js"></script>
+  <script src="../../../dist/js/bootstrap.min.js"></script>
   <meta name="viewport" content="initial-scale=1">
 </head>
 
@@ -36,21 +36,21 @@
             <div class="sidebar-nav navbar-collapse collapse">
               <ul class="nav nav nav-pills nav-stacked" id="side-menu">
                 <!-- START BLOCK : menues -->
-                <li><a href="perfil.php?a=p">Mi perfíl</a></li>
-                <li><a href="perfil.php?a=i">Inscripciones</a></li>
+                <li><a href="modules/users/perfil.php?a=p">Mi perfíl</a></li>
+                <li><a href="modules/users/perfil.php?a=i">Inscripciones</a></li>
                 <!-- START BLOCK : menuEventos -->
-                <li><a href="eventos.php">Eventos</a></li>
+                <li><a href="modules/events/eventos.php">Eventos</a></li>
                 <!-- END BLOCK : menuEventos -->
                 <!-- START BLOCK : menuAprobacion -->
-                <li><a href="perfil.php?a=a">Aprobaciones</a></li>
+                <li><a href="modules/users/perfil.php?a=a">Aprobaciones</a></li>
                 <!-- END BLOCK : menuAprobacion -->
                 <!-- START BLOCK : menuCuadroSocial -->
-                <li><a href="cuadrosocial.php">Cuadro Social</a></li>
+                <li><a href="modules/club/cuadrosocial.php">Cuadro Social</a></li>
                 <!-- END BLOCK : menuCuadroSocial -->
                 <!-- START BLOCK : menuStats -->
-                <li><a href="stats.php">Estadísticas</a></li>
+                <li><a href="modules/stats/stats.php">Estadísticas</a></li>
                 <!-- END BLOCK : menuStats -->
-                <li><a href="logout.php">Salir</a></li>
+                <li><a href="modules/auth/logout.php">Salir</a></li>
                 <!-- END BLOCK : menues -->
               </ul>
             </div>
@@ -279,7 +279,7 @@
               <div class="panel-heading">Aprobación de inscripciones</div>
               <div class="panel-body">
                 <!-- START BLOCK : eventoAprobar -->
-                <form action="aprobacion.php" onclick="this.submit()" method="post" name="fEdit" id="fEdit" style="margin:0">
+                <form action="modules/events/aprobacion.php" onclick="this.submit()" method="post" name="fEdit" id="fEdit" style="margin:0">
                   <a href='#' class="texto">{evento}</a>
                   <input type="hidden" name="idEvento" id="idEvento" value="{idEvento}" />
                 </form>
@@ -294,8 +294,8 @@
 
             <!-- START BLOCK : botonesPerfil -->
             <div class="panel-footer">
-              <a href="registro.php?a=e" class="btn btn-success">Editar datos</a>
-              <a href="cambiarpwd.php" class="btn btn-success">Cambiar contraseña</a>
+              <a href="modules/auth/registro.php?a=e" class="btn btn-success">Editar datos</a>
+              <a href="modules/auth/cambiarpwd.php" class="btn btn-success">Cambiar contraseña</a>
             </div>
             <!-- END BLOCK : botonesPerfil -->
           </div>

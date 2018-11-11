@@ -1,15 +1,15 @@
 <?php
 ini_set("display_errors", 0);
-include("config.php");
-require_once("conexionDB.php");
+include("../../config/config.php");
+include("../../helpers/conexionDB.php");
 session_start(); //Se inicia la sesión
 $obj_con=new conectar;
 
-require_once("class.TemplatePower.inc.php"); //Usando Template Power
+include("../../lib/class.TemplatePower.inc.php"); //Usando Template Power
 
 date_default_timezone_set('America/Argentina/Buenos_Aires');
 
-$tpl=new TemplatePower("perfil.html");
+$tpl=new TemplatePower("views/perfil.html");
     $tpl->prepare();
 
 $conexion= new ConexionDB($obj_con->getServ(), $obj_con->getBase(), $obj_con->getUsr(), $obj_con->getPass());
@@ -25,7 +25,7 @@ if ($accion == "") {
 }
 
 if ($idSocio == "") {
-    header('Location: login.php');
+    header('Location: modules/auth/login.php');
 } else {
     if ($accion == "p") { //Datos del usuario
         $conexion->Ejecuto("select s.Nombres, s.Apellidos, s.Documento, s.Direccion, s.Ciudad, s.FechaNac, s.Sexo, s.Email, s.Facebook, s.Telefono, s.ViveCon, s.Hospeda, c.Nombre as 'Club', d.Nombre as 'Distrito', s.FechaIngreso, r.Nombre as 'Rueda', s.AreaEstudio, s.Trabajo, s.NombreContacto, s.TelefonoContacto, s.RelacionContacto, s.Admin from socio s, tiporueda r, club c, distrito d where s.idSocio=" . $idSocio . " and s.idClub=c.idClub and c.idDistrito=d.idDistrito and r.idTipoRueda=s.idTipoRueda");
@@ -40,12 +40,12 @@ if ($idSocio == "") {
         $tpl->newBlock("menues");
 
         if ($idEvento != "") {
-            $tpl->assign("miperfil", "<a href='perfil.php?a=p'>Mi perfil</a>");
+            $tpl->assign("miperfil", "<a href='modules/users/perfil.php?a=p'>Mi perfil</a>");
         } else {
             $tpl->assign("miperfil", "<td width=\"149\" height=\"30\" class=\"EstiloMarcado\" bgcolor=\"#E4457D\">Mi perfil</td>");
         }
 
-        $tpl->assign("inscripciones", "<a href='perfil.php?a=i'>Inscripciones</a>");
+        $tpl->assign("inscripciones", "<a href='modules/users/perfil.php?a=i'>Inscripciones</a>");
 
         $conexion->Ejecuto("select c.Nombre from historialcargoclub h, cargoclub c, periodo where h.idSocio=" . $idSocio . " and c.idCargoClub=h.idCargoClub and h.idPeriodo=" . $idPeriodoActual);
 
@@ -53,7 +53,7 @@ if ($idSocio == "") {
             if ($cargosClub['Nombre'] == 'Presidente' || $cargosClub['Nombre'] == 'Secretario') {
                 $presidente = true;
                 $tpl->newBlock("menuAprobacion");
-                $tpl->assign("aprobacion", "<a href='perfil.php?a=a'>Aprobaciones</a>");
+                $tpl->assign("aprobacion", "<a href='modules/users/perfil.php?a=a'>Aprobaciones</a>");
                 $tpl->newBlock("menuCuadroSocial");
                 $tpl->newBlock("menuStats");
                 break;
@@ -67,7 +67,7 @@ if ($idSocio == "") {
 
                 if (!$presidente) {
                     $tpl->newBlock("menuAprobacion");
-                    $tpl->assign("aprobacion", "<a href='perfil.php?a=a'>Aprobaciones</a>");
+                    $tpl->assign("aprobacion", "<a href='modules/users/perfil.php?a=a'>Aprobaciones</a>");
                     $tpl->newBlock("menuCuadroSocial");
                     $tpl->newBlock("menuStats");
                 }
@@ -83,7 +83,7 @@ if ($idSocio == "") {
 
                 if (!$presidente) {
                     $tpl->newBlock("menuAprobacion");
-                    $tpl->assign("aprobacion", "<a href='perfil.php?a=a'>Aprobaciones</a>");
+                    $tpl->assign("aprobacion", "<a href='modules/users/perfil.php?a=a'>Aprobaciones</a>");
                     $tpl->newBlock("menuCuadroSocial");
                     $tpl->newBlock("menuStats");
                 }
@@ -331,9 +331,9 @@ if ($idSocio == "") {
         $representante = false;
 
         $tpl->newBlock("menues");
-        $tpl->assign("miperfil", "<a href='perfil.php?a=p'>Mi perfil</a>");
+        $tpl->assign("miperfil", "<a href='modules/users/perfil.php?a=p'>Mi perfil</a>");
 
-        $tpl->assign("inscripciones", "<a href='perfil.php?a=i'>Inscripciones</a>");
+        $tpl->assign("inscripciones", "<a href='modules/users/perfil.php?a=i'>Inscripciones</a>");
 
         $conexion->Ejecuto("select c.Nombre from historialcargoclub h, cargoclub c, periodo where h.idSocio=" . $idSocio . " and c.idCargoClub=h.idCargoClub and h.idPeriodo=" . $idPeriodoActual);
 
@@ -341,7 +341,7 @@ if ($idSocio == "") {
             if ($cargosClub['Nombre'] == 'Presidente' || $cargosClub['Nombre'] == 'Secretario') {
                 $presidente = true;
                 $tpl->newBlock("menuAprobacion");
-                $tpl->assign("aprobacion", "<a href='perfil.php?a=a'>Aprobaciones</a>");
+                $tpl->assign("aprobacion", "<a href='modules/users/perfil.php?a=a'>Aprobaciones</a>");
                 $tpl->newBlock("menuCuadroSocial");
                 $tpl->newBlock("menuStats");
                 break;
@@ -355,7 +355,7 @@ if ($idSocio == "") {
 
                 if (!$presidente) {
                     $tpl->newBlock("menuAprobacion");
-                    $tpl->assign("aprobacion", "<a href='perfil.php?a=a'>Aprobaciones</a>");
+                    $tpl->assign("aprobacion", "<a href='modules/users/perfil.php?a=a'>Aprobaciones</a>");
                     $tpl->newBlock("menuCuadroSocial");
                     $tpl->newBlock("menuStats");
                 }
@@ -370,7 +370,7 @@ if ($idSocio == "") {
 
                 if (!$presidente) {
                     $tpl->newBlock("menuAprobacion");
-                    $tpl->assign("aprobacion", "<a href='perfil.php?a=a'>Aprobaciones</a>");
+                    $tpl->assign("aprobacion", "<a href='modules/users/perfil.php?a=a'>Aprobaciones</a>");
                     $tpl->newBlock("menuCuadroSocial");
                     $tpl->newBlock("menuStats");
                 }
@@ -387,7 +387,7 @@ if ($idSocio == "") {
         }
 
         if (!$presidente && !$representante) {
-            header('Location: perfil.php?a=p');
+            header('Location: modules/users/perfil.php?a=p');
         }
 
         if ($presidente) {
@@ -500,7 +500,7 @@ group by e.idEvento");
         $representante = false;
 
         $tpl->newBlock("menues");
-        $tpl->assign("miperfil", "<a href='perfil.php?a=p'>Mi perfil</a>");
+        $tpl->assign("miperfil", "<a href='modules/users/perfil.php?a=p'>Mi perfil</a>");
 
         $tpl->assign("inscripciones", "<td width=\"149\" height=\"30\" class=\"EstiloMarcado\" bgcolor=\"#E4457D\">Inscripciones</td>");
 
@@ -510,7 +510,7 @@ group by e.idEvento");
             if ($cargosClub['Nombre'] == 'Presidente' || $cargosClub['Nombre'] == 'Secretario') {
                 $presidente = true;
                 $tpl->newBlock("menuAprobacion");
-                $tpl->assign("aprobacion", "<a href='perfil.php?a=a'>Aprobaciones</a>");
+                $tpl->assign("aprobacion", "<a href='modules/users/perfil.php?a=a'>Aprobaciones</a>");
                 $tpl->newBlock("menuCuadroSocial");
                 $tpl->newBlock("menuStats");
                 break;
@@ -524,7 +524,7 @@ group by e.idEvento");
 
                 if (!$presidente) {
                     $tpl->newBlock("menuAprobacion");
-                    $tpl->assign("aprobacion", "<a href='perfil.php?a=a'>Aprobaciones</a>");
+                    $tpl->assign("aprobacion", "<a href='modules/users/perfil.php?a=a'>Aprobaciones</a>");
                     $tpl->newBlock("menuCuadroSocial");
                     $tpl->newBlock("menuStats");
                 }
@@ -539,7 +539,7 @@ group by e.idEvento");
 
                 if (!$presidente) {
                     $tpl->newBlock("menuAprobacion");
-                    $tpl->assign("aprobacion", "<a href='perfil.php?a=a'>Aprobaciones</a>");
+                    $tpl->assign("aprobacion", "<a href='modules/users/perfil.php?a=a'>Aprobaciones</a>");
                     $tpl->newBlock("menuCuadroSocial");
                     $tpl->newBlock("menuStats");
                 }
@@ -660,7 +660,7 @@ group by e.idEvento");
                             $conexion2->Ejecuto("select count(idInscripcion) as 'Cantidad' from inscripcionevento where idEvento=" . $eventosDisponibles['idEvento'] . " and Aprobado in (0,1,3,4) and Eliminado=0");
                             $inscriptos=$conexion2->Siguiente();
 
-                            $tpl->assign("evento", "<a href='inscripcion.php?idEvento=" . $eventosDisponibles['idEvento'] . "'>" . $eventosDisponibles['Nombre'] . "</a>");
+                            $tpl->assign("evento", "<a href='modules/events/inscripcion.php?idEvento=" . $eventosDisponibles['idEvento'] . "'>" . $eventosDisponibles['Nombre'] . "</a>");
 
                             if ($inscriptos['Cantidad'] > $eventosDisponibles['CupoMaximo']) {
                                 $tpl->assign("estado", "No inscripto - CUPO AGOTADO (podes inscribirte igual y quedar en lista de espera)");
@@ -706,9 +706,9 @@ group by e.idEvento");
                     }
 
                     if ($representante) {
-                        $tpl->assign("verI", "- <a href='inscriptos.php?a=v&id=" . $eventosDisponibles['idEvento'] . "' class='negrita'>Ver inscriptos de mi Distrito</a>");
+                        $tpl->assign("verI", "- <a href='modules/events/inscriptos.php?a=v&id=" . $eventosDisponibles['idEvento'] . "' class='negrita'>Ver inscriptos de mi Distrito</a>");
                     } elseif ($presidente) {
-                        $tpl->assign("verI", "- <a href='inscriptos.php?a=v&id=" . $eventosDisponibles['idEvento'] . "' class='negrita'>Ver inscriptos de mi Club</a>");
+                        $tpl->assign("verI", "- <a href='modules/events/inscriptos.php?a=v&id=" . $eventosDisponibles['idEvento'] . "' class='negrita'>Ver inscriptos de mi Club</a>");
                     }
                 }
 
@@ -769,9 +769,9 @@ function desplegarEvento($conex, $conex2, $tpl, $presidente, $representante, $ti
                         $inscriptos=$conex2->Siguiente();
 
                         if ($tipoE == "A") {
-                            $tpl->assign("evento", "<a href='inscripcion.php?idEvento=" . $eventosDisponibles['idEvento'] . "'>" . $eventosDisponibles['Nombre'] . " - " . $distritos . "</a>");
+                            $tpl->assign("evento", "<a href='modules/events/inscripcion.php?idEvento=" . $eventosDisponibles['idEvento'] . "'>" . $eventosDisponibles['Nombre'] . " - " . $distritos . "</a>");
                         } else {
-                            $tpl->assign("evento", "<a href='inscripcion.php?idEvento=" . $eventosDisponibles['idEvento'] . "'>" . $eventosDisponibles['Nombre'] . "</a>");
+                            $tpl->assign("evento", "<a href='modules/events/inscripcion.php?idEvento=" . $eventosDisponibles['idEvento'] . "'>" . $eventosDisponibles['Nombre'] . "</a>");
                         }
 
                         if ($eraup['idTipoEvento'] == $eventosDisponibles['idTipoEvento']) {
@@ -909,14 +909,14 @@ function desplegarEvento($conex, $conex2, $tpl, $presidente, $representante, $ti
                             if ($eraup['idTipoEvento'] == $eventosDisponibles['idTipoEvento']) { //SEGUNDA FASE ERAUP
                                 if ($eventosDisponibles['FechaInicioInscripcion2'] <= $hoy && $eventosDisponibles['FechaFinInscripcion2'] >= $hoy) {
                                     if ($estado['Aprobado'] == null) {
-                                        $tpl->assign("evento", "<a href='inscripcion.php?idEvento=" . $eventosDisponibles['idEvento'] . "'>" . $eventosDisponibles['Nombre'] . " - " . $distritos . "</a>");
+                                        $tpl->assign("evento", "<a href='modules/events/inscripcion.php?idEvento=" . $eventosDisponibles['idEvento'] . "'>" . $eventosDisponibles['Nombre'] . " - " . $distritos . "</a>");
                                     } else {
                                         $tpl->assign("evento", $eventosDisponibles['Nombre'] . " - " . $distritos);
                                     }
                                 } else {
                                     if (strpos($distritos, $distrito['Nombre'])) { //PARA DISTRITO ORGANIZADOR ABIERTA SIEMPRE
                                         if ($eventosDisponibles['FechaFinInscripcion2'] >= $hoy && $estado['Aprobado'] == null) {
-                                            $tpl->assign("evento", "<a href='inscripcion.php?idEvento=" . $eventosDisponibles['idEvento'] . "'>" . $eventosDisponibles['Nombre'] . " - " . $distritos . "</a>");
+                                            $tpl->assign("evento", "<a href='modules/events/inscripcion.php?idEvento=" . $eventosDisponibles['idEvento'] . "'>" . $eventosDisponibles['Nombre'] . " - " . $distritos . "</a>");
                                         } else {
                                             $tpl->assign("evento", $eventosDisponibles['Nombre'] . " - " . $distritos);
                                         }
@@ -934,7 +934,7 @@ function desplegarEvento($conex, $conex2, $tpl, $presidente, $representante, $ti
                 } elseif ($estado['Eliminado'] == 1) {
                     if ($tipoE == "A") {
                         if ($eraup['idTipoEvento'] == $eventosDisponibles['idTipoEvento'] && $eventosDisponibles['FechaInicioInscripcion2'] <= $hoy && $eventosDisponibles['FechaFinInscripcion2'] >= $hoy && $estado['FechaInscripcion'] <= $eventosDisponibles['FechaFinInscripcion']) {
-                            $tpl->assign("evento", "<a href='inscripcion.php?idEvento=" . $eventosDisponibles['idEvento'] . "'>" . $eventosDisponibles['Nombre'] . " - " . $distritos . "</a>");
+                            $tpl->assign("evento", "<a href='modules/events/inscripcion.php?idEvento=" . $eventosDisponibles['idEvento'] . "'>" . $eventosDisponibles['Nombre'] . " - " . $distritos . "</a>");
                             $tpl->assign("estado", utf8_encode("Inscripción eliminada en Fase I"));
                         } else {
                             $tpl->assign("evento", $eventosDisponibles['Nombre'] . " - " . $distritos);
@@ -1007,9 +1007,9 @@ function desplegarEvento($conex, $conex2, $tpl, $presidente, $representante, $ti
                 }
 
                 if ($representante) {
-                    $tpl->assign("verI", "- <a href='inscriptos.php?a=v&id=" . $eventosDisponibles['idEvento'] . "' class='negrita'>Ver inscriptos de mi Distrito</a>");
+                    $tpl->assign("verI", "- <a href='modules/events/inscriptos.php?a=v&id=" . $eventosDisponibles['idEvento'] . "' class='negrita'>Ver inscriptos de mi Distrito</a>");
                 } elseif ($presidente) {
-                    $tpl->assign("verI", "- <a href='inscriptos.php?a=v&id=" . $eventosDisponibles['idEvento'] . "' class='negrita'>Ver inscriptos de mi Club</a>");
+                    $tpl->assign("verI", "- <a href='modules/events/inscriptos.php?a=v&id=" . $eventosDisponibles['idEvento'] . "' class='negrita'>Ver inscriptos de mi Club</a>");
                 }
             }
         }

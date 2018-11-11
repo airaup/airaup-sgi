@@ -1,7 +1,7 @@
 <?php
-include_once("config.php");
-require 'class.phpmailer.php';
-require 'class.smtp.php';
+include_once("../../config/config.php");
+require '../../lib/class.phpmailer.php';
+require '../../lib/class.smtp.php';
 
 function enviarCorreo($email_to, $subject, $body)
 {

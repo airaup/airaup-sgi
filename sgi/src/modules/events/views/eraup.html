@@ -4,12 +4,12 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>Sistema de gestión integral - Rotaract</title>
-  <script type="text/javascript" src="jquery-1.3.2.min.js"></script>
-  <script type="text/javascript" src="jquery.datePicker.js"></script>
-  <script type="text/javascript" src="date.js"></script>
+  <script type="text/javascript" src="../../../lib/jquery-1.3.2.min.js"></script>
+  <script type="text/javascript" src="../../../lib/jquery.datePicker.js"></script>
+  <script type="text/javascript" src="../../../lib/date.js"></script>
   <link href="datePicker.css" rel="stylesheet" type="text/css">
-  <script type="text/javascript" src="time.js"></script>
-  <link href="time.css" rel="stylesheet" type="text/css">
+  <script type="text/javascript" src="../../../time.js"></script>
+  <link href="../../../lib/time.css" rel="stylesheet" type="text/css">
 
   <script type="text/javascript">
     $(function() {
@@ -53,7 +53,7 @@
         }
       }
 
-      $.getJSON('cargarAdmins.php?distritos=' + distritos, function(data) {
+      $.getJSON('modules/events/cargarAdmins.php?distritos=' + distritos, function(data) {
         var select = document.getElementById("admins");
         select.innerHTML = "";
 
@@ -429,7 +429,7 @@
         <table width="168" border="1" bordercolor="#E4457D">
           <tr>
             <td width="149" class="Estilo4" height="30" bgcolor="#FFF" onmouseover="cambiarFondo(this,'#E4457D','rosado')" onmouseout="cambiarFondo(this,'#FFF','blanco')" style="cursor: pointer; font-family: Verdana; color: #e4457d; font-size: 16px;"
-              onclick="window.location='perfil.php?a=p'">
+              onclick="window.location='modules/users/perfil.php?a=p'">
               <div align="center">Mi perfil</div>
             </td>
           </tr>
@@ -440,14 +440,14 @@
           <!-- END BLOCK : menuEventos -->
           <tr>
             <td width="149" class="Estilo4" height="30" bgcolor="#FFF" onmouseover="cambiarFondo(this,'#E4457D','rosado')" onmouseout="cambiarFondo(this,'#FFF','blanco')" style="cursor: pointer; font-family: Verdana; color: #e4457d; font-size: 16px;"
-              onclick="window.location='perfil.php?a=i'">
+              onclick="window.location='modules/users/perfil.php?a=i'">
               <div align="center">Inscripciones</div>
             </td>
           </tr>
           <!-- START BLOCK : menuAprobacion -->
           <tr>
             <td width="149" class="Estilo4" height="30" bgcolor="#FFF" onmouseover="cambiarFondo(this,'#E4457D','rosado')" onmouseout="cambiarFondo(this,'#FFF','blanco')" style="cursor: pointer; font-family: Verdana; color: #e4457d; font-size: 16px;"
-              onclick="window.location='perfil.php?a=a'">
+              onclick="window.location='modules/users/perfil.php?a=a'">
               <div align="center">Aprobaciones</div>
             </td>
           </tr>
@@ -455,7 +455,7 @@
           <!-- START BLOCK : menuCuadroSocial -->
           <tr>
             <td width="149" class="Estilo4" height="30" bgcolor="#FFF" onmouseover="cambiarFondo(this,'#E4457D','rosado')" onmouseout="cambiarFondo(this,'#FFF','blanco')" style="cursor: pointer; font-family: Verdana; color: #e4457d; font-size: 16px;"
-              onclick="window.location='cuadrosocial.php'">
+              onclick="window.location='modules/club/cuadrosocial.php'">
               <div align="center">Cuadro Social</div>
             </td>
           </tr>
@@ -463,14 +463,14 @@
           <!-- START BLOCK : menuStats -->
           <tr>
             <td width="149" class="Estilo4" height="30" bgcolor="#FFF" onmouseover="cambiarFondo(this,'#E4457D','rosado')" onmouseout="cambiarFondo(this,'#FFF','blanco')" style="cursor: pointer; font-family: Verdana; color: #e4457d; font-size: 16px;"
-              onclick="window.location='stats.php'">
+              onclick="window.location='modules/stats/stats.php'">
               <div align="center">Estadísticas</div>
             </td>
           </tr>
           <!-- END BLOCK : menuStats -->
           <tr>
             <td width="149" class="Estilo4" height="30" bgcolor="#FFF" onmouseover="cambiarFondo(this,'#E4457D','rosado')" onmouseout="cambiarFondo(this,'#FFF','blanco')" style="cursor: pointer; font-family: Verdana; color: #e4457d; font-size: 16px;"
-              onclick="window.location='logout.php'">
+              onclick="window.location='modules/auth/logout.php'">
               <div align="center">Salir</div>
             </td>
           </tr>
@@ -478,7 +478,7 @@
       </td>
       <td width="1027" height="50" valign="top" class="texto">
         <!-- START BLOCK : evento -->
-        <form action="eraup.php" method="post" name="aceptarInfo" id="aceptarInfo" style="margin:0">
+        <form action="modules/events/eraup.php" method="post" name="aceptarInfo" id="aceptarInfo" style="margin:0">
           <table width="1021" border="0" align="left">
             <tr>
               <td width="1015"><span class="subtitulos">{accion} E.R.A.U.P.</span></td>
@@ -644,7 +644,7 @@
                         <input type="hidden" id="reservaActual" name="reservaActual" value="{reservaActual}" />
                       </td>
                       <td width="81" class="Estilo4" height="35" bgcolor="#FFF" onmouseover="cambiarFondo(this,'#E4457D','rosado')" onmouseout="cambiarFondo(this,'#FFF','blanco')" style="cursor: pointer; font-family: Verdana; color: #e4457d; font-size: 16px;"
-                        onclick="window.location='eventos.php'">
+                        onclick="window.location='modules/events/eventos.php'">
                         <div align="center">Volver</div>
                       </td>
                     </tr>
