@@ -1,6 +1,6 @@
 <?php
-include("/var/www/html/config.php");
-require_once("/var/www/html/conexionDB.php");
+include("/var/www/html/config/config.php");
+require_once("/var/www/html/helpers/conexionDB.php");
 session_start();
 
 // Constants
